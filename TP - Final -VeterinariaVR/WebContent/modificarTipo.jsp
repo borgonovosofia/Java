@@ -52,14 +52,15 @@
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>
   		    							<td>&nbsp;</td>
-  		    							<td><input type="submit" name="button" id="button" value="Modificar" onclick="return validarTipo()" /></td>
+  		    							<td><input type="submit" name="button" id="button" value="Modificar" onclick="return validarTipo()" />
+  		    								<input type="button" value="Volver" name="volver" onclick="history.back()" />
+										</td>
 	      							</tr>
 	  							</table>	
 							</form>
 						</div>
 						<!-- FIN DIV PARA TIPOS DE ANIMALES ------------------------------------------------------------------------- -->				
 
-					
 				</body>
 			</html>				
 

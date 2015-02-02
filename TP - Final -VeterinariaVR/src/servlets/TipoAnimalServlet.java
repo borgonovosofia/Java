@@ -82,7 +82,7 @@ public class TipoAnimalServlet extends HttpServlet
 					request.getSession().setAttribute("error", e.getMessage());
 				}
 				finally{
-					response.sendRedirect("tiposRazas.jsp");
+					response.sendRedirect("TiposRazas.jsp");
 				}
 		}	
 		else if(accion.equals("buscar"))
@@ -98,7 +98,7 @@ public class TipoAnimalServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		
+		request.getSession().setAttribute("busqueda", "false");				
 		//PARA REDIRECCIONAR A LA PAGINA DE RAZAS Y TIPOS DE ANIMALES
 		if(accion.equals("IrRaza")){
 			try 
@@ -111,6 +111,9 @@ public class TipoAnimalServlet extends HttpServlet
 				List<Raza> listaR = Raza.dameRazas();
 				request.getSession().setAttribute("listaRazas",listaR);
 				
+				request.getSession().setAttribute("busquedaTipo", "false");				
+				request.getSession().setAttribute("busquedaRaza", "false");				
+
 				request.getSession().setAttribute("recarga", true);
 				response.sendRedirect("tiposRazas.jsp");
 

@@ -52,7 +52,9 @@
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>
   		    							<td>&nbsp;</td>
-  		    							<td><input type="submit" name="button" id="button" value="Modificar" onclick="return validarRaza();" /></td>
+  		    							<td><input type="submit" name="button" id="button" value="Modificar" onclick="return validarRaza();" />
+  		    								<input type="button" value="Volver" name="volver" onclick="history.back()" />
+  		    							</td>
 	      							</tr>
 	  							</table>	
 							</form>

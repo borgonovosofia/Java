@@ -26,23 +26,14 @@
 		</head>
 				
 		<script>
-		function validarVacuna()
+		function validarIntervencion()
 		{
-			var codigo = document.getElementById("codigo").value;
 			var msj = "";
-			if (!(codigo!="" && codigo!= " "))
-			{msj+="El codigo de la vacuna no puede estar vacio \n";	}
 			
 			var nombre = document.getElementById("nombre").value;
 			if (!(nombre!="" && nombre!= " "))
-			{msj+="El nombre de la vacuna no puede estar vacio \n";	}
+			{msj+="El nombre de la intervencion no puede estar vacio \n";	}
 			
-			var dias = document.getElementById("duracion").value;
-			if (dias!="" && dias!= " " )
-			{
-				if(isNaN(dias))
-				{msj+="La duracion de la vacuna debe ser un numero \n";	}
-			}
 			if(msj=="")
 			{ return true;}
 			else { alert(msj);return false;}
@@ -53,36 +44,22 @@
 						<br></br>
 						
 
-						<!-- COMIENZO DIV PARA LOS TIPOS DE ANIMALES ---------------------------------------------------------------- -->
+						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
 						<div style="float:left; width: 49%;"> 
-							<form id="frmVacuna" name="frmVacuna" method="post" action="VacunaServlet">
+							<form id="frmIntervencion" name="frmIntervencion" method="post" action="IntervencionServlet">
   								<input type="hidden" value="modificar" name="accion"/>
   								<input type="hidden" value="<%= request.getSession().getAttribute("id") %>" name="id" id="id" />  		  		
-  								<h2>Modificar vacuna</h2>
+  								<h2>Modificar intervencion</h2>
   								<table class="tablaMaqueta">
   		  							<tr>
-  		    							<td><label for="nombre">Codigo de la vacuna</label></td>
-  		    							<td><input type="text" class="entrada" name="codigo" id="codigo" value="<%= request.getSession().getAttribute("codigo") %>"/></td>
-	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
-  		    		  				<tr>
-  		    							<td><label for="nombre">Nombre de la vacuna</label></td>
+  		    							<td><label for="nombre">Nuevo nombre de la intervencion</label></td>
   		    							<td><input type="text" class="entrada" name="nombre" id="nombre" value="<%= request.getSession().getAttribute("nombre") %>"/></td>
 	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
-  		    		  				<tr>
-  		    							<td><label for="nombre">Marca de la vacuna</label></td>
-  		    							<td><input type="text" class="entrada" name="marca" id="marca" value="<%= request.getSession().getAttribute("marca") %>"/></td>
-	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
-  		    		  				<tr>
-  		    							<td><label for="nombre">Duracion de la vacuna</label></td>
-  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" value="<%= request.getSession().getAttribute("duracion") %>"/></td>
-	      							</tr>
+  		    		  				
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>
   		    							<td>&nbsp;</td>
-  		    							<td><input type="submit" name="button" id="button" value="Modificar" onclick="return validarVacuna()" />
+  		    							<td><input type="submit" name="button" id="button" value="Modificar" onclick="return validarIntervencion()" />
   		    								<input type="button" value="Volver" name="volver" onclick="history.back()" />
   		    							</td>
 	      							</tr>

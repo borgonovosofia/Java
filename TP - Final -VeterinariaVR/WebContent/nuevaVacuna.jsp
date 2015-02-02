@@ -16,6 +16,32 @@
 		}
 	}
 	catch (Exception e3) {}
+
+//trae los valores anteriores
+	String nombre;
+	String codigo;
+	String marca;
+	String duracion;
+	if(request.getSession().getAttribute("nombre")==null)
+	{ nombre = "";} 
+	else {
+	nombre = (String)request.getSession().getAttribute("nombre");}
+
+	if(request.getSession().getAttribute("codigo")==null)
+	{  codigo = "";}
+	else{
+	 codigo = (String)request.getSession().getAttribute("codigo");}
+	
+	if(request.getSession().getAttribute("marca")==null)
+	{  marca = "";} 
+	else{
+		 marca = (String)request.getSession().getAttribute("marca");
+	}
+	if(request.getSession().getAttribute("duracion")==null)
+	{  duracion = "";} 
+	else{
+	 duracion = request.getSession().getAttribute("duracion").toString();}
+
 //VERIFICA SI HAY UN MENSAJE DEL SERVLET DE VACUNA
 	try{
 	String msj = (String)request.getSession().getAttribute("mensaje");
@@ -62,7 +88,7 @@
 
 		<body>	
 						<br></br>		
-						<!-- COMIENZO DIV PARA LOS TIPOS DE ANIMALES ---------------------------------------------------------------- -->
+						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
 						<div style="float:left; width: 49%;"> 
 							<form id="frmVacuna" name="frmVacuna" method="post" action="VacunaServlet">
   								<input type="hidden" value="nuevo" name="accion"/>  		  		
@@ -70,30 +96,33 @@
   								<table class="tablaMaqueta">
   		  							<tr>
   		    							<td><label for="codigo">Codigo</label></td>
-  		    							<td><input type="text" class="entrada" name="codigo" id="codigo" /></td>
+  		    							<td><input type="text" class="entrada" name="codigo" id="codigo" value="<%=codigo %>" /></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>
   		    							<td><label for="nombre">Nombre</label></td>
-  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" /></td>
+  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" value="<%=nombre%>" /></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  		  							<tr>
   		    							<td><label for="nombre">Marca</label></td>
-  		    							<td><input type="text" class="entrada" name="marca" id="marca" /></td>
+  		    							<td><input type="text" class="entrada" name="marca" id="marca" value="<%= marca %>" /></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  		  							<tr>
   		    							<td><label for="nombre">Duración (en dias)</label></td>
-  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" /></td>
+  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" value="<%= duracion%>"/></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  		    		  				
   		  							<tr>
   		    							<td>&nbsp;</td>
-  		    							<td><input type="submit" name="button" id="button" value="Agregar Vacuna" onclick="return validarNueva();" /></td>
+  		    							<td><input type="submit" name="button" id="button" value="Agregar Vacuna" onclick="return validarNueva();" />
+											<input type="button" value="Volver" name="volver" onclick="history.back()" />
+  		    							</td>
 	      							</tr>
 	  							</table>	
 							</form>
 						</div>
-						<!-- FIN DIV PARA TIPOS DE ANIMALES ------------------------------------------------------------------------- -->						
+						<!-- FIN DIV ------------------------------------------------------------------------- -->		
+									
 				</body>
 			</html>				
 

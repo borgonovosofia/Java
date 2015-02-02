@@ -36,10 +36,15 @@
 			<input type="submit" name="raza" id="raza" value="Razas y tipos de animales"/>
 		</form> 
 		<br></br>
-		<form name="form1" method="post" action="VacunaServlet">
+		<form name="form2" method="post" action="VacunaServlet">
 			<input type="hidden" name="accion" id="accion" value="IrVacuna" />
-			<input type="submit" name="raza" id="raza" value="Vacunas"/>
+			<input type="submit" name="vacuna" id="vacuna" value="Vacunas"/>
 		</form> 
+		<br></br>		
+		<form name="form3" method="post" action="IntervencionServlet">
+			<input type="hidden" name="accion" id="accion" value="IrIntervenciones" />
+			<input type="submit" name="intervencion" id="intervencion" value="Intervenciones Quirúrgicas"/>
+		</form> 		
 	</center> 	
 </body>
 </html>

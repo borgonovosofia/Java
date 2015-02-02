@@ -37,7 +37,7 @@ public class Raza {
 	{
 		RazaAdapter adapter = new RazaAdapter();
 		Raza razaBuscada = adapter.buscarRaza(r.getNombre(), r.getTipo_animal().getNombre());
-		if(razaBuscada == null)
+		if(razaBuscada != null)
 		{return false;}
 		else {
 			adapter.agregarRaza(r);

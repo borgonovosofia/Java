@@ -86,6 +86,14 @@ public class VacunaServlet extends HttpServlet {
 				response.sendRedirect("modificarVacuna.jsp");
 
 		}
+		else if(accion.equals("nueva"))
+		{
+		request.getSession().setAttribute("nombre", null);
+		request.getSession().setAttribute("codigo", null);
+		request.getSession().setAttribute("marca", null);
+		request.getSession().setAttribute("duracion", null);
+		response.sendRedirect("nuevaVacuna.jsp");
+		}
 		else if(accion.equals("buscar"))
 		{				
 				request.getSession().setAttribute("busqueda", "false");		
@@ -102,6 +110,7 @@ public class VacunaServlet extends HttpServlet {
 		
 		//PARA REDIRECCIONAR A LA PAGINA DE RAZAS Y TIPOS DE ANIMALES
 		if(accion.equals("IrVacuna")){
+			request.getSession().setAttribute("busqueda", "false");				
 			try 
 			{
 				//Guarda lista de tipos 
@@ -133,21 +142,30 @@ public class VacunaServlet extends HttpServlet {
 						boolean rta = Vacuna.agregarVacuna(v);
 						if(rta==false)
 						{
+							String nombre = (String)request.getParameter("nombre");
+							String codigo = (String)request.getParameter("codigo");
+							String marca = (String)request.getParameter("marca");
+							int duracion = Integer.parseInt(request.getParameter("duracion"));
+							request.getSession().setAttribute("nombre", nombre);
+							request.getSession().setAttribute("codigo", codigo);
+							request.getSession().setAttribute("marca", marca);
+							request.getSession().setAttribute("duracion", duracion);
+							
 							request.getSession().setAttribute("mensaje", "Ya hay una vacuna con el mismo codigo");
+							response.sendRedirect("nuevaVacuna.jsp");
+
 						}
 						else
 						{
 							request.getSession().setAttribute("mensaje", "Registro correcto");
+							response.sendRedirect("listadoVacunas.jsp");
 						}
 					}
 					catch (ConException e){
 						e.printStackTrace();
 						request.getSession().setAttribute("error", e.getMessage());
-					}
-					finally
-					{
-						response.sendRedirect("listadoVacunas.jsp");
-					}
+						response.sendRedirect("nuevaVacuna.jsp");
+					}					
 				}
 			}
 			else if(accion.equals("modificar"))

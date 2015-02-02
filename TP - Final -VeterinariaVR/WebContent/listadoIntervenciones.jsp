@@ -1,7 +1,6 @@
 <%@page import="javax.xml.ws.Response"%>
 <%@page import="java.util.List"%>
-<%@page import="negocio.Vacuna"%>
-<%@page import="negocio.Raza"%>
+<%@page import="negocio.IntervencionQuirurgica"%>
 <%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -47,17 +46,17 @@
 	finally{
 		request.getSession().setAttribute("recarga", false);
 	}
-	List<Vacuna> lista;
+	List<IntervencionQuirurgica> lista;
 	String valor;  
 	
 	if(busqueda==true)
 	{	
-		lista = (List<Vacuna>) request.getSession().getAttribute("listaBusqueda");
+		lista = (List<IntervencionQuirurgica>) request.getSession().getAttribute("listaBusqueda");
 		valor = (String)request.getSession().getAttribute("valor");
 	}
 	else
 	{	
-		lista = (List<Vacuna>) request.getSession().getAttribute("listaVacunas");
+		lista = (List<IntervencionQuirurgica>) request.getSession().getAttribute("listaIntervenciones");
 		valor = "";
 	}
 %>
@@ -87,25 +86,22 @@
 		%>
 
 						
-						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
+						<!-- COMIENZO DIV PARA LISTADO DE RAZAS --------------------------------------------------------------------- -->
 						<div style="float: left; clear:left; width: 90%;">					
-							<h1>Listado de vacunas</h1>
-							<h4><a href="VacunaServlet?accion=nueva">Nueva vacuna</a></h4>						
-							<form method="post" action="VacunaServlet">
+							<h1>Listado de Intervenciones Quirúrgicas</h1>
+							<h4><a href="nuevaIntervencion.jsp">Nueva intervención</a></h4>						
+							<form method="post" action="IntervencionServlet">
 								<label>&nbsp;&nbsp;&nbsp;&nbsp;Buscar:</label>
 								<input type="hidden" value="buscar" name="accion" id="accion">
 								<input type="text" value="<%=valor%>" name="b" id="b">							
 								<input type="submit" value="Buscar" onclick="return validarBuscar()"/>
-								<a href="VacunaServlet?accion=buscar">Cancelar busqueda</a>
+								<a href="IntervencionServlet?accion=buscar">Cancelar busqueda</a>
 								<br></br>
 							</form>						
 							<table class="listado">
 								<thead class="listado" >                                
 	                               	<tr>
-                                       	<th class="listado" colspan="1" width="20%">Código</th>
-                                       	<th class="listado" colspan="1" width="20%">Nombre</th>
-                                       	<th class="listado" colspan="1" width="20%">Marca</th>
-                                       	<th class="listado" colspan="1" width="20%">Duración</th>                                       	
+                                       	<th class="listado" colspan="1" width="20%">Nombre</th>                                       	
                                        	<th class='listado' width="20%"></th>
                                     </tr>
 	                            </thead>				
@@ -113,20 +109,15 @@
 		                          	<%  		  								
   		  								for (int i = 0; i < lista.size(); i++) 
   		  								{
-  		  	   		 						Vacuna t = lista.get(i);
+  		  	   		 						IntervencionQuirurgica t = lista.get(i);
   		  	   		 					%>
   		  	   		 						<tr>
   		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getCodigo()%></td>
+  		  	   		 							<%=t.getNombre()%></td>  		  	   		 					
   		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getNombre()%></td>
-  		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getMarca()%></td>
-  		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getDuracion()%></td>
-  		  	   		 							<td class='listado'>
-  		  	   		 							<a href="VacunaServlet?accion=editar&id=<%=t.getId_vacuna()%>&nombre=<%=t.getNombre()%>&codigo=<%=t.getCodigo()%>&marca=<%=t.getMarca()%>&duracion=<%=t.getDuracion()%>">Editar</a>
-  		  	   		 							<a href="VacunaServlet?accion=borrar&id=<%=t.getId_vacuna()%>" onclick="return confirmar('¿Está seguro que desea borrar la vacuna?')">Borrar</a>		  	   		 								  		  	   		 								  		  	   		 						
+  		  	   		 								<a href="IntervencionServlet?accion=editar&id=<%=t.getId_intervencion()%>&nombre=<%=t.getNombre()%>">Editar</a>
+  		  	   		 								<a href="IntervencionServlet?accion=borrar&id=<%=t.getId_intervencion()%>" onclick="return confirmar('¿Está seguro que desea borrar la intervención?')">Borrar</a>		  	
+  		  	   		 							</td>   		 								  		  	   		 								  		  	   		 						
   		  	   		 						</tr>  	
   		  	   		 						
   		  	   		 					<%	  	
@@ -136,12 +127,12 @@
   		  									if(busqueda==true)
   		  									{
   		  									%>
-  		  	   		 						<tr><td class='listado' colspan="5">&nbsp;&nbsp; No hay vacunas para la busqueda realizada</td></tr>
+  		  	   		 						<tr><td class='listado' colspan="2">&nbsp;&nbsp; No hay intervenciones para la busqueda realizada</td></tr>
   		  	   		 						<%
   		  									}
   		  									else
   		  									{%>
-  		  	   		 						<tr><td class='listado' colspan="5">&nbsp;&nbsp;No hay vacunas cargadas</td></tr> 		  	
+  		  	   		 						<tr><td class='listado' colspan="2">&nbsp;&nbsp;No hay intervenciones cargadas</td></tr> 		  	
 										<%	}
   		  								}
   		  							%>		
@@ -150,8 +141,8 @@
 		                        </tbody>
 							</table>
 						</div>
-						<!-- FIN DIV ------------------------------------------------------------------------------ -->
-					<div style="text-align: left; clear: both; margin-left: 10px;">
+						<!-- FIN DIV PARA LISTADO DE RAZAS ------------------------------------------------------------------------------ -->
+						<div style="text-align: left; clear: both; margin-left: 10px;">
 						<br></br><input type="button" value="Volver" name="volver" onclick="history.back()" />
 					</div>
 	<%
@@ -159,7 +150,7 @@
 	else
 	{
 		%>
-					<form action="VacunaServlet" method="get" name="frmActualizar" id="frmActualizar">
+					<form action="IntervencionServlet" method="get" name="frmActualizar" id="frmActualizar">
 						<input type="hidden" value="actualizar" name="accion" id="accion" />
 					</form>
 					<script>
