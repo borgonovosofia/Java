@@ -1,0 +1,215 @@
+package datos;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import negocio.*;
+import utilidades.*;
+
+
+public class PropietarioAdapter {
+
+		public ArrayList<Propietario> getPropietarios() throws ConException
+		{
+			ArrayList<Propietario> lista = new ArrayList<Propietario>();
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select * from propietario");
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id = Integer.parseInt(result.getString("id_propietario"));
+					String nombre = result.getString("nombre");
+					String apellido = result.getString("apellido");
+					String direccion = result.getString("direccion");
+					String email = result.getString("email");
+					String telefono_fijo = result.getString("telefono_fijo");
+					String celular = result.getString("celular");
+					String usr = result.getString("usuario");
+					String clave = result.getString("clave");
+
+					Propietario Propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
+					Propietario.setId_propietario(id);
+					lista.add(Propietario);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar los Propietarios, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar los Propietarios, por favor intente mas tarde.", e);
+
+			}
+			return lista;
+		}
+		
+		
+		public ArrayList<Propietario> getPropietarios(String parecido) throws ConException
+		{
+			ArrayList<Propietario> lista = new ArrayList<Propietario>();
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select * from propietario where nombre like '%"+parecido.toUpperCase()+"%'"
+									+" or apellido like '%"+parecido.toUpperCase()+"%' or direccion like '%"+parecido.toUpperCase()
+									+"%' or email like '%"+parecido.toUpperCase()+"%'"
+									+"or telefono_fijo like '%"+parecido.toUpperCase()+"%'or celular like '%"+parecido.toUpperCase()+"%'"
+									+"or usuario like '%");
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id = Integer.parseInt(result.getString("id_propietario"));
+					String nombre = result.getString("nombre");
+					String apellido = result.getString("apellido");
+					String direccion = result.getString("direccion");
+					String email = result.getString("email");
+					String telefono_fijo = result.getString("telefono_fijo");
+					String celular = result.getString("celular");
+					String usr = result.getString("usuario");
+					String clave = result.getString("clave");
+
+					Propietario Propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
+					Propietario.setId_propietario(id);
+					lista.add(Propietario);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar los Propietarios, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar los Propietarios, por favor intente mas tarde.", e);
+
+			}
+			return lista;
+		}
+		
+		public Propietario buscarPropietario(int id) throws ConException
+		{
+			Propietario propietario = null;
+			try {
+					Connection con = Conexion.getConexion();		
+					PreparedStatement statement = con.prepareStatement("select * from propietario where id_propietario = '"+id+"'");
+					ResultSet result = statement.executeQuery();
+					result.next();
+					if(result.getRow()!=0)
+					{	
+						int idp = Integer.parseInt(result.getString("id_propietario"));
+						String nombre = result.getString("nombre");
+						String apellido = result.getString("apellido");
+						String direccion = result.getString("direccion");
+						String email = result.getString("email");
+						String telefono_fijo = result.getString("telefono_fijo");
+						String celular = result.getString("celular");
+						String usr = result.getString("usuario");
+						String clave = result.getString("clave");
+
+						propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
+						propietario.setId_propietario(idp);
+					}
+					con.close();
+				} 
+			catch (ConException e) 
+			{
+				throw new ConException("Error de conexion al recuperar los Propietarios, por favor intente mas tarde.", e);
+			}		
+			catch (Exception w)
+			{
+				throw new ConException("Error al recuperar los Propietarios, por favor intente mas tarde.",w);
+			}
+			return propietario;
+		}
+		
+		public Propietario buscarPropietarioPorUsuario(String usr) throws ConException
+		{
+			Propietario propietario = null;
+			try {
+					Connection con = Conexion.getConexion();		
+					PreparedStatement statement = con.prepareStatement("select * from propietario where usuario = '"+usr.toUpperCase()+"'");
+					ResultSet result = statement.executeQuery();
+					result.next();
+					if(result.getRow()!=0)
+					{	
+						int idp = Integer.parseInt(result.getString("id_propietario"));
+						String nombre = result.getString("nombre");
+						String apellido = result.getString("apellido");
+						String direccion = result.getString("direccion");
+						String email = result.getString("email");
+						String telefono_fijo = result.getString("telefono_fijo");
+						String celular = result.getString("celular");
+						String clave = result.getString("clave");
+
+						Propietario Propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
+						Propietario.setId_propietario(idp);
+
+					}
+					con.close();
+				} 
+			catch (ConException e) 
+			{
+				throw new ConException("Error de conexion al recuperar los Propietarios, por favor intente mas tarde.", e);
+			}		
+			catch (Exception w)
+			{
+				throw new ConException("Error al recuperar los Propietarios, por favor intente mas tarde.",w);
+			}
+			return propietario;
+		}
+
+		public void agregarPropietario(Propietario t) throws ConException
+		{
+			try {
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = 
+						con.prepareStatement(
+								"insert into propietario (nombre,apellido,direccion,email,telefono_fijo,celular,usuario,contraseña) values ('"
+														+t.getNombre()+"','"+t.getApellido()+"','"+t.getDireccion()+"','"+t.getEmail()+"','"
+														+t.getTelefono_fijo()+"','"+t.getCelular()+"','"+t.getUsuario()+"','"+md5.get_md5(t.getClave())+"')");
+
+				statement.execute();
+				con.close();
+			} catch (Exception e) {
+				throw new ConException("Error al agregar nueva propietario, por favor intente mas tarde.", e);
+				
+			}
+		}
+
+		public void borrarPropietario(int id) throws Exception
+		{
+			try {
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = 
+						con.prepareStatement("delete from propietario where id_propietario ='"+id+"'");
+				statement.execute();
+				con.close();
+			} catch (ConException es) {
+				throw new ConException("Error al eliminar propietario, por favor intente mas tarde.", es);			
+			}			
+			catch (Exception e) {
+				throw new Exception("La propietario no puede ser eliminado porque contiene animales registrados", e);
+			}
+		}
+
+		public void modificarPropietario(Propietario v) throws Exception {
+			try {
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = 
+						con.prepareStatement("update propietario set nombre = '"+v.getNombre()+"',apellido = '"+v.getApellido()+"',direccion = '"+v.getDireccion()+"'"
+																+",email = '"+v.getEmail()+"'"+",telefono_fijo = '"+v.getTelefono_fijo()+"'"
+																+",celular = '"+v.getCelular()+"'"+",usuario = '"+v.getUsuario()+"'"+",clave = '"+md5.get_md5(v.getClave())+"'"
+																+"' where id_propietario ='"+v.getId_propietario()+"'");
+				statement.execute();
+				con.close();
+			} catch (ConException es) {
+				es.printStackTrace();
+				throw new ConException("Error al modificar propietario, por favor intente mas tarde. Error de conección.", es);			
+			}			
+			catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("Error al modificar propietario, por favor intente mas tarde.", e);
+				
+			}			
+		}
+}
+

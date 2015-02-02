@@ -1,5 +1,11 @@
 package negocio;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import utilidades.ConException;
+import datos.PropietarioAdapter;
+
 public class Propietario {
 	private int id_propietario; 
 	private String nombre;
@@ -66,5 +72,96 @@ public class Propietario {
 		setCelular(c);
 		setUsuario(usr);
 		setClave(clave);
+	}
+	public Propietario()
+	{
+		
+	}
+
+	public static boolean agregarPropietario(Propietario t) throws ConException
+	{
+		Propietario v = Propietario.buscarPropietarioPorUsuario(t.getUsuario());
+		if(v==null)
+		{
+			PropietarioAdapter adapter = new PropietarioAdapter();		
+			adapter.agregarPropietario(t);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public static Propietario buscarPropietario(int id) throws ConException
+	{
+		PropietarioAdapter adapter = new PropietarioAdapter();
+		return adapter.buscarPropietario(id);
+	}
+
+	public static Propietario buscarPropietarioPorUsuario(String usuario) throws ConException
+	{
+		PropietarioAdapter adapter = new PropietarioAdapter();
+		return adapter.buscarPropietarioPorUsuario(usuario);
+	}
+		
+	public static List<Propietario> damePropietarios() throws Exception
+	{
+		try {
+			PropietarioAdapter adapter = new PropietarioAdapter();
+			ArrayList<Propietario> lista = adapter.getPropietarios();
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+		
+	public static List<Propietario> damePropietarios(String parecido) throws Exception
+	{
+		try {
+			PropietarioAdapter adapter = new PropietarioAdapter();
+			ArrayList<Propietario> lista = adapter.getPropietarios(parecido);
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public static boolean borrarPropietario(int id) throws Exception {
+		try {
+			Propietario v= Propietario.buscarPropietario(id);
+			if(v!=null)
+			{
+				PropietarioAdapter adapter = new PropietarioAdapter();		
+				adapter.borrarPropietario(id);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		} catch (ConException e) {
+			throw e;
+		}		
+	}
+
+	public static boolean modificarPropietario(Propietario v) throws Exception
+	{
+		try {
+			Propietario vac = Propietario.buscarPropietario(v.getId_propietario());
+			Propietario vac2 = Propietario.buscarPropietarioPorUsuario(v.getUsuario());
+			if(vac2==null || ((vac.getUsuario().equalsIgnoreCase(vac2.getUsuario()))))
+			{
+				PropietarioAdapter adapter = new PropietarioAdapter();		
+				adapter.modificarPropietario(v);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		} catch (ConException e) {
+			throw e;
+		}	
 	}
 }
