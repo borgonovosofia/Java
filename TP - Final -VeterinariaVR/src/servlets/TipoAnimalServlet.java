@@ -159,12 +159,12 @@ public class TipoAnimalServlet extends HttpServlet
 				if(rta==true)
 				{
 					response.sendRedirect("tiposRazas.jsp");
-					request.getSession().setAttribute("mensajeTipo", "Modificacion correcta");
+					request.getSession().setAttribute("mensaje", "Modificacion correcta");
 				}
 				else
 				{
-					request.getSession().setAttribute("mensajeTipo", "No se pudo realizar la modificacion");
-					response.sendRedirect("tiposRazas.jsp");
+					request.getSession().setAttribute("mensajeTipo", "El nombre indicado pertenece a otro animal");
+					response.sendRedirect("modificarTipo.jsp");
 				}
 				
 

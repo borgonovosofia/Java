@@ -97,7 +97,7 @@
 		<head>
 			<meta charset="utf-8">
 			<link href="estilo.css" rel="stylesheet" type="text/css" />
-			<title>Documento sin título</title>
+			<title>Veterinaria VR</title>
 		</head>
 				
 		<script>

@@ -3,14 +3,25 @@
 <%@page import="negocio.TipoAnimal"%>
 <%@page import="negocio.Raza"%>
 <%@page import="javax.websocket.Session"%>
-
+<% 
+//VERIFICA SI HAY UN MENSAJE DEL SERVLET DE TIPO DE ANIMAL
+	try{
+	String msj = (String)request.getSession().getAttribute("mensajeRaza");
+	if(msj!="" && msj!=null)
+	{
+		%><script>alert("<%=msj%>");</script><%
+		request.getSession().setAttribute("mensajeRaza", null);		
+	}
+	}
+	catch (Exception e3) {}
+%>
 	<%@page import="java.sql.*" %>
 	<!doctype html>
 		<html>
 		<head>
 			<meta charset="utf-8">
 			<link href="estilo.css" rel="stylesheet" type="text/css" />
-			<title>Documento sin título</title>
+			<title>Veterinaria VR</title>
 		</head>
 				
 		<script>

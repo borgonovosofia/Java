@@ -21,27 +21,24 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link href="estilo.css" rel="stylesheet" type="text/css" />
-	<title>Insert title here</title>
+	<title>Veterinaria VR</title>
 	
 	<!-- FUNCIONES JAVA SCRIPT -->
-	<script>
-		function razas()
-		{
-			var accion = document.getElementById("accion");
-			accion.setAttribute("value", "IrRaza");
-			document.form1.submit();
-		}
-	</script>
-
 </head>
 
 <!-- CUERPO -->
 <body>
 	<center>
 		<H1>Veterinaria VR</H1>
+		
 		<form name="form1" method="post" action="TipoAnimalServlet">
-			<input type="hidden" name="accion" id="accion" value="1" />
-			<input type="button" name="raza" id="raza" value="Razas y tipos de animales" onclick="razas();"/>
+			<input type="hidden" name="accion" id="accion" value="IrRaza" />
+			<input type="submit" name="raza" id="raza" value="Razas y tipos de animales"/>
+		</form> 
+		<br></br>
+		<form name="form1" method="post" action="VacunaServlet">
+			<input type="hidden" name="accion" id="accion" value="IrVacuna" />
+			<input type="submit" name="raza" id="raza" value="Vacunas"/>
 		</form> 
 	</center> 	
 </body>

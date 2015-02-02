@@ -91,6 +91,8 @@ public class RazaServlet extends HttpServlet {
 					{
 						request.getSession().setAttribute("mensajeRaza", "Ya hay una raza con el nombre '"+raza.getNombre().toUpperCase()
 										+"' para '"+raza.getTipo_animal().getNombre()+"', intente con otro nombre.");
+						response.sendRedirect("tiposRazas.jsp");
+						
 					}
 					else
 					{
@@ -108,13 +110,13 @@ public class RazaServlet extends HttpServlet {
 					boolean rta = Raza.modificarRaza(id,nombreNuevo);
 					if(rta==true)
 					{
-						request.getSession().setAttribute("mensajeTipo", "Modificacion correcta");
+						request.getSession().setAttribute("mensajeRaza", "Modificacion correcta");
 						response.sendRedirect("tiposRazas.jsp");
 					}
 					else
 					{
-						request.getSession().setAttribute("mensajeTipo", "No se pudo realizar la modificacion");
-						response.sendRedirect("tiposRazas.jsp");
+						request.getSession().setAttribute("mensajeRaza", "Ya hay una raza con el nombre '"+nombreNuevo +"', intente con otro nombre.");
+						response.sendRedirect("modificarRaza.jsp");
 					}
 					
 

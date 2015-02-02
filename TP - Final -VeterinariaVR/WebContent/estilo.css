@@ -13,8 +13,10 @@ h1, h2, h3, h4, h5, h6, p {
 	padding-right: 15px;
 	padding-left: 15px; /* la adición de relleno a los lados del elemento dentro de las divs, en lugar de en las divs propiamente dichas, elimina todas las matemáticas de modelo de cuadro. Una div anidada con relleno lateral también puede usarse como método alternativo. */
 }
+
 h1, h2, h3, h4, h5, h6{
 	color:#501E51;}
+	
 h3,h4,h5,h6{
 	text-decoration: underline;
 }
@@ -101,12 +103,14 @@ input.entrada
 	border-color: #DEAADF;
 	text-align: center;
 }
+
 table.listado
 {
 		width: 80%;	
 	
 }
-th, thead
+
+th.listado
 {
 	background-color:#90C;
 	color:#FFF;

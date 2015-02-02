@@ -85,7 +85,7 @@ public class RazaAdapter {
 																+"where raza.nombre = '"+nombre.toUpperCase()+"' and tipo_animal.nombre = '"+tipo.toUpperCase()+"'");
 				ResultSet result = statement.executeQuery();
 				result.next();
-				if(result.getRow()==0)
+				if(result.getRow()!=0)
 				{	
 					TipoAnimal t = new TipoAnimal(tipo);
 					raza = new Raza(nombre, t);

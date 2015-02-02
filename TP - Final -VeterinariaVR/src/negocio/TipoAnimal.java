@@ -24,8 +24,7 @@ public class TipoAnimal {
 	{
 		setNombre(n);
 	}
-	
-	
+
 	
 	public TipoAnimal() {
 		// TODO Auto-generated constructor stub
@@ -68,9 +67,7 @@ public class TipoAnimal {
 			throw e;
 		}
 	}
-	
-	
-	
+		
 	public static List<TipoAnimal> dameListaTipos(String parecido) throws Exception
 	{
 		try {
@@ -104,7 +101,8 @@ public class TipoAnimal {
 	{
 		try {
 			TipoAnimal tip = TipoAnimal.buscarTipo(id);
-			if(tip!=null)
+			TipoAnimal tip2 = TipoAnimal.buscarTipo(nuevoNombre);
+			if(tip2==null || ((tip.getNombre().equalsIgnoreCase(tip2.getNombre())))	)
 			{
 				TipoAnimalAdapter adapter = new TipoAnimalAdapter();		
 				adapter.modificarTipo(tip.getId_tipo_animal(),nuevoNombre);

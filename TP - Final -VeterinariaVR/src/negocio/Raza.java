@@ -97,10 +97,17 @@ public class Raza {
 		try {
 			RazaAdapter adapter = new RazaAdapter();
 			Raza razaBuscada = adapter.buscarRaza(id);
+				
 			if(razaBuscada!=null)
 			{
-				adapter.modificarRaza(id,nombreNuevo);
-				return true;
+				Raza razaBuscada2 = adapter.buscarRaza(nombreNuevo, razaBuscada.getTipo_animal().getNombre());
+				if(razaBuscada2== null || (razaBuscada.getNombre().equals(razaBuscada2.getNombre())))
+				{
+					adapter.modificarRaza(id,nombreNuevo);
+					return true;
+				}
+				else
+				{return false;}
 			}
 			else
 			{
