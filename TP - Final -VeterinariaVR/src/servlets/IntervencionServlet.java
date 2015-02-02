@@ -155,7 +155,7 @@ public class IntervencionServlet extends HttpServlet
 				}
 				else
 				{
-					request.getSession().setAttribute("mensajeTipo", "El nombre indicado pertenece a otra");
+					request.getSession().setAttribute("mensaje", "El nombre indicado pertenece a otra");
 					response.sendRedirect("modificarIntervencion.jsp");
 				}
 				
@@ -163,7 +163,7 @@ public class IntervencionServlet extends HttpServlet
 			} catch (Exception e) {	
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("modificarIntervencion.jsp");
+				response.sendRedirect("listadoIntervenciones.jsp");
 			}
 
 			

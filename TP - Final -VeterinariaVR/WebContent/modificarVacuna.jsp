@@ -77,7 +77,7 @@
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		    		  				<tr>
   		    							<td><label for="nombre">Duracion de la vacuna</label></td>
-  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" value="<%= request.getSession().getAttribute("duracion") %>"/></td>
+  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" value="<%=request.getSession().getAttribute("duracion")%>"/></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>

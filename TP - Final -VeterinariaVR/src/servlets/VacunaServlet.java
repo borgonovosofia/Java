@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utilidades.ConException;
-import negocio.Raza;
-import negocio.TipoAnimal;
 import negocio.Vacuna;
 
 /**
@@ -135,7 +133,8 @@ public class VacunaServlet extends HttpServlet {
 	//PARA AGREGAR UNA NUEVA VACUNA
 			else if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");		
-				Vacuna v = new Vacuna((String)request.getParameter("codigo"),(String)request.getParameter("nombre"),(String)request.getParameter("marca"),Integer.parseInt((String)request.getParameter("duracion")));
+				Integer duracion = Integer.parseInt((String)request.getParameter("duracion"));
+				Vacuna v = new Vacuna((String)request.getParameter("codigo"),(String)request.getParameter("nombre"),(String)request.getParameter("marca"),duracion);
 				if(v!=null)
 				{
 					try{
@@ -145,11 +144,10 @@ public class VacunaServlet extends HttpServlet {
 							String nombre = (String)request.getParameter("nombre");
 							String codigo = (String)request.getParameter("codigo");
 							String marca = (String)request.getParameter("marca");
-							int duracion = Integer.parseInt(request.getParameter("duracion"));
 							request.getSession().setAttribute("nombre", nombre);
 							request.getSession().setAttribute("codigo", codigo);
 							request.getSession().setAttribute("marca", marca);
-							request.getSession().setAttribute("duracion", duracion);
+							request.getSession().setAttribute("duracion", duracion.toString());
 							
 							request.getSession().setAttribute("mensaje", "Ya hay una vacuna con el mismo codigo");
 							response.sendRedirect("nuevaVacuna.jsp");

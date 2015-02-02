@@ -131,6 +131,10 @@
 				if(busqueda!="" && busqueda!=null){return true;}
 				else{return false;}
 			}
+			function redireccionar() 
+			{
+			location.href="menu.jsp";
+			} 
 		</script>
 
 		<body>
@@ -345,9 +349,9 @@
 %>
 
 					<div style="text-align: left; clear: both; margin-left: 10px;">
-						<br></br><input type="button" value="Volver" name="volver" onclick="history.back()" />
-					</div>						
-                 
+						<br></br><input type="button" value="Volver" name="volver" onclick="redireccionar()" />
+					</div>						                
+          
 				</body>
 			</html>				
 

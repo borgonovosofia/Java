@@ -21,7 +21,7 @@
 	String nombre;
 	String codigo;
 	String marca;
-	String duracion;
+	Integer duracion;
 	if(request.getSession().getAttribute("nombre")==null)
 	{ nombre = "";} 
 	else {
@@ -38,9 +38,11 @@
 		 marca = (String)request.getSession().getAttribute("marca");
 	}
 	if(request.getSession().getAttribute("duracion")==null)
-	{  duracion = "";} 
+	{  duracion = 0;} 
 	else{
-	 duracion = request.getSession().getAttribute("duracion").toString();}
+	 duracion = Integer.parseInt((String)request.getSession().getAttribute("duracion"));
+	 
+	}
 
 //VERIFICA SI HAY UN MENSAJE DEL SERVLET DE VACUNA
 	try{
@@ -109,7 +111,8 @@
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  		  							<tr>
   		    							<td><label for="nombre">Duración (en dias)</label></td>
-  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" value="<%= duracion%>"/></td>
+  		    							<td><input type="text" class="entrada" name="duracion" id="duracion" 
+  		    								value="<%=duracion%>"/></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  		    		  				
   		  							<tr>

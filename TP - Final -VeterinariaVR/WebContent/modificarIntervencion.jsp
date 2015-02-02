@@ -45,7 +45,7 @@
 						
 
 						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
-						<div style="float:left; width: 49%;"> 
+						<div style="float:left; width: 90%;"> 
 							<form id="frmIntervencion" name="frmIntervencion" method="post" action="IntervencionServlet">
   								<input type="hidden" value="modificar" name="accion"/>
   								<input type="hidden" value="<%= request.getSession().getAttribute("id") %>" name="id" id="id" />  		  		
@@ -53,7 +53,7 @@
   								<table class="tablaMaqueta">
   		  							<tr>
   		    							<td><label for="nombre">Nuevo nombre de la intervencion</label></td>
-  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" value="<%= request.getSession().getAttribute("nombre") %>"/></td>
+  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" size="45" value="<%= request.getSession().getAttribute("nombre") %>"/></td>
 	      							</tr>
   		    		  				
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>

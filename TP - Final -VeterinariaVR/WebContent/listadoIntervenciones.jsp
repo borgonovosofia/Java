@@ -77,6 +77,10 @@
 			if(busqueda!="" && busqueda!=null){return true;}
 			else{return false;}
 		}
+		function redireccionar() 
+		{
+		location.href="menu.jsp";
+		} 
 	</script>
 </head>
 <body>
@@ -143,7 +147,7 @@
 						</div>
 						<!-- FIN DIV PARA LISTADO DE RAZAS ------------------------------------------------------------------------------ -->
 						<div style="text-align: left; clear: both; margin-left: 10px;">
-						<br></br><input type="button" value="Volver" name="volver" onclick="history.back()" />
+						<br></br><input type="button" value="Volver" name="volver" onclick="redireccionar()" />
 					</div>
 	<%
 	}

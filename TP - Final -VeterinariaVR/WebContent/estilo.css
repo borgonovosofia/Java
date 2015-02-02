@@ -82,9 +82,9 @@ a:hover, a:active, a:focus { /* este grupo de selectores proporcionará a un usu
 ----------------------------------------------------------------------------------------*/
 input.entrada
 {
-	size: 40;
 	background-color: #DEAADF;
 }
+
 .tablaMaqueta
 {
 	border:0;
@@ -107,7 +107,6 @@ input.entrada
 table.listado
 {
 		width: 80%;	
-	
 }
 
 th.listado

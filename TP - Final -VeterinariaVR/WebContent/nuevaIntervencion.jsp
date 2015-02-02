@@ -61,7 +61,7 @@
   								<table class="tablaMaqueta">  		  							
   		  							<tr>
   		    							<td><label for="nombre">Nombre</label></td>
-  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" /></td>
+  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" size="45" /></td>
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>		    		  				
   		  							<tr>
