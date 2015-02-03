@@ -70,8 +70,8 @@ public class PropietarioServlet extends HttpServlet {
 				String telefono_fijo = (String)request.getParameter("telefono_fijo");
 				String celular = (String)request.getParameter("celular");
 				String usuario = (String)request.getParameter("usuario");
+				String clave = (String)request.getParameter("clave");
 				String claveNueva = (String)request.getParameter("claveNueva");
-				String claveAnterior = (String)request.getParameter("claveAnterior");
 			
 				int id = Integer.parseInt(request.getParameter("id"));
 				
@@ -82,8 +82,8 @@ public class PropietarioServlet extends HttpServlet {
 				request.getSession().setAttribute("telefono_fijo", telefono_fijo);
 				request.getSession().setAttribute("celular", celular);
 				request.getSession().setAttribute("usuario", usuario);
+				request.getSession().setAttribute("clave", clave);
 				request.getSession().setAttribute("claveNueva", claveNueva);
-				request.getSession().setAttribute("claveAnterior", claveAnterior);
 				request.getSession().setAttribute("id", id);
 				
 				request.getSession().setAttribute("busqueda", "false");				
@@ -137,11 +137,8 @@ public class PropietarioServlet extends HttpServlet {
 				response.sendRedirect("menu.jsp");
 			}
 
-		}
-		
-	
-	
-	//PARA AGREGAR UNA NUEVA VACUNA
+		}	
+	//PARA AGREGAR 
 			else if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");		
 				
@@ -152,10 +149,10 @@ public class PropietarioServlet extends HttpServlet {
 				String telefono_fijo = (String)request.getParameter("telefono_fijo");
 				String celular = (String)request.getParameter("celular");
 				String usuario = (String)request.getParameter("usuario");
-				String claveNueva = (String)request.getParameter("claveNueva");
+				String clave = (String)request.getParameter("clave");
 			
 				
-				Propietario v = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,claveNueva);
+				Propietario v = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,clave);
 				if(v!=null)
 				{
 					try{
@@ -171,7 +168,7 @@ public class PropietarioServlet extends HttpServlet {
 							request.getSession().setAttribute("usuario", usuario);									
 							
 							request.getSession().setAttribute("mensaje", "Ya hay una propietario con el mismo usuario");
-							response.sendRedirect("nuevaPropietario.jsp");
+							response.sendRedirect("nuevoPropietario.jsp");
 
 						}
 						else
@@ -198,13 +195,16 @@ public class PropietarioServlet extends HttpServlet {
 					String telefono_fijo = (String)request.getParameter("telefono_fijo");
 					String celular = (String)request.getParameter("celular");
 					String usuario = (String)request.getParameter("usuario");
+					String clave = (String)request.getParameter("clave");
 					String claveNueva = (String)request.getParameter("claveNueva");
 					int id = Integer.parseInt(request.getParameter("id"));
 					
+					if(claveNueva.equals(""))
+					{claveNueva=clave;}	
 					Propietario vac = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,claveNueva);					
 					vac.setId_propietario(id);
 					
-					boolean rta = Propietario.modificarPropietario(vac);
+					boolean rta = Propietario.modificarPropietario(vac,clave);
 					if(rta==true)
 					{
 						request.getSession().setAttribute("mensaje", "Modificacion correcta");
@@ -212,7 +212,7 @@ public class PropietarioServlet extends HttpServlet {
 					}
 					else
 					{
-						request.getSession().setAttribute("mensaje", "Error al modificar propietario. Intente mas tarde");
+						request.getSession().setAttribute("mensaje", "La clave de acceso es incorrecta. No se pueden guardar los cambios");
 						response.sendRedirect("modificarPropietario.jsp");
 					}		
 

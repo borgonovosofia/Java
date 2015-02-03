@@ -45,6 +45,11 @@
 			<input type="hidden" name="accion" id="accion" value="IrIntervenciones" />
 			<input type="submit" name="intervencion" id="intervencion" value="Intervenciones Quirúrgicas"/>
 		</form> 		
+		<br></br>		
+		<form name="form4" method="post" action="PropietarioServlet">
+			<input type="hidden" name="accion" id="accion" value="IrPropietario" />
+			<input type="submit" name="propietario" id="propietario" value="Propietarios"/>
+		</form> 			
 	</center> 	
 </body>
 </html>

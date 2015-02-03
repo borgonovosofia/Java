@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utilidades.ConException;
+import utilidades.TestEncriptarMD5;
 import datos.PropietarioAdapter;
 
 public class Propietario {
@@ -16,6 +17,15 @@ public class Propietario {
 	private String celular;
 	private String usuario;
 	private String clave;
+	private String tipo;
+
+	
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 	
 	public int getId_propietario() 
 	{return id_propietario;}
@@ -145,16 +155,21 @@ public class Propietario {
 		}		
 	}
 
-	public static boolean modificarPropietario(Propietario v) throws Exception
+	public static boolean modificarPropietario(Propietario v,String pass) throws Exception
 	{
 		try {
 			Propietario vac = Propietario.buscarPropietario(v.getId_propietario());
 			Propietario vac2 = Propietario.buscarPropietarioPorUsuario(v.getUsuario());
 			if(vac2==null || ((vac.getUsuario().equalsIgnoreCase(vac2.getUsuario()))))
 			{
-				PropietarioAdapter adapter = new PropietarioAdapter();		
-				adapter.modificarPropietario(v);
-				return true;
+				if(vac.getClave().equals(TestEncriptarMD5.md5(pass)))
+				{
+					PropietarioAdapter adapter = new PropietarioAdapter();		
+					adapter.modificarPropietario(v);
+					return true;
+				}
+				else
+				{return false;}
 			}
 			else
 			{

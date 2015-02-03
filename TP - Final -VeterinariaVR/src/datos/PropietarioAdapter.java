@@ -56,7 +56,7 @@ public class PropietarioAdapter {
 									+" or apellido like '%"+parecido.toUpperCase()+"%' or direccion like '%"+parecido.toUpperCase()
 									+"%' or email like '%"+parecido.toUpperCase()+"%'"
 									+"or telefono_fijo like '%"+parecido.toUpperCase()+"%'or celular like '%"+parecido.toUpperCase()+"%'"
-									+"or usuario like '%");
+									+"or usuario like '%"+parecido.toUpperCase()+"%'");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
@@ -126,7 +126,7 @@ public class PropietarioAdapter {
 			Propietario propietario = null;
 			try {
 					Connection con = Conexion.getConexion();		
-					PreparedStatement statement = con.prepareStatement("select * from propietario where usuario = '"+usr.toUpperCase()+"'");
+					PreparedStatement statement = con.prepareStatement("select * from propietario where upper(usuario) = '"+usr.toUpperCase()+"'");
 					ResultSet result = statement.executeQuery();
 					result.next();
 					if(result.getRow()!=0)
@@ -140,8 +140,8 @@ public class PropietarioAdapter {
 						String celular = result.getString("celular");
 						String clave = result.getString("clave");
 
-						Propietario Propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
-						Propietario.setId_propietario(idp);
+						propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
+						propietario.setId_propietario(idp);
 
 					}
 					con.close();
@@ -160,12 +160,14 @@ public class PropietarioAdapter {
 		public void agregarPropietario(Propietario t) throws ConException
 		{
 			try {
-				Connection con = Conexion.getConexion();			
+				Connection con = Conexion.getConexion();
+				String clave = t.getClave();
+				clave = TestEncriptarMD5.md5(clave);
 				PreparedStatement statement = 
 						con.prepareStatement(
-								"insert into propietario (nombre,apellido,direccion,email,telefono_fijo,celular,usuario,contraseña) values ('"
-														+t.getNombre()+"','"+t.getApellido()+"','"+t.getDireccion()+"','"+t.getEmail()+"','"
-														+t.getTelefono_fijo()+"','"+t.getCelular()+"','"+t.getUsuario()+"','"+md5.get_md5(t.getClave())+"')");
+								"insert into propietario (nombre,apellido,direccion,email,telefono_fijo,celular,usuario,clave) values ('"+t.getNombre()+"','"
+														+t.getApellido()+"','"+t.getDireccion()+"','"+t.getEmail()+"','"
+														+t.getTelefono_fijo()+"','"+t.getCelular()+"','"+t.getUsuario()+"','"+clave+"')");
 
 				statement.execute();
 				con.close();
@@ -197,8 +199,9 @@ public class PropietarioAdapter {
 				PreparedStatement statement = 
 						con.prepareStatement("update propietario set nombre = '"+v.getNombre()+"',apellido = '"+v.getApellido()+"',direccion = '"+v.getDireccion()+"'"
 																+",email = '"+v.getEmail()+"'"+",telefono_fijo = '"+v.getTelefono_fijo()+"'"
-																+",celular = '"+v.getCelular()+"'"+",usuario = '"+v.getUsuario()+"'"+",clave = '"+md5.get_md5(v.getClave())+"'"
-																+"' where id_propietario ='"+v.getId_propietario()+"'");
+																+",celular = '"+v.getCelular()+"'"+",usuario = '"+v.getUsuario()+"'"+",clave = '"+TestEncriptarMD5.md5(v.getClave())+"'"
+																+" where id_propietario ='"+v.getId_propietario()+"'");
+				System.out.println(statement);
 				statement.execute();
 				con.close();
 			} catch (ConException es) {
