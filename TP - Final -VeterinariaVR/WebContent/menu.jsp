@@ -50,6 +50,11 @@
 			<input type="hidden" name="accion" id="accion" value="IrPropietario" />
 			<input type="submit" name="propietario" id="propietario" value="Propietarios"/>
 		</form> 			
+		<br></br>		
+		<form name="form5" method="post" action="AnimalServlet">
+			<input type="hidden" name="accion" id="accion" value="IrAnimales" />
+			<input type="submit" name="animal" id="animal" value="Animales"/>
+		</form> 		
 	</center> 	
 </body>
 </html>

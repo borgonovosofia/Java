@@ -84,7 +84,11 @@ input.entrada
 {
 	background-color: #DEAADF;
 }
-
+input:disabled
+{
+	background-color: gray;
+	color: black;
+}
 .tablaMaqueta
 {
 	border:0;

@@ -82,7 +82,7 @@ public class TipoAnimalServlet extends HttpServlet
 					request.getSession().setAttribute("error", e.getMessage());
 				}
 				finally{
-					response.sendRedirect("TiposRazas.jsp");
+					response.sendRedirect("tiposRazas.jsp");
 				}
 		}	
 		else if(accion.equals("buscar"))
@@ -162,7 +162,7 @@ public class TipoAnimalServlet extends HttpServlet
 				if(rta==true)
 				{
 					response.sendRedirect("tiposRazas.jsp");
-					request.getSession().setAttribute("mensaje", "Modificacion correcta");
+					request.getSession().setAttribute("mensajeTipo", "Modificacion correcta");
 				}
 				else
 				{

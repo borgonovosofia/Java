@@ -197,6 +197,37 @@ public class RazaAdapter {
 		}			
 	}
 
+	public ArrayList<Raza> getRazasTipo(int id_tipo) throws ConException {
+		ArrayList<Raza> lista = new ArrayList<Raza>();
+		try 
+		{	
+			Connection con = Conexion.getConexion();			
+			PreparedStatement statement = 
+					con.prepareStatement("select raza.id_raza'id_raza',raza.nombre'nombre_raza',tipo_animal.nombre'tipo' "
+										+"from raza inner join tipo_animal on raza.id_tipo_animal = tipo_animal.id_tipo_animal"
+										+" where tipo_animal.id_tipo_animal="+id_tipo+" order by tipo");
+			ResultSet result = statement.executeQuery();
+			while(result.next())
+			{
+				TipoAnimal t = new TipoAnimal(result.getString("tipo"));
+				Raza r = new Raza(result.getString("nombre_raza"), t);	
+				r.setId_raza(Integer.parseInt(result.getString("id_raza")));
+				lista.add(r);
+			}
+			con.close();
+		} 
+		catch (ConException e) 
+		{
+			throw new ConException("Error de conexion al recuperar las razas, por favor intente mas tarde.", e);
+		}		
+		catch (Exception e){
+			e.printStackTrace();
+			throw new ConException("Error al recuperar las razas, por favor intente mas tarde.", e);
+
+		}
+		return lista;
+	}
+
 
 
 }

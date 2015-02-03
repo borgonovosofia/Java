@@ -33,6 +33,8 @@ public class Raza {
 		setTipo_animal(tipo);
 	}	
 	
+	public Raza() {
+	}
 	public static boolean agregarRaza(Raza r) throws ConException
 	{
 		RazaAdapter adapter = new RazaAdapter();
@@ -116,6 +118,15 @@ public class Raza {
 		} catch (ConException e) {
 			throw e;
 		}	
+	}
+	public static List<Raza> dameRazasTipo(int id_tipo) throws Exception {
+		try {
+			RazaAdapter adapter = new RazaAdapter();
+			ArrayList<Raza> lista = adapter.getRazasTipo(id_tipo);
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }
