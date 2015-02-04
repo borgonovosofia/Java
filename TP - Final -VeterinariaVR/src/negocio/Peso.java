@@ -1,11 +1,10 @@
 package negocio;
-import java.sql.Date;
 
 
 public class Peso {
 	private int id_peso;
-	private Date fecha;
-	private float peso;
+	private String fecha;
+	private Double peso;
 	private Animal animal;
 	
 	
@@ -14,14 +13,14 @@ public class Peso {
 	public void setId_peso(int id_peso) 
 	{this.id_peso = id_peso;}
 	
-	public Date getFecha() 
+	public String getFecha() 
 	{return fecha;}
-	public void setFecha(Date fecha) 
+	public void setFecha(String fecha) 
 	{this.fecha = fecha;}
 	
-	public float getPeso() 
+	public Double getPeso() 
 	{return peso;}	
-	public void setPeso(float peso) 
+	public void setPeso(Double peso) 
 	{this.peso = peso;}
 		
 	public Animal getAnimal() 
@@ -29,11 +28,13 @@ public class Peso {
 	public void setAnimal(Animal animal) 
 	{this.animal = animal;}
 	
-	public Peso(Date f, float p, Animal a)
+	public Peso(String f, Double p, Animal a)
 	{
 		setFecha(f);
 		setPeso(p);
 		setAnimal(a);
+	}
+	public Peso() {
 	}
 	
 }

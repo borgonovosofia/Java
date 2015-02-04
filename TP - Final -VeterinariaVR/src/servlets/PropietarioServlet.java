@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utilidades.ConException;
+import negocio.Animal;
 import negocio.Propietario;
 
 @WebServlet("/PropietarioServlet")
@@ -109,6 +110,38 @@ public class PropietarioServlet extends HttpServlet {
 				response.sendRedirect("listadoPropietarios.jsp");
 
 		}
+		else if(accion.equals("ver"))
+		{
+			try {
+				Propietario propietario = Propietario.buscarPropietario(Integer.parseInt((String)request.getParameter("id")));
+				List<Animal> animales = propietario.dameAnimales();
+		
+				
+				request.getSession().setAttribute("nombre", propietario.getNombre());
+				request.getSession().setAttribute("apellido", propietario.getApellido());
+				request.getSession().setAttribute("direccion", propietario.getDireccion());
+				request.getSession().setAttribute("email", propietario.getEmail());
+				request.getSession().setAttribute("telefono_fijo", propietario.getTelefono_fijo());
+				request.getSession().setAttribute("celular", propietario.getCelular() );
+				request.getSession().setAttribute("usuario", propietario.getUsuario());
+				request.getSession().setAttribute("id_propietario", propietario.getId_propietario());
+				
+				request.getSession().setAttribute("listaAnimales", animales);
+				
+				response.sendRedirect("verPropietario.jsp");
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				response.sendRedirect("listadoPropietarios.jsp");
+			} catch (ConException e) {
+				e.printStackTrace();
+				response.sendRedirect("listadoPropietarios.jsp");
+			}
+			catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("listadoPropietarios.jsp");
+			}
+		}
+
 	}
 
 	/**

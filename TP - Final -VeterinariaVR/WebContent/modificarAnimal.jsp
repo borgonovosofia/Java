@@ -243,9 +243,13 @@ List<Raza> listaRazas = (List<Raza>) request.getSession().getAttribute("listaRaz
   		  	   		 							%>   		  									
   		  									</select>
   		  								</td>
-  		  							</tr> 		    		  				
-  		    		  				
-  		    		  				
+  		  							</tr> 		    	
+  		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>  		  							  			
+  		    		  				<% String peso = (String) request.getSession().getAttribute("peso"); %>
+  		    		  				<tr>
+										<td><label for="peso">Peso</label></td>
+  		    							<td><input type="text" class="entrada" name="peso" id="peso" value="<%if(peso!=null){ out.print(peso);}%>" /></td>
+  		    						</tr>  		  							
   		    		  				
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>

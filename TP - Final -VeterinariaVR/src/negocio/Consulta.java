@@ -8,6 +8,22 @@ public class Consulta {
 	private String motivo;
 	private Animal animal;
 	private IntervencionQuirurgica intervencion;
+	private int cant_intervenciones;
+	
+	public int getCant_intervenciones() {
+		return cant_intervenciones;
+	}
+	public void setCant_intervenciones(int cant_intervenciones) {
+		this.cant_intervenciones = cant_intervenciones;
+	}
+	public int getCant_vacunaciones() {
+		return cant_vacunaciones;
+	}
+	public void setCant_vacunaciones(int cant_vacunaciones) {
+		this.cant_vacunaciones = cant_vacunaciones;
+	}
+
+	private int cant_vacunaciones;
 	
 	public int getId_consulta() 
 	{return id_consulta;}
@@ -46,5 +62,7 @@ public class Consulta {
 		setMotivo(m);
 		setAnimal(a);
 		setIntervencion(i);
+	}
+	public Consulta() {
 	}
 }

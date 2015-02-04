@@ -142,9 +142,9 @@
   		  	   		 							<td class='listado'>
   		  	   		 							<%=t.getRaza().getNombre()%></td>  		  	   		 							
   		  	   		 							<td class='listado'>
-  		  	   		 							<a href="AnimalServlet?accion=editar&id=<%=t.getId_animal()%>&nombre=<%=t.getNombre()%>&fecha_nac=<%=t.getFecha_nac()%>&sexo=<%=t.getSexo()%>&id_propietario=<%=t.getPropietario().getId_propietario()%>&id_raza=<%=t.getRaza().getId_raza()%>&id_tipo=<%=t.getRaza().getTipo_animal().getId_tipo_animal()%>&nombreP=<%=t.getPropietario().getNombre()%>&apellidoP=<%=t.getPropietario().getApellido()%>">Editar</a>
+  		  	   		 							<a href="AnimalServlet?accion=editar&id=<%=t.getId_animal()%>&id_tipo=<%=t.getRaza().getTipo_animal().getId_tipo_animal()%>">Editar</a>
   		  	   		 							<a href="AnimalServlet?accion=borrar&id=<%=t.getId_animal()%>" onclick="return confirmar('¿Está seguro que desea borrar el propietario?')">Borrar</a>		  	   		 								  		  	   		 								  		  	   		 						
-  		  	   		 							<a href="">Ver</a>		  	   		 								  		  	   		 								  		  	   		 						  		  	   		 						
+  		  	   		 							<a href="AnimalServlet?accion=ver&id=<%=t.getId_animal()%>">Ver</a>		  	   		 								  		  	   		 								  		  	   		 						  		  	   		 						
   		  	   		 						</tr>  	
   		  	   		 						
   		  	   		 					<%	  	

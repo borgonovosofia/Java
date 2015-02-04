@@ -41,5 +41,7 @@ public class Peluqueria {
 		setComentarios(c);
 		setAnimal(an);
 	}
+	public Peluqueria() {
+	}
 
 }

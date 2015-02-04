@@ -5,6 +5,7 @@ import java.util.List;
 
 import utilidades.ConException;
 import utilidades.TestEncriptarMD5;
+import datos.AnimalAdapter;
 import datos.PropietarioAdapter;
 
 public class Propietario {
@@ -178,5 +179,9 @@ public class Propietario {
 		} catch (ConException e) {
 			throw e;
 		}	
+	}
+	public List<Animal> dameAnimales() throws ConException {
+		AnimalAdapter adapter = new AnimalAdapter();
+		return adapter.getAnimales(this.getId_propietario());
 	}
 }

@@ -1,7 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,27 +64,32 @@ public class AnimalServlet extends HttpServlet {
 		}
 		else if(accion.equals("editar"))
 		{
-				String sexo = (String)request.getParameter("sexo");
-				String fecha_nac = (String)request.getParameter("fecha_nac");
-				String nombre = (String)request.getParameter("nombre");
-				int id_propietario = Integer.parseInt(request.getParameter("id_propietario"));
-				int id_raza = Integer.parseInt(request.getParameter("id_raza"));
-				int id_tipo = Integer.parseInt(request.getParameter("id_tipo"));			
-				int id_animal = Integer.parseInt(request.getParameter("id"));
-				
-				request.getSession().setAttribute("id_animal", id_animal);
-				request.getSession().setAttribute("sexo", sexo);
-				request.getSession().setAttribute("nombre", nombre);
-				request.getSession().setAttribute("fecha_nac", fecha_nac);
-				request.getSession().setAttribute("id_propietario", id_propietario);
-				request.getSession().setAttribute("id_raza", id_raza);
-				request.getSession().setAttribute("id_tipo", id_tipo);
-				
-				this.actualizarCombos(request);
-				
-				request.getSession().setAttribute("busqueda", "false");				
-				response.sendRedirect("modificarAnimal.jsp");
-
+			
+				try {
+					Animal animal = Animal.buscarAnimal(Integer.parseInt((String)request.getParameter("id")));
+					request.getSession().setAttribute("nombreP", animal.getPropietario().getNombre());
+					request.getSession().setAttribute("apellidoP", animal.getPropietario().getApellido());
+					request.getSession().setAttribute("sexo", animal.getSexo());
+					request.getSession().setAttribute("fecha_nac", animal.getFecha_nac());
+					request.getSession().setAttribute("nombre", animal.getNombre());
+					request.getSession().setAttribute("id_propietario", animal.getPropietario().getId_propietario());
+					request.getSession().setAttribute("id_raza", animal.getRaza().getId_raza());
+					request.getSession().setAttribute("id_tipo", animal.getRaza().getTipo_animal().getId_tipo_animal());
+					request.getSession().setAttribute("raza", animal.getRaza().getNombre());
+					request.getSession().setAttribute("tipo", animal.getRaza().getTipo_animal().getNombre());
+					request.getSession().setAttribute("id_animal", animal.getId_animal());				
+					
+					
+					this.actualizarCombos(request);					
+					
+					
+					request.getSession().setAttribute("busqueda", "false");		
+					response.sendRedirect("modificarAnimal.jsp");				
+				} catch (NumberFormatException | ConException e) {
+					e.printStackTrace();
+					request.getSession().setAttribute("error", e.getMessage());		
+					response.sendRedirect("modificarAnimal.jsp");
+				}							
 		}
 		else if(accion.equals("nuevo"))
 		{
@@ -92,7 +97,8 @@ public class AnimalServlet extends HttpServlet {
 			request.getSession().setAttribute("sexo", null);
 			request.getSession().setAttribute("nombre", null);
 			request.getSession().setAttribute("fecha_nac", null);
-			
+			request.getSession().setAttribute("peso", null);
+
 			String id_propietario = (String)request.getParameter("id_propietario");
 			String nombreP = (String)request.getParameter("nombreP");
 			String apellidoP =(String)request.getParameter("apellidoP");
@@ -118,9 +124,46 @@ public class AnimalServlet extends HttpServlet {
 		}
 		else if(accion.equals("buscar"))
 		{				
-				request.getSession().setAttribute("busqueda", "false");		
-				response.sendRedirect("listadoAnimales.jsp");
+			request.getSession().setAttribute("busqueda", "false");		
+			response.sendRedirect("listadoAnimales.jsp");
 
+		}
+		else if(accion.equals("ver"))
+		{
+			try {
+				Animal animal = Animal.buscarAnimal(Integer.parseInt((String)request.getParameter("id")));
+				List<Peso> pesos = animal.damePesos();
+				List<Peluqueria> peluquerias = animal.damePeluquerias();
+				List<Consulta> consultas = animal.dameConsultas();
+				
+				request.getSession().setAttribute("nombreP", animal.getPropietario().getNombre());
+				request.getSession().setAttribute("apellidoP", animal.getPropietario().getApellido());
+				request.getSession().setAttribute("sexo", animal.getSexo());
+				request.getSession().setAttribute("fecha_nac", animal.getFecha_nac());
+				request.getSession().setAttribute("nombre", animal.getNombre());
+				request.getSession().setAttribute("id_propietario", animal.getPropietario().getId_propietario());
+				request.getSession().setAttribute("id_raza", animal.getRaza().getId_raza());
+				request.getSession().setAttribute("id_tipo", animal.getRaza().getTipo_animal().getId_tipo_animal());
+				request.getSession().setAttribute("raza", animal.getRaza().getNombre());
+				request.getSession().setAttribute("tipo", animal.getRaza().getTipo_animal().getNombre());
+				request.getSession().setAttribute("id_animal", animal.getId_animal());				
+				
+				request.getSession().setAttribute("listaPesos", pesos);
+				request.getSession().setAttribute("listaPeluquerias", peluquerias);
+				request.getSession().setAttribute("listaConsultas", consultas);
+				
+				response.sendRedirect("verAnimal.jsp");
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				response.sendRedirect("listadoAnimales.jsp");
+			} catch (ConException e) {
+				e.printStackTrace();
+				response.sendRedirect("listadoAnimales.jsp");
+			}
+			catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("listadoAnimales.jsp");
+			}
 		}
 	}
 
@@ -153,7 +196,8 @@ public class AnimalServlet extends HttpServlet {
 	//PARA AGREGAR 
 			else if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");	
-				
+
+				String peso = (String)request.getParameter("peso");				
 				String sexo = (String)request.getParameter("sexo");				
 				String fecha_nac = (String)request.getParameter("fecha_nac");
 			   	String nombre = (String)request.getParameter("nombre");
@@ -171,11 +215,17 @@ public class AnimalServlet extends HttpServlet {
 				Propietario p = new Propietario();
 				p.setId_propietario(id_propietario);
 				
+				Peso pes =null;
+				if(peso!=""){
+					pes = new Peso();
+					pes.setPeso(Double.parseDouble(peso));
+				}
 				Animal animal = new Animal(fecha_nac,sexo,nombre,r,p);
 				if(animal!=null)
 				{
 					try{
-						Animal.agregarAnimal(animal,id_raza,id_propietario);
+						int id = Animal.agregarAnimal(animal,id_raza,id_propietario);
+						if(peso!=""){Animal.agregarPeso(pes,id);}
 						request.getSession().setAttribute("mensaje", "Registro correcto");
 						response.sendRedirect("listadoAnimales.jsp");
 					}
@@ -186,10 +236,32 @@ public class AnimalServlet extends HttpServlet {
 					}					
 				}
 			}
+			else if(accion.equals("nuevoPeso"))
+			{
+				String peso = (String)request.getParameter("pesoI");											
+				int id_animal = Integer.parseInt(request.getParameter("id_animal"));
+
+				Animal animal = new Animal();
+				animal.setId_animal(id_animal);
+				
+				Peso pes = null;
+				pes = new Peso();
+				pes.setPeso(Double.parseDouble(peso));
+				try {
+					Animal.agregarPeso(pes,id_animal);
+					List<Peso> pesos = animal.damePesos();
+					request.getSession().setAttribute("listaPesos", pesos);
+					response.sendRedirect("verAnimal.jsp");
+				} catch (Exception e) {
+					e.printStackTrace();
+					request.getSession().setAttribute("error", e.getMessage());
+					response.sendRedirect("verAnimal.jsp");
+				}
+			}
 			else if(accion.equals("modificar"))
 			{
 				try {
-
+					String peso = (String)request.getParameter("peso");					
 					String sexo = (String)request.getParameter("sexo");					
 					String fecha_nac = (String)request.getParameter("fecha_nac");								
 					String nombre = (String)request.getParameter("nombre");
@@ -211,9 +283,19 @@ public class AnimalServlet extends HttpServlet {
 					Animal animal = new Animal(fecha_nac,sexo,nombre,r,p);
 					animal.setId_animal(id_animal);
 					
+					Peso pes = null;
+					if(peso!="")
+					{
+						pes = new Peso();
+						pes.setPeso(Double.parseDouble(peso));
+					}
+					
 					boolean rta = Animal.modificarAnimal(animal);
+					
 					if(rta==true)
 					{
+						
+						if(peso!=""){Animal.agregarPeso(pes,id_animal);}
 						request.getSession().setAttribute("mensaje", "Modificacion correcta");
 						response.sendRedirect("listadoAnimales.jsp");						
 					}
@@ -256,6 +338,25 @@ public class AnimalServlet extends HttpServlet {
 			else if(accion.equals("ActualizarCombos"))
 			{
 					this.actualizarCombos(request);
+					
+					int id_tipo = Integer.parseInt(request.getParameter("id_tipo"));								
+					String peso = (String)request.getParameter("peso");
+					String sexo = (String)request.getParameter("sexo");
+					String nombre = (String)request.getParameter("nombre");
+					String nombreP = (String)request.getParameter("nombreP");
+					String apellidoP = (String)request.getParameter("apellidoP");
+					String fecha_nac = (String)request.getParameter("fecha_nac");
+					String id_pro = request.getParameter("id_propietario");
+					Integer id_propietario = Integer.parseInt(id_pro);
+					
+					request.getSession().setAttribute("peso", peso);
+					request.getSession().setAttribute("sexo", sexo);
+					request.getSession().setAttribute("fecha_nac", fecha_nac);
+					request.getSession().setAttribute("nombre", nombre);
+					request.getSession().setAttribute("id_tipo", id_tipo);
+					request.getSession().setAttribute("id_propietario",id_propietario);
+					request.getSession().setAttribute("nombreP", nombreP);
+					request.getSession().setAttribute("apellidoP", apellidoP);
 					response.sendRedirect("nuevoAnimal.jsp");
 			}
 			
@@ -271,22 +372,8 @@ public class AnimalServlet extends HttpServlet {
 			int id_tipo = Integer.parseInt(request.getParameter("id_tipo"));								
 			List<Raza> listaR = Raza.dameRazasTipo(id_tipo);					
 			request.getSession().setAttribute("listaRazas",listaR);
-			
-			String sexo = (String)request.getParameter("sexo");
-			String nombre = (String)request.getParameter("nombre");
-			String nombreP = (String)request.getParameter("nombreP");
-			String apellidoP = (String)request.getParameter("apellidoP");
-			String fecha_nac = (String)request.getParameter("fecha_nac");
-			String id_pro = request.getParameter("id_propietario");
-			Integer id_propietario = Integer.parseInt(id_pro);
-			
-			request.getSession().setAttribute("sexo", sexo);
-			request.getSession().setAttribute("fecha_nac", fecha_nac);
-			request.getSession().setAttribute("nombre", nombre);
-			request.getSession().setAttribute("id_tipo", id_tipo);
-			request.getSession().setAttribute("id_propietario",id_propietario);
-			request.getSession().setAttribute("nombreP", nombreP);
-			request.getSession().setAttribute("apellidoP", apellidoP);
+
+
 			
 			
 		} catch (Exception e) {

@@ -2,9 +2,9 @@ package negocio;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import utilidades.ConException;
 import datos.AnimalAdapter;
+import datos.ConsultaAdapter;
 
 public class Animal {
 	private int id_animal;
@@ -13,6 +13,23 @@ public class Animal {
 	private String nombre;
 	private Raza raza;
 	private Propietario propietario;
+	private int cant_peluquerias;
+	private int cant_consultas;
+	
+	
+	public int getCant_peluquerias() {
+		return cant_peluquerias;
+	}
+	public void setCant_peluquerias(int cant_peluquerias) {
+		this.cant_peluquerias = cant_peluquerias;
+	}
+	
+	public int getCant_consultas() {
+		return cant_consultas;
+	}
+	public void setCant_consultas(int cant_consultas) {
+		this.cant_consultas = cant_consultas;
+	}
 	
 	public int getId_animal() 
 	{return id_animal;}
@@ -56,11 +73,16 @@ public class Animal {
 
 	public Animal() {
 	}
-	public static boolean agregarAnimal(Animal t,int idRaza, int idProp) throws ConException
+	public static int agregarAnimal(Animal t,int idRaza, int idProp) throws ConException
 	{
 		AnimalAdapter adapter = new AnimalAdapter();		
-		adapter.agregarAnimal(t,idRaza, idProp);
-		return true;
+		return adapter.agregarAnimal(t,idRaza, idProp);
+	}
+	
+	public static void agregarPeso(Peso p,int id_animal) throws ConException
+	{
+		AnimalAdapter adapter = new AnimalAdapter();		
+		adapter.agregarPeso(p,id_animal);
 	}
 	
 	public static Animal buscarAnimal(int id) throws ConException
@@ -127,5 +149,45 @@ public class Animal {
 		} catch (ConException e) {
 			throw e;
 		}	
+	}
+	
+	public List<Consulta> dameConsultas() throws Exception {
+		try {
+			ConsultaAdapter adapter = new ConsultaAdapter();
+			ArrayList<Consulta> lista = adapter.getConsultas(this.getId_animal());
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public static List<Consulta> dameTodasConsultas() throws Exception {
+		try {
+			ConsultaAdapter adapter = new ConsultaAdapter();
+			ArrayList<Consulta> lista = adapter.getConsultas();
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public List<Peso> damePesos() throws Exception {
+		try {
+			AnimalAdapter adapter = new AnimalAdapter();
+			ArrayList<Peso> lista = adapter.getPesos(this.getId_animal());
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public List<Peluqueria> damePeluquerias() throws Exception {
+		try {
+			AnimalAdapter adapter = new AnimalAdapter();
+			ArrayList<Peluqueria> lista = adapter.getPeluquerias(this.getId_animal());
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

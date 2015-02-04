@@ -32,7 +32,12 @@
 	Integer id_propietario;
 	Integer id_raza;
 	Integer id_tipo;
+	String peso;
 
+	if(request.getSession().getAttribute("peso")==null)
+	{ peso = "";}
+	else { peso = (String)request.getSession().getAttribute("peso");}
+	
 	if(request.getSession().getAttribute("sexo")==null)
 	{ sexo = "X";} 
 	else {sexo = (String)request.getSession().getAttribute("sexo");}
@@ -202,6 +207,11 @@
 				if(raza=="" || raza==" ")
 				{ msj += "Debe elegir una raza para el animal\n"}
 				
+				var peso = document.getElementById("peso").value;
+				if(peso!="" && peso!=" " && isNaN(peso))
+				{
+					msj += "El peso debe ser un numero. Divida los gramos con un punto. Ej: 10.200"
+				}
 				if(msj!="")
 				{alert(msj);return false;}
 				else{return true;}
@@ -294,6 +304,12 @@
   		  									</select>
   		  								</td>
   		  							</tr>
+									<tr> 
+  		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
+  		  							<tr>
+										<td><label for="peso">Peso</label></td>
+  		    							<td><input type="text" class="entrada" name="peso" id="peso" value="<%=peso  %>" /></td>
+  		    						</tr>  		  							
   		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
   		  							<tr>
   		  								<td>&nbsp;</td>  		  								

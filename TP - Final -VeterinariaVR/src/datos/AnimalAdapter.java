@@ -1,6 +1,7 @@
 package datos;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class AnimalAdapter {
 																	+"propietario.usuario, propietario.clave from animal"
 																	+" inner join propietario on propietario.id_propietario = animal.id_propietario"
 																	+" inner join raza on raza.id_raza = animal.id_raza "
-																	+"inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal");
+																	+"inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal"
+																	+ " order by animal.id_animal asc");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
@@ -97,7 +99,8 @@ public class AnimalAdapter {
 																	+"or animal.nombre like '%"+parecido.toUpperCase()
 																	+"%'or animal.fecha_nac like '%"+parecido.toUpperCase()+"%' "
 																	+ "or raza.nombre like '%"+parecido.toUpperCase()+"%' "
-																	+ "or tipo_animal.nombre like '%"+parecido.toUpperCase()+"%'");
+																	+ "or tipo_animal.nombre like '%"+parecido.toUpperCase()+"%'"
+																	+ " order by animal.id_animal asc");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
@@ -148,6 +151,76 @@ public class AnimalAdapter {
 			return lista;
 		}
 
+		public ArrayList<Animal> getAnimales(int id_pr) throws ConException
+		{
+			ArrayList<Animal> lista = new ArrayList<Animal>();
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select animal.id_animal, animal.fecha_nac, animal.sexo, animal.nombre,"
+																	+" raza.id_raza, raza.nombre'nombre_raza',"
+																	+" tipo_animal.id_tipo_animal, tipo_animal.nombre'nombre_tipo', "
+																	+" count(peluqueria.id_peluqueria)'peluquerias', count(consulta.id_consulta)'consultas'"
+																	+" from animal"
+																	+" inner join propietario on propietario.id_propietario = animal.id_propietario"
+																	+" inner join raza on raza.id_raza = animal.id_raza "
+																	+" inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal"
+																	+" left join consulta on consulta.id_animal = animal.id_animal "
+																	+" left join peluqueria on peluqueria.id_animal = animal.id_animal "
+																	+" where animal.id_propietario='"+id_pr+"' group by animal.id_animal "
+																	+" order by animal.id_animal asc");
+				
+				
+				
+				
+				
+				
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id = Integer.parseInt(result.getString("id_animal"));
+					String nombre = result.getString("nombre");				
+					String fecha_nac = result.getString("fecha_nac");
+					String sexo = result.getString("sexo");			
+					
+					int cant_consultas = result.getInt("consultas");
+					int cant_peluquerias = result.getInt("peluquerias");
+
+					int id_raza = Integer.parseInt(result.getString("id_raza"));
+					String nombre_raza = result.getString("nombre_raza");
+
+					int id_tipo = Integer.parseInt(result.getString("id_tipo_animal"));
+					String nombre_tipo = result.getString("nombre_tipo");
+					
+					TipoAnimal tip = new TipoAnimal(nombre_tipo);
+					tip.setId_tipo_animal(id_tipo);
+					
+					Raza raz = new Raza(nombre_raza,tip);
+					raz.setId_raza(id_raza);
+					
+								
+					Animal animal = new Animal();
+					animal.setCant_consultas(cant_consultas);
+					animal.setCant_peluquerias(cant_peluquerias);
+					animal.setId_animal(id);
+					animal.setFecha_nac(fecha_nac);
+					animal.setSexo(sexo);
+					animal.setNombre(nombre);
+					animal.setRaza(raz);
+									
+					lista.add(animal);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar los animales, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar los animales, por favor intente mas tarde.", e);
+			}
+			return lista;
+		}
+		
+		
 		public Animal buscarAnimal(int idA) throws ConException
 		{
 			Animal animal = new Animal();
@@ -212,10 +285,10 @@ public class AnimalAdapter {
 			}
 			return animal;
 		}
-		
-		
-		public void agregarAnimal(Animal t,int idRaza, int idPropietario) throws ConException
+				
+		public int agregarAnimal(Animal t,int idRaza, int idPropietario) throws ConException
 		{
+			int key = 0;
 			try {
 				Connection con = Conexion.getConexion();
 				PreparedStatement statement = 
@@ -224,13 +297,34 @@ public class AnimalAdapter {
 														+t.getSexo()+"','"+t.getNombre()+"','"+idPropietario+"','"
 														+idRaza+"')");
 				statement.execute();
+				ResultSet rs = statement.getGeneratedKeys();
+				while(rs.next())
+				{
+					   key = rs.getInt(1);
+				}
+				con.close();
+			} catch (Exception e) {
+				throw new ConException("Error al agregar nueva animal, por favor intente mas tarde.", e);
+				
+			}
+			return key;
+		}
+
+		public void agregarPeso(Peso p,int id_animal) throws ConException
+		{
+			try {
+				Connection con = Conexion.getConexion();
+				PreparedStatement statement = 
+						con.prepareStatement(
+								"insert into peso (id_animal,peso) values ('"+id_animal+"','"+p.getPeso()+"')");
+				statement.execute();				
 				con.close();
 			} catch (Exception e) {
 				throw new ConException("Error al agregar nueva animal, por favor intente mas tarde.", e);
 				
 			}
 		}
-
+		
 		public void borrarAnimal(int id) throws Exception
 		{
 			try {
@@ -243,7 +337,7 @@ public class AnimalAdapter {
 				throw new ConException("Error al eliminar animal, por favor intente mas tarde.", es);			
 			}			
 			catch (Exception e) {
-				throw new Exception("La animal no puede ser eliminado porque está siendo utilizado en consultas y/o peluqueria y/o pesos.", e);
+				throw new Exception("La animal no puede ser eliminado porque está siendo utilizado en consultas y/o peluqueria.", e);
 			}
 		}
 
@@ -266,6 +360,73 @@ public class AnimalAdapter {
 				throw new Exception("Error al modificar animal, por favor intente mas tarde.", e);
 				
 			}			
+		}
+
+		public ArrayList<Peso> getPesos(int id) throws ConException
+		{
+			ArrayList<Peso> lista = new ArrayList<Peso>();
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select peso.* from peso inner join animal on peso.id_animal = animal.id_animal where animal.id_animal = '"+id+"' order by peso.fecha");
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id_peso = Integer.parseInt(result.getString("id_peso"));
+					Date fec = result.getDate("fecha");
+					double peso = result.getDouble("peso");
+					
+					
+					String fecha = fec.getDate()+"/"+(fec.getMonth()+1)+"/"+(fec.getYear()+1900);	
+					Peso p = new Peso();
+					p.setId_peso(id_peso);
+					p.setFecha(fecha);
+					p.setPeso(peso);
+					
+					
+					lista.add(p);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar los pesos, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar los pesos, por favor intente mas tarde.", e);
+			}
+			return lista;
+		}
+		
+		public ArrayList<Peluqueria> getPeluquerias(int id) throws ConException
+		{
+			ArrayList<Peluqueria> lista = new ArrayList<Peluqueria>();
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select peluqueria.* from peluqueria inner join animal on peluqueria.id_animal = animal.id_animal where animal.id_animal = '"+id+"' ");
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id_peluqueria = Integer.parseInt(result.getString("id_peluqueria"));
+					java.sql.Date fecha = result.getDate("fecha");
+					String accion = result.getString("accion");
+					String comentarios = result.getString("comentarios");
+					
+					Peluqueria p = new Peluqueria();
+					p.setId_peluqueria(id_peluqueria);
+					p.setFecha(fecha);
+					p.setAccion(accion);
+					p.setComentarios(comentarios);
+								
+					lista.add(p);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar los pesos, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar los pesos, por favor intente mas tarde.", e);
+			}
+			return lista;
 		}
 }
 

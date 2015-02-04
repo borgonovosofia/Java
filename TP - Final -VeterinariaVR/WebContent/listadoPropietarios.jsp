@@ -141,7 +141,7 @@
   		  	   		 							<a href="PropietarioServlet?accion=editar&id=<%=t.getId_propietario()%>&nombre=<%=t.getNombre()%>&apellido=<%=t.getApellido()%>&direccion=<%=t.getDireccion()%>&email=<%=t.getEmail()%>&telefono_fijo=<%=t.getTelefono_fijo()%>&celular=<%=t.getCelular()%>&usuario=<%=t.getUsuario()%>">Editar</a>
   		  	   		 							<a href="PropietarioServlet?accion=borrar&id=<%=t.getId_propietario()%>" onclick="return confirmar('¿Está seguro que desea borrar el propietario?')">Borrar</a>
   		  	   		 							<a href="AnimalServlet?accion=nuevo&id_propietario=<%=t.getId_propietario()%>&nombreP=<%=t.getNombre()%>&apellidoP=<%=t.getApellido()%>">Agregar animal</a>
-  		  	   		 							<a href="">Ver</a>
+  		  	   		 							<a href="PropietarioServlet?accion=ver&id=<%= t.getId_propietario() %>">Ver</a>
   		  	   		 									  	   		 								  		  	   		 								  		  	   		 						
   		  	   		 						</tr>  	
   		  	   		 						
