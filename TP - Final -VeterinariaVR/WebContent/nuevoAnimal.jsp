@@ -100,10 +100,7 @@
 		</head>
 				
 		<script>
-			function validar(obj) {
-			  patron = /^\d{2}\/\d{2}\/\d{4}$/
-			  return patron.test(obj.value);
-			}
+
 
 			function validaFechaDDMMAAAA(fecha){
 				var dtCh= "/";

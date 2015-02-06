@@ -1,7 +1,6 @@
 
 <%@page import="javax.xml.ws.Response"%>
 <%@page import="java.util.List"%>
-<%@page import="java.sql.Date"%>
 
 <%@page import="negocio.Peso"%>
 <%@page import="negocio.Peluqueria"%>
@@ -74,6 +73,10 @@
 			<title>Veterinaria VR</title>
 		</head>			
 		<script>
+			function confirmar(msj)
+			{
+				return confirm(msj);
+			}
 			function validarPeso()
 			{
 				var msj="";
@@ -180,7 +183,8 @@
 						
 						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
 						<div style="float: left; clear:left; width: 100%;">					
-							<h3>Listado de consultas</h3>
+							<div style="float:left; "><h3>Listado de consultas </h3></div> 
+							<div style="float:left; text-align: left;"><h4><a href="">Nueva consulta</a></h4></div>
 							<table class="listado">
 								<thead class="listado" >                                
 	                               	<tr>
@@ -222,13 +226,17 @@
 						<!-- FIN DIV ------------------------------------------------------------------------------ -->
 						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
 						<div style="float: left; clear:left; width: 100%;">					
-							<h3>Listado de peluquerias</h3>
+							<div style="float:left; "><h3>Listado de peluquerias </h3></div> 
+							<div style="float:left; text-align: left;"><h4><a href="PeluqueriaServlet?accion=nueva&id_propietario=<%= id_propietario %>&id_animal=<%= id_animal %>">Nueva peluqueria</a></h4></div>
+								
 							<table class="listado">
 								<thead class="listado" >                                
 	                               	<tr>
                                        	<th class="listado" colspan="1" width="10%">Fecha</th>
-                                       	<th class="listado" colspan="1" width="30%">Proceso</th>
+                                       	<th class="listado" colspan="1" width="15%">Proceso</th>
                                        	<th class="listado" colspan="1" width="60%">Comentarios</th>
+                                       	<th class="listado" colspan="1" width="15%"></th>
+                                       	
                                     </tr>
 	                            </thead>				
 		                        <tbody>
@@ -241,8 +249,11 @@
   		  	   		 							<td class='listado'><%=t.getFecha()%></td>
   		  	   		 							<td class='listado'><%=t.getAccion()%></td>
   		  	   		 							<td class='listado'><%=t.getComentarios()%></td>
-  		  	   		 							
-  		  	   		 						</tr>  	
+												<td class='listado'>
+  		  	   		 								<a href="PeluqueriaServlet?accion=editar&id=<%=t.getId_peluqueria()%>">Editar</a>
+  		  	   		 								<a href="PeluqueriaServlet?accion=borrar&id=<%=t.getId_peluqueria()%>" onclick="return confirmar('¿Está seguro que desea borrar la peluqueria?');">Borrar</a>
+  		  	   		 							</td>  		  	   		 									  	   		 								  		  	   		 								  		  	   		 						
+  		  	   		 						</tr>  		  	   		 						  	
   		  	   		 						
   		  	   		 					<%	  	
   		  								}

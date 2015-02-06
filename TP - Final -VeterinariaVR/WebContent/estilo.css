@@ -18,27 +18,25 @@ h1, h2, h3, h4, h5, h6{
 	color:#501E51;}
 	
 h3,h4,h5,h6{
-	text-decoration: underline;
 	margin-bottom: 5px;
 }
-
+/*
 a img { 
 	border: none;
 }
 
-/* ~~ La aplicación de estilo a los vínculos del sitio debe permanecer en este orden (incluido el grupo de selectores que crea el efecto hover -paso por encima-). ~~ */
 a:link {
 	color:#414958;
-	text-decoration: underline; /* a no ser que aplique estilos a los vínculos para que tengan un aspecto muy exclusivo, es recomendable proporcionar subrayados para facilitar una identificación visual rápida */
-}
+	text-decoration: underline; 
+	}
 a:visited {
 	color: #4E5869;
 	text-decoration: underline;
 }
-a:hover, a:active, a:focus { /* este grupo de selectores proporcionará a un usuario que navegue mediante el teclado la misma experiencia de hover (paso por encima) que experimenta un usuario que emplea un ratón. */
+a:hover, a:active, a:focus { 
 	text-decoration: none;
 }
-
+*/
 .container {
 	width: 80%;
 	max-width: 1260px;/* puede que sea conveniente una anchura máxima (max-width) para evitar que este diseño sea demasiado ancho en un monitor grande. Esto mantiene una longitud de línea más legible. IE6 no respeta esta declaración. */
@@ -81,9 +79,10 @@ a:hover, a:active, a:focus { /* este grupo de selectores proporcionará a un usu
 
 /*--------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------*/
-input.entrada
+.entrada
 {
 	background-color: #DEAADF;
+	width: 140px;
 }
 input:disabled
 {
@@ -118,4 +117,8 @@ th.listado
 {
 	background-color:#90C;
 	color:#FFF;
+}
+h4 a 
+{
+	color:red;
 }

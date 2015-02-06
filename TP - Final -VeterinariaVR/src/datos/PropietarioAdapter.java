@@ -16,7 +16,7 @@ public class PropietarioAdapter {
 			try {
 				
 				Connection con = Conexion.getConexion();			
-				PreparedStatement statement = con.prepareStatement("select * from propietario");
+				PreparedStatement statement = con.prepareStatement("select * from propietario order by nombre");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{

@@ -339,15 +339,14 @@ public class AnimalServlet extends HttpServlet {
 			{
 					this.actualizarCombos(request);
 					
-					int id_tipo = Integer.parseInt(request.getParameter("id_tipo"));								
+					int id_tipo = Integer.parseInt((String)request.getParameter("id_tipo"));								
 					String peso = (String)request.getParameter("peso");
 					String sexo = (String)request.getParameter("sexo");
 					String nombre = (String)request.getParameter("nombre");
 					String nombreP = (String)request.getParameter("nombreP");
 					String apellidoP = (String)request.getParameter("apellidoP");
 					String fecha_nac = (String)request.getParameter("fecha_nac");
-					String id_pro = request.getParameter("id_propietario");
-					Integer id_propietario = Integer.parseInt(id_pro);
+					int id_propietario = Integer.parseInt(request.getParameter("id_propietario"));
 					
 					request.getSession().setAttribute("peso", peso);
 					request.getSession().setAttribute("sexo", sexo);
@@ -357,6 +356,7 @@ public class AnimalServlet extends HttpServlet {
 					request.getSession().setAttribute("id_propietario",id_propietario);
 					request.getSession().setAttribute("nombreP", nombreP);
 					request.getSession().setAttribute("apellidoP", apellidoP);
+					
 					response.sendRedirect("nuevoAnimal.jsp");
 			}
 			

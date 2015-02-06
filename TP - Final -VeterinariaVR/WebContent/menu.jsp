@@ -54,7 +54,12 @@
 		<form name="form5" method="post" action="AnimalServlet">
 			<input type="hidden" name="accion" id="accion" value="IrAnimales" />
 			<input type="submit" name="animal" id="animal" value="Animales"/>
-		</form> 		
+		</form> 	
+		<br></br>		
+		<form name="form5" method="post" action="PeluqueriaServlet">
+			<input type="hidden" name="accion" id="accion" value="IrPeluquerias" />
+			<input type="submit" name="peluqueria" id="peluqueria" value="Peluquerias"/>
+		</form> 
 	</center> 	
 </body>
 </html>
