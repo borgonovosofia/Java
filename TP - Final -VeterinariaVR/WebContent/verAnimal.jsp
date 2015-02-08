@@ -227,7 +227,7 @@
 						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
 						<div style="float: left; clear:left; width: 100%;">					
 							<div style="float:left; "><h3>Listado de peluquerias </h3></div> 
-							<div style="float:left; text-align: left;"><h4><a href="PeluqueriaServlet?accion=nueva&id_propietario=<%= id_propietario %>&id_animal=<%= id_animal %>">Nueva peluqueria</a></h4></div>
+							<div style="float:left; text-align: left;"><h4><a href="PeluqueriaServlet?accion=nuevo&id_propietario=<%= id_propietario %>&id_animal=<%= id_animal %>">Nueva peluqueria</a></h4></div>
 								
 							<table class="listado">
 								<thead class="listado" >                                
@@ -260,7 +260,7 @@
   		  								if(listaPeluquerias.size()==0)
   		  								{
   		  									%>
-  		  	   		 						<tr><td class='listado' colspan="3">&nbsp;&nbsp;No hay peluquerias cargadas para el animal</td></tr> 		  	
+  		  	   		 						<tr><td class='listado' colspan="4">&nbsp;&nbsp;No hay peluquerias cargadas para el animal</td></tr> 		  	
 										<%	
   		  								}
   		  							%>		

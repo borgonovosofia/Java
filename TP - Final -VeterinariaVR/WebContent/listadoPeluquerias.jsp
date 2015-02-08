@@ -1,7 +1,8 @@
 <%@page import="javax.xml.ws.Response"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="negocio.Propietario"%>
 <%@page import="negocio.Peluqueria"%>
+<%@page import="negocio.Animal"%>
 <%@page import="negocio.Raza"%>
 <%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -48,12 +49,12 @@
 	finally{
 		request.getSession().setAttribute("recarga", false);
 	}
-	List<Peluqueria> lista =new ArrayList<Peluqueria>();
+	List<Peluqueria> lista;
 	String valor;  
 	
 	if(busqueda==true)
 	{	
-		lista = (List<Peluqueria>) request.getSession().getAttribute("listaBusqueda");
+		lista = (List<Peluqueria>)request.getSession().getAttribute("listaBusqueda");
 		valor = (String)request.getSession().getAttribute("valor");
 	}
 	else
@@ -61,7 +62,6 @@
 		lista = (List<Peluqueria>) request.getSession().getAttribute("listaPeluquerias");
 		valor = "";
 	}
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -94,9 +94,9 @@
 
 						
 						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
-						<div style="float: left; clear:left; width: 100%;">					
-							<h1>Listado de peluquerias</h1>
-							<h4><a href="PeluqueriaServlet?accion=nueva&id_propietario=0&id_animal=0">Nueva peluqueria</a></h4>		
+						<div style="float: left; clear:left; width: 95%;">					
+							<h1>Listado de Peluquerias</h1>
+							<h4><a href="PeluqueriaServlet?accion=nuevo&id_propietario=0&id_animal=0">Nueva peluqueria</a></h4>						
 							<form method="post" action="PeluqueriaServlet">
 								<label>&nbsp;&nbsp;&nbsp;&nbsp;Buscar:</label>
 								<input type="hidden" value="buscar" name="accion" id="accion">
@@ -108,8 +108,8 @@
 							<table class="listado">
 								<thead class="listado" >                                
 	                               	<tr>
-                                       	<th class="listado" colspan="1" width="5%">Nro</th>
-                                       	<th class="listado" colspan="1" width="7%">Fecha</th>
+                                       	<th class="listado" colspan="1" width="5%" >Nro</th>
+                                       	<th class="listado" colspan="1" width="7%" >Fecha</th>
                                        	<th class="listado" colspan="1" width="10%">Tratamiento</th>
                                        	<th class="listado" colspan="1" width="20%">Comentarios</th>       
                                        	<th class="listado" colspan="1" width="10%">Nombre</th>  
@@ -127,25 +127,27 @@
   		  	   		 					%>
   		  	   		 						<tr>
   		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getId_peluqueria()%></td>
+  		  	   		 							<%=t.getId_peluqueria()%>
+  		  	   		 							</td>
   		  	   		 							<td class='listado'>
   		  	   		 							<%=t.getFecha()%></td>
   		  	   		 							<td class='listado'>
   		  	   		 							<%=t.getAccion()%></td>
   		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getComentarios()%></td>
+  		  	   		 							<%= t.getComentarios() %></td>
   		  	   		 							<td class='listado'>
-  		  	   		 							<%=t.getAnimal().getNombre()%></td>
-  		  	   		 							<td class='listado'>
+  		  	   		 							<%=t.getAnimal().getNombre()%>
+  		  	   		 							</td>
+												<td class='listado'>
   		  	   		 							<%=t.getAnimal().getRaza().getTipo_animal().getNombre()%></td>
   		  	   		 							<td class='listado'>
   		  	   		 							<%=t.getAnimal().getRaza().getNombre()%></td>
-												<td class='listado'>
-  		  	   		 							<%=t.getAnimal().getPropietario().getNombre()+", "+ t.getAnimal().getPropietario().getApellido()%></td>
-  		  	   		 							 		  	   		 							
+  		  	   		 							<td class='listado'>
+  		  	   		 							<%=t.getAnimal().getPropietario().getNombre()+", "+t.getAnimal().getPropietario().getApellido()%></td>  		  	   		 							
   		  	   		 							<td class='listado'>
   		  	   		 							<a href="PeluqueriaServlet?accion=editar&id=<%=t.getId_peluqueria()%>">Editar</a>
-  		  	   		 							<a href="PeluqueriaServlet?accion=borrar&id=<%=t.getId_peluqueria()%>" onclick="return confirmar('¿Está seguro que desea borrar la peluqueria?');">Borrar</a>  		  	   		 									  	   		 								  		  	   		 								  		  	   		 						
+  		  	   		 							<a href="PeluqueriaServlet?accion=borrar&id=<%=t.getId_peluqueria()%>" onclick="return confirmar('¿Está seguro que desea borrar la peluqueria?')">Borrar</a>		  	   		 								  		  	   		 								  		  	   		 						
+  		  	   		 							</td>		 								  		  	   		 						  		  	   		 						
   		  	   		 						</tr>  	
   		  	   		 						
   		  	   		 					<%	  	
@@ -160,7 +162,7 @@
   		  									}
   		  									else
   		  									{%>
-  		  	   		 						<tr><td class='listado' colspan="9">&nbsp;&nbsp;No hay peluquerias cargados</td></tr> 		  	
+  		  	   		 						<tr><td class='listado' colspan="9">&nbsp;&nbsp;No hay peluquerias cargadas</td></tr> 		  	
 										<%	}
   		  								}
   		  							%>		

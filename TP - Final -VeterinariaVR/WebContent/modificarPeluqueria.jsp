@@ -26,9 +26,11 @@
 //trae los valores anteriores
 	String tratamiento;
 	String comentarios;
-	String id_animal;
+	String nombre;
 	String fecha;
-	String id_propietario;
+	String nombreP;
+	String id = (String)request.getSession().getAttribute("id");
+	String apellidoP;
 
 	if(request.getSession().getAttribute("tratamiento")==null)
 	{ tratamiento = "";}
@@ -39,17 +41,21 @@
 	else {comentarios = (String)request.getSession().getAttribute("comentarios");}
 
 	
-	if(request.getSession().getAttribute("id_animal")==null)
-	{ id_animal = "0";} 
-	else {id_animal = (String)request.getSession().getAttribute("id_animal");}
+	if(request.getSession().getAttribute("nombre")==null)
+	{ nombre = "0";} 
+	else {nombre = (String)request.getSession().getAttribute("nombre");}
 
+	if(request.getSession().getAttribute("nombreP")==null)
+	{ nombreP = "0";} 
+	else {nombreP = (String)request.getSession().getAttribute("nombreP");}
+	
 	if(request.getSession().getAttribute("fecha")==null)
 	{  fecha = "";}
 	else{fecha = (String)request.getSession().getAttribute("fecha");}
 	
-	if(request.getSession().getAttribute("id_propietario")==null)
-	{ id_propietario = "0";} 
-	else{ id_propietario = (String)request.getSession().getAttribute("id_propietario");}
+	if(request.getSession().getAttribute("apellidoP")==null)
+	{ apellidoP = "0";} 
+	else{ apellidoP = (String)request.getSession().getAttribute("apellidoP");}
 
 
 	
@@ -198,51 +204,21 @@
 						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
 						<div style="float:left; width: 80%;"> 
 							<form id="frmPeluqueria" name="frmPeluqueria" method="post" action="PeluqueriaServlet">
-  								<input type="hidden" value="nuevo" name="accion"/>  	  		  		
-  								<h2>Nueva peluqueria</h2>
+  								<input type="hidden" value="modificar" name="accion"/>  	
+  								<input type="hidden" value="<%= id %>" name="id"/>  	  		  		
+  								  		  		
+  								<h2>Modificar peluqueria</h2>
   								<table class="tablaMaqueta">
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
-  		    		  				                                    <tr>
+  		    		  				<tr>
   		    							<td><label for="id_propietario">Propietario</label></td>
-  		    							<td>
-  		    							  	<select name="id_propietario" id="id_propietario" onchange="actualizar()">
-  		    							  		 <%	for (int i = 0; i < listaPropietarios.size(); i++) 
-  		  											{
-  		    							  			Propietario t = listaPropietarios.get(i);
-  		  	   		 									if(Integer.parseInt(id_propietario) == t.getId_propietario())
-	  		  	   		 								{out.print("<option value='"+t.getId_propietario()+"' selected='selected' >"+t.getNombre()+", "+t.getApellido()+"</option>");}  		  	   		 						  	
-  		  	   		 									else
-	  		  	   		 								{out.print("<option value='"+t.getId_propietario()+"' >"+t.getNombre()+", "+t.getApellido()+"</option>");}  		  	   		 						  	
-  		  											}
-  		  											if(listaPropietarios.size()==0)
-  		  											{	
-  		  	   		 									out.print("<option value=''>No hay propietarios cargados</option>");
-	  		  	   		 							}
-  		  	   		 							%> 
-  		  									</select>
-  		  								</td>
+  		  								<td><input type="text" class="entrada" name="id_propietario" id="id_propietario" value="<%=nombreP+", "+apellidoP %>" contenteditable="false"/></td>  		    							  		  								
+
   		  							</tr>
   		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
   		  							<tr>
   		  								<td><label for="id_animal">Animal</label></td>
-  		  								<td>
-  		  									<select name="id_animal" id="id_animal">
- 													<%	for (int i = 0; i < listaAnimales.size(); i++) 
-  		  											{
-  		  	   		 									Animal t = listaAnimales.get(i);  
-  		  	   		 									
-  		  	   		 									if(Integer.parseInt(id_animal) == t.getId_animal())
-		  	   		 									{out.print("<option value='"+t.getId_animal()+"' selected='selected' >"+t.getNombre()+"</option>");}  		  	   		 						  	
-	  	   		 										else
-		  	   		 									{out.print("<option value='"+t.getId_animal()+"' >"+t.getNombre()+"</option>");}   		  	   		 									
-  		  											}
- 													if(listaAnimales.size()==0)
-  		  											{	
-  		  	   		 									out.print("<option value=''>No hay mascotas cargadas para el propietario seleccionado</option>");
-	  		  	   		 							}
-  		  	   		 							%>   		  									
-  		  									</select>
-  		  								</td>
+  		  								<td><input type="text" class="entrada" name="id_animal" id="id_animal" value="<%=nombre %>" contenteditable="false"/></td>  		    							  		  								
   		  							</tr>  			
   		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
   		  							<tr>
@@ -272,7 +248,7 @@
  
   		    		 				<tr>
   		  								<td>&nbsp;</td>  		  								
-  		  								<td><input type="submit" name="button" id="button" value="Agregar peluqueria" onclick="return validarNuevo();" />
+  		  								<td><input type="submit" name="button" id="button" value="Modificar peluqueria" onclick="return validarNuevo();" />
 											<input type="button" value="Volver" name="volver" onclick="history.back()" />
   		    							</td>
   	      							</tr>

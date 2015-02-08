@@ -429,18 +429,25 @@ public class AnimalAdapter {
 			return lista;
 		}
 
-		public void agregarPeluqueria(Peluqueria pelu, int id_animal) throws ConException {
+		public int agregarPeluqueria(Peluqueria pelu, int id_animal) throws ConException {
+			int key=0;
 			try {
 				Connection con = Conexion.getConexion();
 				PreparedStatement statement = 
 						con.prepareStatement(
 								"insert into peluqueria (id_animal,comentarios,accion,fecha) values ('"+id_animal+"','"+pelu.getComentarios()+"','"+pelu.getAccion()+"','"+pelu.getFecha()+"')");
-				statement.execute();				
+				statement.execute();
+				ResultSet rs = statement.getGeneratedKeys();
+				while(rs.next())
+				{
+					   key = rs.getInt(1);
+				}
 				con.close();
 			} catch (Exception e) {
 				throw new ConException("Error al agregar nueva peluqueria, por favor intente mas tarde.", e);
 				
 			}
+			return key;
 		}
 }
 

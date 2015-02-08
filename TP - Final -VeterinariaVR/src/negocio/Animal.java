@@ -190,9 +190,9 @@ public class Animal {
 			throw e;
 		}
 	}
-	public void agregarPeluqueria(Peluqueria pelu) throws ConException {
+	public int agregarPeluqueria(Peluqueria pelu) throws ConException {
 		AnimalAdapter adapter = new AnimalAdapter();		
-		adapter.agregarPeluqueria(pelu,this.getId_animal());
+		 return adapter.agregarPeluqueria(pelu,this.getId_animal());
 	}
 
 }

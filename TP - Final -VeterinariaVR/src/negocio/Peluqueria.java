@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utilidades.ConException;
-import datos.AnimalAdapter;
 import datos.PeluqueriaAdapter;
 
 
@@ -93,4 +92,23 @@ public class Peluqueria {
 		}		
 	}
 	
+	
+	public static boolean modificarPeluqueria(Peluqueria p) throws Exception
+	{
+		try {
+			Peluqueria pelu = Peluqueria.buscarPeluqueria(p.getId_peluqueria());
+			if(pelu!=null)
+			{
+				PeluqueriaAdapter adapter = new PeluqueriaAdapter();		
+				adapter.modificarPeluqueria(p);
+				return true;				
+			}
+			else
+			{
+				return false;
+			}
+		} catch (ConException e) {
+			throw e;
+		}	
+	}
 }

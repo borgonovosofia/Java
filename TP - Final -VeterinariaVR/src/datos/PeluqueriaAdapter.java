@@ -1,7 +1,6 @@
 package datos;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -248,11 +247,11 @@ public class PeluqueriaAdapter {
 																	+" propietario.id_propietario, propietario.nombre'nombreP', propietario.apellido'apellidoP', "
 																	+" propietario.direccion, propietario.email,propietario.telefono_fijo, propietario.celular,"
 																	+" propietario.usuario, propietario.clave from peluqueria"
-																	+ " inner join animal on animal.id_animal = peluqueria.id_peluqueria "
+																	+ " inner join animal on animal.id_animal = peluqueria.id_animal "
 																	+" inner join propietario on propietario.id_propietario = animal.id_propietario"
 																	+" inner join raza on raza.id_raza = animal.id_raza "
 																	+" inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal "
-																	+ " where animal.id_animal='"+idA+"'");
+																	+ " where peluqueria.id_peluqueria='"+idA+"'");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
@@ -325,6 +324,26 @@ public class PeluqueriaAdapter {
 			catch (Exception e) {
 				throw new Exception("La Peluqueria no puede ser eliminado porque está siendo utilizado en consultas y/o peluqueria.", e);
 			}
+		}
+
+		public void modificarPeluqueria(Peluqueria p) throws Exception {
+				try {
+					Connection con = Conexion.getConexion();			
+					PreparedStatement statement = 
+							con.prepareStatement("update peluqueria set fecha = '"+p.getFecha()+"',accion = '"+p.getAccion()+"',comentarios = '"+p.getComentarios()+"'"													
+													+" where id_peluqueria ='"+p.getId_peluqueria()+"'");
+					statement.execute();
+					con.close();
+				} catch (ConException es) {
+					es.printStackTrace();
+					throw new ConException("Error al modificar peluqueria, por favor intente mas tarde.", es);			
+				}			
+				catch (Exception e) {
+					e.printStackTrace();
+					throw new Exception("Error al modificar peluqueria, por favor intente mas tarde.", e);
+					
+				}			
+						
 		}
 		
 		/*
