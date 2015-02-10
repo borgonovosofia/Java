@@ -26,6 +26,8 @@ public class IntervencionQuirurgica {
 	}
 	
 
+	public IntervencionQuirurgica() {
+	}
 	public static boolean agregarIntervencion(IntervencionQuirurgica t) throws ConException
 	{
 		IntervencionQuirurgica inter = IntervencionQuirurgica.buscarIntervencion(t.getNombre());  
