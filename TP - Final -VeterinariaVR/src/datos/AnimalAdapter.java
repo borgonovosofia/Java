@@ -12,8 +12,7 @@ import utilidades.*;
 
 public class AnimalAdapter {
 
-		public ArrayList<Animal> getAnimales() throws ConException
-		{
+		public ArrayList<Animal> getAnimales() throws ConException		{
 			ArrayList<Animal> lista = new ArrayList<Animal>();
 			try {
 				
@@ -77,8 +76,7 @@ public class AnimalAdapter {
 			return lista;
 		}
 		
-		public ArrayList<Animal> getAnimales(String parecido) throws ConException
-		{
+		public ArrayList<Animal> getAnimales(String parecido) throws ConException		{
 			ArrayList<Animal> lista = new ArrayList<Animal>();
 			try {
 				
@@ -151,8 +149,7 @@ public class AnimalAdapter {
 			return lista;
 		}
 
-		public ArrayList<Animal> getAnimales(int id_pr) throws ConException
-		{
+		public ArrayList<Animal> getAnimales(int id_pr) throws ConException		{
 			ArrayList<Animal> lista = new ArrayList<Animal>();
 			try {
 				
@@ -221,8 +218,7 @@ public class AnimalAdapter {
 		}
 		
 		
-		public Animal buscarAnimal(int idA) throws ConException
-		{
+		public Animal buscarAnimal(int idA) throws ConException		{
 			Animal animal = new Animal();
 			try {
 				
@@ -286,8 +282,7 @@ public class AnimalAdapter {
 			return animal;
 		}
 				
-		public int agregarAnimal(Animal t,int idRaza, int idPropietario) throws ConException
-		{
+		public int agregarAnimal(Animal t,int idRaza, int idPropietario) throws ConException		{
 			int key = 0;
 			try {
 				Connection con = Conexion.getConexion();
@@ -310,8 +305,7 @@ public class AnimalAdapter {
 			return key;
 		}
 
-		public void agregarPeso(Peso p,int id_animal) throws ConException
-		{
+		public void agregarPeso(Peso p,int id_animal) throws ConException		{
 			try {
 				Connection con = Conexion.getConexion();
 				PreparedStatement statement = 
@@ -325,8 +319,7 @@ public class AnimalAdapter {
 			}
 		}
 		
-		public void borrarAnimal(int id) throws Exception
-		{
+		public void borrarAnimal(int id) throws Exception		{
 			try {
 				Connection con = Conexion.getConexion();			
 				PreparedStatement statement = 
@@ -362,8 +355,7 @@ public class AnimalAdapter {
 			}			
 		}
 
-		public ArrayList<Peso> getPesos(int id) throws ConException
-		{
+		public ArrayList<Peso> getPesos(int id) throws ConException		{
 			ArrayList<Peso> lista = new ArrayList<Peso>();
 			try {
 				
@@ -396,8 +388,7 @@ public class AnimalAdapter {
 			return lista;
 		}
 		
-		public ArrayList<Peluqueria> getPeluquerias(int id) throws ConException
-		{
+		public ArrayList<Peluqueria> getPeluquerias(int id) throws ConException		{
 			ArrayList<Peluqueria> lista = new ArrayList<Peluqueria>();
 			try {
 				

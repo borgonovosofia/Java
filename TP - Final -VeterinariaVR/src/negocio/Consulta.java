@@ -101,8 +101,7 @@ public class Consulta {
 			if(v!=null)
 			{
 				ConsultaAdapter adapter = new ConsultaAdapter();		
-				adapter.borrarConsulta(id);
-				return true;
+				return adapter.borrarConsulta(id);
 			}
 			else
 			{
@@ -130,5 +129,23 @@ public class Consulta {
 		} catch (ConException e) {
 			throw e;
 		}	
+	}
+	public static void agregarConsulta(Consulta consulta) throws Exception {
+		try {
+			ConsultaAdapter adapter = new ConsultaAdapter();		
+			adapter.agregarConsulta(consulta);
+		} catch (ConException e) {
+			throw e;
+		}			
+	}
+	
+	public static List<Aviso> dameAlertas() throws Exception {
+		try {
+			ConsultaAdapter adapter = new ConsultaAdapter();
+			List<Aviso> lista = adapter.getAlertas(7);
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

@@ -35,30 +35,33 @@
 			<input type="hidden" name="accion" id="accion" value="IrRaza" />
 			<input type="submit" name="raza" id="raza" value="Razas y tipos de animales"/>
 		</form> 
-		<br></br>
 		<form name="form2" method="post" action="VacunaServlet">
 			<input type="hidden" name="accion" id="accion" value="IrVacuna" />
 			<input type="submit" name="vacuna" id="vacuna" value="Vacunas"/>
 		</form> 
-		<br></br>		
 		<form name="form3" method="post" action="IntervencionServlet">
 			<input type="hidden" name="accion" id="accion" value="IrIntervenciones" />
 			<input type="submit" name="intervencion" id="intervencion" value="Intervenciones Quirúrgicas"/>
 		</form> 		
-		<br></br>		
 		<form name="form4" method="post" action="PropietarioServlet">
 			<input type="hidden" name="accion" id="accion" value="IrPropietario" />
 			<input type="submit" name="propietario" id="propietario" value="Propietarios"/>
 		</form> 			
-		<br></br>		
 		<form name="form5" method="post" action="AnimalServlet">
 			<input type="hidden" name="accion" id="accion" value="IrAnimales" />
 			<input type="submit" name="animal" id="animal" value="Animales"/>
 		</form> 	
-		<br></br>		
-		<form name="form5" method="post" action="PeluqueriaServlet">
+		<form name="form6" method="post" action="PeluqueriaServlet">
 			<input type="hidden" name="accion" id="accion" value="IrPeluquerias" />
 			<input type="submit" name="peluqueria" id="peluqueria" value="Peluquerias"/>
+		</form> 
+		<form name="form7" method="post" action="ConsultaServlet">
+			<input type="hidden" name="accion" id="accion" value="IrConsultas" />
+			<input type="submit" name="consulta" id="consulta" value="Consultas"/>
+		</form> 
+		<form name="form8" method="post" action="ConsultaServlet">
+			<input type="hidden" name="accion" id="accion" value="GenerarAlertas" />
+			<input type="submit" name="consulta" id="consulta" value="Generar Alertas semana"/>
 		</form> 
 	</center> 	
 </body>

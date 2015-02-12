@@ -1,7 +1,9 @@
 package datos;
 
+import java.util.Calendar;
 import java.util.List;
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -12,23 +14,29 @@ import utilidades.*;
 
 public class ConsultaAdapter {
 
-	public ArrayList<Consulta> getConsultas() throws ConException
-	{
+	public ArrayList<Consulta> getConsultas() throws ConException	{
 		ArrayList<Consulta> lista = new ArrayList<Consulta>();
 		try {
 			
 			Connection con = Conexion.getConexion();			
-			PreparedStatement statement = con.prepareStatement("select consulta.*,animal.*,count(id_vacunacion)'vacunas',id_intervencion,intervencion_quirurgica.nombre'nombre_intervencion'"
+			PreparedStatement statement = con.prepareStatement("select consulta.*,animal.*,propietario.nombre'nombreP',propietario.apellido'apellidoP',count(id_vacunacion)'vacunas',"
+															 +" consulta.id_intervencion,intervencion_quirurgica.nombre'nombre_intervencion' "
 															  +"from consulta inner join animal on animal.id_animal = consulta.id_animal "
+															  + "inner join propietario on propietario.id_propietario = animal.id_propietario"
 															  +" left join intervencion_quirurgica on consulta.id_intervencion = intervencion_quirurgica.id_intervencion "
-															  +" inner join vacunacion on vacunacion.id_consulta = consulta.id_consulta "															  
+															  +" left join vacunacion on vacunacion.id_consulta = consulta.id_consulta "															  
 															  +" group by id_consulta order by consulta.id_consulta asc");
 																
 			ResultSet result = statement.executeQuery();
 			while(result.next())
 			{
 				int id_animal = Integer.parseInt(result.getString("id_animal"));
-				String nombre = result.getString("nombre");				
+				String nombre = result.getString("nombre");		
+				
+				String nombreP = result.getString("nombreP");				
+				String apellidoP = result.getString("apellidoP");				
+
+				
 				String fecha_nac = result.getString("fecha_nac");
 				String sexo = result.getString("sexo");			
 				
@@ -39,12 +47,16 @@ public class ConsultaAdapter {
 				int id_intervencion = result.getInt("id_intervencion");
 				int cant_vacunaciones = result.getInt("vacunas");
 							
+				Propietario p = new Propietario();
+				p.setNombre(nombreP);
+				p.setApellido(apellidoP);
+				
 				Animal animal = new Animal();
 				animal.setId_animal(id_animal);
 				animal.setNombre(nombre);
 				animal.setFecha_nac(fecha_nac);
 				animal.setSexo(sexo);
-				
+				animal.setPropietario(p);
 
 				Consulta consulta = new Consulta();
 				consulta.setId_consulta(id_consulta);
@@ -55,7 +67,7 @@ public class ConsultaAdapter {
 				consulta.setAnimal(animal);
 							
 				String nombre_intervencion = result.getString("nombre_intervencion");
-				if(!nombre_intervencion.equals(""))
+				if(nombre_intervencion!=null)
 				{
 					IntervencionQuirurgica in = new IntervencionQuirurgica(nombre_intervencion);
 					in.setId_intervencion(id_intervencion);
@@ -76,26 +88,31 @@ public class ConsultaAdapter {
 	}
 	
 		
-		public ArrayList<Consulta> getConsultas(String valor) throws ConException
-		{
+		public ArrayList<Consulta> getConsultas(String valor) throws ConException		{
 			ArrayList<Consulta> lista = new ArrayList<Consulta>();
 			try {
 				
 				Connection con = Conexion.getConexion();			
-				PreparedStatement statement = con.prepareStatement("select consulta.*,animal.*,count(id_vacunacion)'vacunas',id_intervencion,intervencion_quirurgica.nombre'nombre_intervencion'"
+				PreparedStatement statement = con.prepareStatement("select consulta.*,animal.*,count(id_vacunacion)'vacunas',propietario.nombre'nombreP',propietario.apellido'apellidoP',consulta.id_intervencion,intervencion_quirurgica.nombre'nombre_intervencion'"
 																  +"from consulta inner join animal on animal.id_animal = consulta.id_animal "
 																  +" left join intervencion_quirurgica on consulta.id_intervencion = intervencion_quirurgica.id_intervencion "
-																  +" inner join vacunacion on vacunacion.id_consulta = consulta.id_consulta "
-																  + " where consulta.fecha like  '%"+valor+"'% or consulta.comentarios like  '%"+valor+"'% "
-																  + " or consulta.motivo like  '%"+valor+"'% or animal.nombre like  '%"+valor+"'%  or animal.sexo like like  '%"+valor+"'% "
-																  + " or intervencion_quirurgica.nombre  like  '%"+valor+"'%  "	
+																  +" left join vacunacion on vacunacion.id_consulta = consulta.id_consulta "
+																  + "left join propietario on propietario.id_propietario = animal.id_propietario"
+																  + " where consulta.fecha like '%"+valor+"%' or consulta.comentarios like  '%"+valor+"%' "
+																  + " or consulta.motivo like  '%"+valor+"%' or animal.nombre like '%"+valor+"%'  or animal.sexo like '%"+valor+"%' "
+																  + " or intervencion_quirurgica.nombre  like  '%"+valor+"%' "	
 																  +" group by id_consulta order by consulta.id_consulta asc");
 																	
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
 					int id_animal = Integer.parseInt(result.getString("id_animal"));
-					String nombre = result.getString("nombre");				
+					String nombre = result.getString("nombre");		
+					
+					String nombreP = result.getString("nombreP");				
+					String apellidoP = result.getString("apellidoP");				
+
+					
 					String fecha_nac = result.getString("fecha_nac");
 					String sexo = result.getString("sexo");			
 					
@@ -106,12 +123,16 @@ public class ConsultaAdapter {
 					int id_intervencion = result.getInt("id_intervencion");
 					int cant_vacunaciones = result.getInt("vacunas");
 								
+					Propietario p = new Propietario();
+					p.setNombre(nombreP);
+					p.setApellido(apellidoP);
+					
 					Animal animal = new Animal();
 					animal.setId_animal(id_animal);
 					animal.setNombre(nombre);
 					animal.setFecha_nac(fecha_nac);
 					animal.setSexo(sexo);
-					
+					animal.setPropietario(p);
 
 					Consulta consulta = new Consulta();
 					consulta.setId_consulta(id_consulta);
@@ -122,7 +143,80 @@ public class ConsultaAdapter {
 					consulta.setAnimal(animal);
 								
 					String nombre_intervencion = result.getString("nombre_intervencion");
-					if(!nombre_intervencion.equals(""))
+					if(nombre_intervencion!=null)
+					{
+						IntervencionQuirurgica in = new IntervencionQuirurgica(nombre_intervencion);
+						in.setId_intervencion(id_intervencion);
+						consulta.setIntervencion(in);
+					}
+							
+					
+					lista.add(consulta);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar las consultas, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar las consultas, por favor intente mas tarde.", e);
+			}
+			return lista;
+		}
+		
+		public ArrayList<Consulta> getConsultas(int id) throws ConException		{
+			ArrayList<Consulta> lista = new ArrayList<Consulta>();
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select consulta.*,animal.*,propietario.nombre'nombreP',propietario.apellido'apellidoP',count(id_vacunacion)'vacunas',"
+																 +" consulta.id_intervencion,intervencion_quirurgica.nombre'nombre_intervencion' "
+																  +"from consulta inner join animal on animal.id_animal = consulta.id_animal "
+																  + "inner join propietario on propietario.id_propietario = animal.id_propietario"
+																  +" left join intervencion_quirurgica on consulta.id_intervencion = intervencion_quirurgica.id_intervencion "
+																  +" left join vacunacion on vacunacion.id_consulta = consulta.id_consulta "															  
+																  +"  where animal.id_animal = '"+id+"' group by id_consulta order by consulta.id_consulta asc");
+																	
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id_animal = Integer.parseInt(result.getString("id_animal"));
+					String nombre = result.getString("nombre");		
+					
+					String nombreP = result.getString("nombreP");				
+					String apellidoP = result.getString("apellidoP");				
+
+					
+					String fecha_nac = result.getString("fecha_nac");
+					String sexo = result.getString("sexo");			
+					
+					int id_consulta = Integer.parseInt(result.getString("id_consulta"));
+					String fecha = result.getString("fecha");
+					String comentarios = result.getString("comentarios");
+					String motivo = result.getString("motivo");			
+					int id_intervencion = result.getInt("id_intervencion");
+					int cant_vacunaciones = result.getInt("vacunas");
+								
+					Propietario p = new Propietario();
+					p.setNombre(nombreP);
+					p.setApellido(apellidoP);
+					
+					Animal animal = new Animal();
+					animal.setId_animal(id_animal);
+					animal.setNombre(nombre);
+					animal.setFecha_nac(fecha_nac);
+					animal.setSexo(sexo);
+					animal.setPropietario(p);
+
+					Consulta consulta = new Consulta();
+					consulta.setId_consulta(id_consulta);
+					consulta.setComentarios(comentarios);
+					consulta.setFecha(fecha);
+					consulta.setMotivo(motivo);
+					consulta.setCant_vacunaciones(cant_vacunaciones);
+					consulta.setAnimal(animal);
+								
+					String nombre_intervencion = result.getString("nombre_intervencion");
+					if(nombre_intervencion!=null)
 					{
 						IntervencionQuirurgica in = new IntervencionQuirurgica(nombre_intervencion);
 						in.setId_intervencion(id_intervencion);
@@ -141,68 +235,26 @@ public class ConsultaAdapter {
 			}
 			return lista;
 		}
-		
-		
-		public ArrayList<Consulta> getConsultas(int id) throws ConException
-		{
-			ArrayList<Consulta> lista = new ArrayList<Consulta>();
-			try {
 				
-				Connection con = Conexion.getConexion();			
-				PreparedStatement statement = con.prepareStatement("select consulta.*,count(id_vacunacion)'vacunas',count(id_intervencion)'intervenciones' from consulta inner join animal on animal.id_animal = consulta.id_animal "
-																  +" inner join consulta_intervencion on consulta.id_consulta = consulta_intervencion.id_consulta "
-																  +" inner join vacunacion on vacunacion.id_consulta = consulta.id_consulta "	
-																  +"  where animal.id_animal = '"+id+"' group by id_consulta order by consulta.id_consulta asc");
-																	
-				ResultSet result = statement.executeQuery();
-				while(result.next())
-				{					
-					int id_consulta = Integer.parseInt(result.getString("id_consulta"));
-					String fecha = result.getString("fecha");
-					String comentarios = result.getString("comentarios");
-					String motivo = result.getString("motivo");			
-					int cant_intervenciones = result.getInt("intervenciones");
-					int cant_vacunaciones = result.getInt("vacunas");
-								
-				
-					Consulta consulta = new Consulta();
-					consulta.setId_consulta(id_consulta);
-					consulta.setComentarios(comentarios);
-					consulta.setFecha(fecha);
-					consulta.setMotivo(motivo);
-					consulta.setCant_intervenciones(cant_intervenciones);
-					consulta.setCant_vacunaciones(cant_vacunaciones);
-														
-					lista.add(consulta);
-				}
-				con.close();
-			} catch (ConException e) {
-				throw new ConException("Error de conexion al recuperar las consultas, por favor intente mas tarde.", e);
-			}		
-			catch (Exception e){
-				throw new ConException("Error al recuperar las consultas, por favor intente mas tarde.", e);
-			}
-			return lista;
-		}
-		
-		public Consulta buscarConsulta(int idA) throws ConException
-		{
+		public Consulta buscarConsulta(int idA) throws ConException		{
 			Consulta consulta = new Consulta();
 			try {
 				
 				Connection con = Conexion.getConexion();			
-				PreparedStatement statement = con.prepareStatement("select consulta.fecha, consulta.id_consulta,consulta.motivo,consulta.comentarios, animal.id_animal, animal.fecha_nac,"
+				PreparedStatement statement = con.prepareStatement("select consulta.fecha, consulta.id_consulta,consulta.motivo,consulta.comentarios, intervencion_quirurgica.id_intervencion, "
+																	+" animal.id_animal, animal.fecha_nac, intervencion_quirurgica.nombre'nombre_intervencion',"
 																	+"	animal.sexo, animal.nombre,"
-																	+" raza.id_raza, raza.nombre'nombre_raza',"
-																	+" tipo_animal.id_tipo_animal, tipo_animal.nombre'nombre_tipo',"
-																	+" propietario.id_propietario, propietario.nombre'nombreP', propietario.apellido'apellidoP', "
-																	+" propietario.direccion, propietario.email,propietario.telefono_fijo, propietario.celular,"
-																	+" propietario.usuario, propietario.clave, "
-																	+" from consulta"
-																	+ "inner join animal on animal.id_animal = consulta.id_animal "
-																	+" inner join propietario on propietario.id_propietario = animal.id_propietario"
-																	+" inner join raza on raza.id_raza = animal.id_raza "
-																	+" inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal "
+																	+"  raza.id_raza, raza.nombre'nombre_raza',"
+																	+"  tipo_animal.id_tipo_animal, tipo_animal.nombre'nombre_tipo',"
+																	+"  propietario.id_propietario, propietario.nombre'nombreP', propietario.apellido'apellidoP', "
+																	+"  propietario.direccion, propietario.email,propietario.telefono_fijo, propietario.celular,"
+																	+"  propietario.usuario, propietario.clave "
+																	+"  from consulta "
+																	+ " inner join animal on animal.id_animal = consulta.id_animal "
+																	+"  inner join propietario on propietario.id_propietario = animal.id_propietario"
+																	+"  inner join raza on raza.id_raza = animal.id_raza "
+																	+"  inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal"
+																	+ " left join intervencion_quirurgica on intervencion_quirurgica.id_intervencion = consulta.id_intervencion"
 																	+ " where consulta.id_consulta='"+idA+"'");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
@@ -245,30 +297,25 @@ public class ConsultaAdapter {
 					String comentarios = result.getString("comentarios");
 					String motivo = result.getString("motivo");
 					
+					
+					
 					consulta = new Consulta(fecha,comentarios,motivo,animal);
 					consulta.setId_consulta(id_consulta);
-						
+					if(result.getString("nombre_intervencion")!=null)
+					{
+						IntervencionQuirurgica intervencion = new IntervencionQuirurgica(result.getString("nombre_intervencion"));
+						intervencion.setId_intervencion(result.getInt("id_intervencion"));
+						consulta.setIntervencion(intervencion);
+					}							
 				}
-				statement = con.prepareStatement("select intervencion_quirurgica.id_intervencion, intervencion_quirurgica.nombre'nombre_intervencion'"																	
-																	+" from consulta"																
-																	+" inner join intervencion_quirurgica on intervencion_quirurgica.id_intervencion = consulta.id_intervencion"																
-																	+ " where consulta.id_consulta='"+idA+"'");
-				result = statement.executeQuery();
-				while(result.next())
-				{
-					IntervencionQuirurgica intervencion = new IntervencionQuirurgica(result.getString("nombre_intervencion"));
-					intervencion.setId_intervencion(result.getInt("id_intervencion"));
-					consulta.setIntervencion(intervencion);
-						
-				}
+				
 				
 				statement = con.prepareStatement("select vacunacion.id_vacunacion, vacunacion.fecha'fecha_vacunacion',vacunacion.comentarios,"
 																	+ "vacuna.id_vacuna, vacuna.codigo,vacuna.nombre'nombre_vacuna',vacuna.marca,vacuna.duracion,"
 																	+ "vacunacion.dias_aviso"
 																	+" from consulta"
-																	+" inner join vacunacion on vacunacion on vacunacion.id_consulta = consulta.id_consulta"
-																	+" inner join vacuna on vacuna.id_vacuna vacunacion.id_vacuna"
-																	+ "left join aviso on aviso.id_vacunacion = vacunacion.id_vacunacion"
+																	+" inner join vacunacion on vacunacion.id_consulta = consulta.id_consulta"
+																	+"  inner join vacuna on vacuna.id_vacuna =vacunacion.id_vacuna"																	
 																	+ " where consulta.id_consulta='"+idA+"'");
 				result = statement.executeQuery();
 				List<Vacunacion> listaVacunaciones = new ArrayList<Vacunacion>();
@@ -293,44 +340,73 @@ public class ConsultaAdapter {
 					vacunacion.setId_vacunacion(id);
 					vacunacion.setDias_aviso(dias_aviso);
 					vacunacion.setFecha(fecha_vacunacion);
-
+					vacunacion.setVacuna(vac);
 					listaVacunaciones.add(vacunacion);
 				}
 				 consulta.setVacunaciones(listaVacunaciones);			
 				
 				con.close();
 			} catch (ConException e) {
-				throw new ConException("Error de conexion al recuperar los animales, por favor intente mas tarde.", e);
+				throw new ConException("Error de conexion al recuperar las consultas, por favor intente mas tarde.", e);
 			}		
 			catch (Exception e){
-				throw new ConException("Error al recuperar los animales, por favor intente mas tarde.", e);
+				throw new ConException("Error al recuperar las consultas, por favor intente mas tarde.", e);
 			}
 			return consulta;
 		}
 		
-		public void borrarConsulta(int id) throws Exception
-		{
-			try {
+		public boolean borrarConsulta(int id) throws Exception		{	
+			boolean c = false;
+			try{
 				Connection con = Conexion.getConexion();			
 				PreparedStatement statement = 
-						con.prepareStatement("delete from consulta where id_consulta ='"+id+"'");
+						con.prepareStatement("delete from vacunacion where id_consulta ='"+id+"'");
 				statement.execute();
+				statement = con.prepareStatement("delete from consulta where id_consulta ='"+id+"'");
+					statement.execute();			
 				con.close();
+				c= true;
 			} catch (ConException es) {
 				throw new ConException("Error al eliminar Consulta, por favor intente mas tarde.", es);			
 			}			
 			catch (Exception e) {
 				throw new Exception("La Consulta no puede ser eliminada porque está siendo utilizada en registro de vacunaciones.", e);
 			}
+			finally{return c;}
 		}
 
 		public void modificarConsulta(Consulta p) throws Exception {
 				try {
-					Connection con = Conexion.getConexion();			
-					PreparedStatement statement = 
-							con.prepareStatement("update consulta set fecha = '"+p.getFecha()+"',comentarios = '"+p.getComentarios()+"',motivo = '"+p.getMotivo()+"'"													
-													+" where id_consulta ='"+p.getId_consulta()+"'");
+					Connection con = Conexion.getConexion();	
+					PreparedStatement statement;
+					if(p.getIntervencion().getId_intervencion()==0)
+					{
+						statement = 
+								con.prepareStatement("update consulta set id_intervencion =NULL, fecha = '"+p.getFecha()+"',comentarios = '"+p.getComentarios()+"',motivo = '"+p.getMotivo()+"'"													
+														+" where id_consulta ='"+p.getId_consulta()+"'");
+					}else
+					{
+						statement = 
+								con.prepareStatement("update consulta set id_intervencion = '"+p.getIntervencion().getId_intervencion()+"',fecha = '"+p.getFecha()+"',comentarios = '"+p.getComentarios()+"',motivo = '"+p.getMotivo()+"'"													
+														+" where id_consulta ='"+p.getId_consulta()+"'");
+					}
+					
+					
 					statement.execute();
+					statement = 
+							con.prepareStatement("delete from vacunacion where id_consulta ='"+p.getId_consulta()+"'");
+					statement.execute();
+					if(p.getVacunaciones().size()!=0)
+					{
+						List<Vacunacion> vacunaciones = p.getVacunaciones();
+						for (int i=0; i<p.getVacunaciones().size() ; i++)
+						{
+								statement = con.prepareStatement("insert into vacunacion (id_consulta,fecha,comentarios,dias_aviso,id_vacuna) values ('"+p.getId_consulta()+"','"
+												+p.getFecha()+"','"+vacunaciones.get(i).getComentarios()+"','"+vacunaciones.get(i).getDias_aviso()+"','"+vacunaciones.get(i).getVacuna().getId_vacuna()+"')");
+								statement.execute();
+						}
+					
+					}
 					con.close();
 				} catch (ConException es) {
 					es.printStackTrace();
@@ -343,5 +419,87 @@ public class ConsultaAdapter {
 				}			
 						
 		}
+
+		public void agregarConsulta(Consulta consulta) throws Exception {
+			int key = 0;			
+			try {
+				Connection con = Conexion.getConexion();
+				PreparedStatement statement;
+				if(consulta.getIntervencion().getId_intervencion()==0)
+				{
+					statement = con.prepareStatement("insert into consulta (fecha,comentarios,motivo,id_animal) values ('"+consulta.getFecha()+"','"+consulta.getComentarios()+"','"+consulta.getMotivo()+"','"+consulta.getAnimal().getId_animal()+"')");				
+				}else
+				{
+					statement = con.prepareStatement("insert into consulta (fecha,comentarios,motivo,id_animal,id_intervencion) values ('"+consulta.getFecha()+"','"+consulta.getComentarios()+"','"+consulta.getMotivo()+"','"+consulta.getAnimal().getId_animal()+"','"+consulta.getIntervencion().getId_intervencion()+"')");
+				}
+				
+				statement.execute();
+				ResultSet rs = statement.getGeneratedKeys();
+				while(rs.next())
+				{	   key = rs.getInt(1);		}		
+				
+				
+				if(consulta.getVacunaciones().size()!=0)
+				{
+					List<Vacunacion> vacunaciones = consulta.getVacunaciones();
+					for (int i=0; i<consulta.getVacunaciones().size() ; i++)
+					{
+							statement = con.prepareStatement("insert into vacunacion (id_consulta,fecha,comentarios,dias_aviso,id_vacuna) values ('"+key+"','"
+											+consulta.getFecha()+"','"+vacunaciones.get(i).getComentarios()+"','"+vacunaciones.get(i).getDias_aviso()+"','"+vacunaciones.get(i).getVacuna().getId_vacuna()+"')");
+							statement.execute();
+					}
+				
+				}
+				
+				con.close();
+			} catch (ConException es) {
+				es.printStackTrace();
+				throw new ConException("Error al agregar consulta, por favor intente mas tarde.", es);			
+			}			
+			catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("Error al agregar consulta, por favor intente mas tarde.", e);
+				
+			}				
+		}
+		
+		public List<Aviso> getAlertas(int dias) throws Exception		{	
+			List<Aviso> avisos = new ArrayList<Aviso>();
+			List<Consulta> listadoCompleto = this.getConsultas();
+			for(int i=0;i<listadoCompleto.size();i++)
+			{
+				Consulta c = listadoCompleto.get(i);
+				String[] fecha = c.getFecha().split("/");
+				Date fechaDate = new Date(Integer.parseInt(fecha[2])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[0])); 
+				Date hoy = new Date();
+				
+				Date limite = sumarRestarDiasFecha(hoy, dias);
+				c = this.buscarConsulta(c.getId_consulta());
+				if(c.getVacunaciones()!=null)
+				{
+					for(int j=0;j<c.getVacunaciones().size();j++)
+					{	int diasAviso = c.getVacunaciones().get(j).getDias_aviso();
+						if(diasAviso!=0)													
+						{
+							Date fechaAviso = sumarRestarDiasFecha(fechaDate, diasAviso);
+							
+							if(fechaAviso.after(hoy) && fechaAviso.before(limite))
+							{	
+								Aviso av = new Aviso(fechaAviso,fechaDate,c.getVacunaciones().get(j).getVacuna(),c.getAnimal());
+								avisos.add(av);
+							}
+						}
+					}
+				}
+			}
+			return avisos;
+		}
+		
+		 public Date sumarRestarDiasFecha(Date fecha, int dias){			 			  	
+			  Calendar calendar = Calendar.getInstance();			 
+			  calendar.setTime(fecha); // Configuramos la fecha que se recibe			 
+			  calendar.add(Calendar.DAY_OF_YEAR, dias);  // numero de días a añadir, o restar en caso de días<0
+			  return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos			 				 	
+		 }
 }
 

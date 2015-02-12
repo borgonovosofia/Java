@@ -188,11 +188,15 @@
 							<table class="listado">
 								<thead class="listado" >                                
 	                               	<tr>
-                                       	<th class="listado" colspan="1" width="10%">Fecha</th>
-                                       	<th class="listado" colspan="1" width="40%">Comentarios</th>
-                                       	<th class="listado" colspan="1" width="30%">Motivo</th>
-                                       	<th class="listado" colspan="1" width="10%">Intervenciones</th>
-                                       	<th class="listado" colspan="1" width="10%">Vacunas</th>
+                                       	 <th class="listado" colspan="1" width="5%">Nro</th>	                               
+                                       	<th class="listado" colspan="1" width="8%">Fecha</th>
+                                       	<th class="listado" colspan="1" width="7%">Animal</th>
+                                       	<th class="listado" colspan="1" width="17%">Propietario</th>
+                                       	<th class="listado" colspan="1" width="18%">Comentarios</th>
+                                       	<th class="listado" colspan="1" width="10%">Motivo</th>
+                                       	<th class="listado" colspan="1" width="13%">Intervencion</th>
+                                       	<th class="listado" colspan="1" width="7%">Vacunas</th>
+                                       	<th class="listado" colspan="1" width="15%"></th>
 
                                     </tr>
 	                            </thead>				
@@ -203,18 +207,26 @@
   		  	   		 					 	Consulta t = listaConsultas.get(i);
   		  	   		 					%>
   		  	   		 						<tr>
+  		  	   		 							<td class='listado'><%=t.getId_consulta()%></td>  		  	   		 						
   		  	   		 							<td class='listado'><%=t.getFecha()%></td>
+  		  	   		 							<td class='listado'><%=t.getAnimal().getNombre()%></td>
+  		  	   		 							<td class='listado'><%=t.getAnimal().getPropietario().getNombre()+", "+t.getAnimal().getPropietario().getApellido()%></td>
   		  	   		 							<td class='listado'><%=t.getComentarios()%></td>
   		  	   		 							<td class='listado'><%=t.getMotivo()%></td>
-  		  	   		 							<td class='listado'><%=t.getCant_intervenciones()%></td>
+  		  	   		 							<td class='listado'><%if(t.getIntervencion()!=null){%><%=t.getIntervencion().getNombre()%><%}else{%><%="No realizada"%><%}%></td>
   		  	   		 							<td class='listado'><%=t.getCant_vacunaciones()%></td>
+  		  	   		 							<td class='listado'>
+  		  	   		 								<a href="ConsultaServlet?accion=ver&id=<%= t.getId_consulta() %>">Ver</a>
+  		  	   		 								<a href="ConsultaServlet?accion=editar&id=<%= t.getId_consulta() %>"">Editar</a>
+  		  	   		 								<a href="ConsultaServlet?accion=borrar&id=<%= t.getId_consulta() %>" onclick="return confirmar('¿Está seguro que desea borrar la consulta?');">Borrar</a>  		  	   		 								
+  		  	   		 							</td> 
   		  	   		 					  	</tr>			
   		  	   		 					<%	  	
   		  								}
   		  								if(listaConsultas.size()==0)
   		  								{
   		  									%>
-  		  	   		 						<tr><td class='listado' colspan="5">&nbsp;&nbsp;No hay consultas cargadas para el animal</td></tr> 		  	
+  		  	   		 						<tr><td class='listado' colspan="9">&nbsp;&nbsp;No hay consultas cargadas para el animal</td></tr> 		  	
 										<%	
   		  								}
   		  							%>		
