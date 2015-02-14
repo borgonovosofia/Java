@@ -9,7 +9,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.ParseException"%>
 
-<%  try{
+<%  
+try{
 		//VERIFICA SI HAY UN MENSAJE DE ERROR PARA MOSTRAR
 		try{
 			String msj3 = (String)request.getSession().getAttribute("error");

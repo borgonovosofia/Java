@@ -5,6 +5,7 @@
 <%@page import="javax.websocket.Session"%>
 
 <%  
+try{
 	//VERIFICA SI HAY UN MENSAJE DE ERROR PARA MOSTRAR
 	try{
 		String msj3 = (String)request.getSession().getAttribute("error");
@@ -129,3 +130,12 @@
 				</body>
 			</html>				
 
+		<%
+}
+catch (Exception e3) {
+	e3.printStackTrace();%>
+	<script>
+		alert("Sucedio un imprevisto al cargar la página. Por favor intente mas tarde");
+		location.href="listadoConsultas.jsp";
+	</script>
+<% }%>

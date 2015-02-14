@@ -214,5 +214,49 @@ public class PropietarioAdapter {
 				
 			}			
 		}
+		
+		
+		
+		public Propietario login(String usr,String pass) throws ConException
+		{
+			Propietario propietario = null;
+			try {
+					Connection con = Conexion.getConexion();		
+					String clave = TestEncriptarMD5.md5(pass);
+					PreparedStatement statement = con.prepareStatement("select * from propietario where usuario = '"+usr+"' and clave = '"+clave+"'");
+					ResultSet result = statement.executeQuery();
+					result.next();
+					if(result.getRow()!=0)
+					{	
+						int idp = Integer.parseInt(result.getString("id_propietario"));
+						String nombre = result.getString("nombre");
+						String apellido = result.getString("apellido");
+						String direccion = result.getString("direccion");
+						String email = result.getString("email");
+						String telefono_fijo = result.getString("telefono_fijo");
+						String celular = result.getString("celular");
+						String tipo = result.getString("tipo");
+
+						propietario = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular, usr,clave);
+						propietario.setId_propietario(idp);
+						propietario.setTipo(tipo);
+					}
+					else
+					{
+						propietario = new Propietario();
+						propietario.setId_propietario(0);
+					}
+					con.close();
+				} 
+			catch (ConException e) 
+			{
+				throw new ConException("Error de conexion al iniciar sesión, por favor intente mas tarde.", e);
+			}		
+			catch (Exception w)
+			{
+				throw new ConException("Error al iniciar sesión, por favor intente mas tarde.",w);
+			}
+			return propietario;
+		}
 }
 

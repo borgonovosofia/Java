@@ -184,4 +184,13 @@ public class Propietario {
 		AnimalAdapter adapter = new AnimalAdapter();
 		return adapter.getAnimales(this.getId_propietario());
 	}
+	
+	
+	public static Propietario login(String usr, String pass) throws ConException
+	{
+		PropietarioAdapter adapter = new PropietarioAdapter();
+		return adapter.login(usr,pass);
+	}
+
+
 }

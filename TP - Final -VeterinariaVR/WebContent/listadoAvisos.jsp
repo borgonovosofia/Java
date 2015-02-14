@@ -10,7 +10,9 @@
     pageEncoding="ISO-8859-1"%>
     
     
- <%  //VERIFICA SI HAY alguna busqueda realizada
+ <%  
+ try{ 
+ //VERIFICA SI HAY alguna busqueda realizada
 	boolean busqueda = false;
 	try{
 		busqueda = Boolean.parseBoolean((String)request.getSession().getAttribute("busqueda"));
@@ -127,3 +129,15 @@ function redireccionar()
 					</div>
 </body>
 </html>
+<%
+}
+catch (Exception e3) {
+	e3.printStackTrace();%>
+	<script>
+		alert("Sucedio un imprevisto al cargar la página. Por favor intente mas tarde");
+		location.href="listadoConsultas.jsp";
+	</script>
+<% }%>
+
+
+

@@ -42,7 +42,7 @@ public class ConsultaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 		}	
 		// #endregion
@@ -204,7 +204,7 @@ public class ConsultaServlet extends HttpServlet {
 			
 			} catch (Exception e) {
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 				e.printStackTrace();
 			}
 
@@ -242,7 +242,7 @@ public class ConsultaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 
 		}
@@ -264,7 +264,7 @@ public class ConsultaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 
 		}

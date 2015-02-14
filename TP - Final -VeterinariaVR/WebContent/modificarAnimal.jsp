@@ -4,6 +4,7 @@
 <%@page import="negocio.Raza"%>
 <%@page import="javax.websocket.Session"%>
 <%
+try{
 //VERIFICA SI HAY UN MENSAJE DEL SERVLET DE TIPO DE ANIMAL
 	try{
 	String msj = (String)request.getSession().getAttribute("mensaje");
@@ -267,4 +268,16 @@ List<Raza> listaRazas = (List<Raza>) request.getSession().getAttribute("listaRaz
 					
 				</body>
 			</html>				
+
+<%
+}
+catch (Exception e3) {
+	e3.printStackTrace();%>
+	<script>
+		alert("Sucedio un imprevisto al cargar la página. Por favor intente mas tarde");
+		location.href="listadoConsultas.jsp";
+	</script>
+<% }%>
+
+
 
