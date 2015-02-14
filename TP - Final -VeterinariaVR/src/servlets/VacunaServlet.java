@@ -47,7 +47,7 @@ public class VacunaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 		}	
 		else if(accion.equals("borrar"))
@@ -123,7 +123,7 @@ public class VacunaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 
 		}

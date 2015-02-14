@@ -40,7 +40,7 @@ public class PeluqueriaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 		}	
 		
@@ -130,7 +130,7 @@ public class PeluqueriaServlet extends HttpServlet {
 			
 			} catch (Exception e) {
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 				e.printStackTrace();
 			}
 
@@ -164,7 +164,7 @@ public class PeluqueriaServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 
 		}	

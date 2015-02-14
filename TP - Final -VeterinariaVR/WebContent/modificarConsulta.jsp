@@ -22,13 +22,12 @@
 		}
 		catch (Exception e3) {}
 	
-		List<Animal> listaAnimales = (List<Animal>) request.getSession().getAttribute("listaAnimales");
-		List<Propietario> listaPropietarios = (List<Propietario>) request.getSession().getAttribute("listaPropietarios");
 		List	<IntervencionQuirurgica> listaIntervenciones = (List<IntervencionQuirurgica>) request.getSession().getAttribute("listaIntervenciones");
 		List<Vacuna> listaVacunas = (List<Vacuna>) request.getSession().getAttribute("listaVacunas");
 		List<Vacunacion> listaVacunaciones = (List<Vacunacion>) request.getSession().getAttribute("listaVacunaciones");
 	
 	//trae los valores anteriores
+		String id_consulta;
 		String id_propietario;
 		String id_animal;
 		String fecha;
@@ -36,6 +35,9 @@
 		String motivo;
 		String id_intervencion;
 	
+		if(request.getSession().getAttribute("id_consulta")==null)
+		{ id_consulta = "";}else { id_consulta = (String)request.getSession().getAttribute("id_consulta");}
+		
 		
 		if(request.getSession().getAttribute("motivo")==null)
 		{ motivo = "";}else { motivo = (String)request.getSession().getAttribute("motivo");}
@@ -77,21 +79,15 @@
 				<title>Veterinaria VR</title>
 			</head>
 			<script>
-			function actualizar()
-			{	
-				document.frmConsulta.accion.value="ActualizarCombos";
-				document.frmConsulta.submit();
-			} 
-			
 			function agregar()
 			{
-				document.frmConsulta.accion.value="AgregarVacuna";
+				document.frmConsulta.accion.value="AgregarVacunaModificacion";
 				document.frmConsulta.submit();
 			}
 			
 			function quitarVacunacion(id)
 			{
-				document.frmConsulta.accion.value="quitarVacuna";
+				document.frmConsulta.accion.value="quitarVacunaModificar";
 				document.frmConsulta.id.value=id;
 				document.frmConsulta.submit();
 			}
@@ -208,50 +204,19 @@
 						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
 						<div style="float:left; width: 100%;"> 
 							<form id="frmConsulta" name="frmConsulta" method="post" action="ConsultaServlet">
-  								<input type="hidden" value="nuevo" name="accion"/>  	  		  	
+  								<input type="hidden" value="modificar" name="accion"/>  	  	
+  								<input type="hidden" value="<%=id_consulta %>" name="id_consulta" id="id_consulta"/>
   								<input type="hidden" value="0" name="id" id="id"/>  	  		  		  									  	
-  									
-							  <h2>Nueva consulta</h2>
+  								  	  		  		  									  	
+							  <h2>Modificar consulta</h2>
   								<table class="tablaMaqueta" style="width:95%">
   		    		  				<tr><td></td><td></td> <td></td><td></td><td></td></tr>
   		    		  				<tr>
   		    							<td><label for="id_propietario">Propietario</label></td>
-  		    							<td>
-  		    							  	<select name="id_propietario" id="id_propietario" onchange="actualizar()">
-  		    							  		 <%	for (int i = 0; i < listaPropietarios.size(); i++) 
-  		  											{
-  		    							  			Propietario t = listaPropietarios.get(i);
-  		  	   		 									if(Integer.parseInt(id_propietario) == t.getId_propietario())
-	  		  	   		 								{out.print("<option value='"+t.getId_propietario()+"' selected='selected' >"+t.getNombre()+", "+t.getApellido()+"</option>");}  		  	   		 						  	
-  		  	   		 									else
-	  		  	   		 								{out.print("<option value='"+t.getId_propietario()+"' >"+t.getNombre()+", "+t.getApellido()+"</option>");}  		  	   		 						  	
-  		  											}
-  		  											if(listaPropietarios.size()==0)
-  		  											{	
-  		  	   		 									out.print("<option value=''>No hay propietarios cargados</option>");
-	  		  	   		 							}
-  		  	   		 							%> 
-  		  									</select>
-  		  								</td>
+  		    							<td><input name="id_propietario" id="id_propietario" value="<%= id_propietario %>" contenteditable="false" /></td>  		    							
   		    							<td> </td>
   		    							<td><label for="id_animal">Animal</label></td>
-	    							  	<td><select name="id_animal" id="id_animal">
- 													<%	for (int i = 0; i < listaAnimales.size(); i++) 
-  		  											{
-  		  	   		 									Animal t = listaAnimales.get(i);  
-  		  	   		 									
-  		  	   		 									if(Integer.parseInt(id_animal) == t.getId_animal())
-		  	   		 									{out.print("<option value='"+t.getId_animal()+"' selected='selected' >"+t.getNombre()+"</option>");}  		  	   		 						  	
-	  	   		 										else
-		  	   		 									{out.print("<option value='"+t.getId_animal()+"' >"+t.getNombre()+"</option>");}   		  	   		 									
-  		  											}
- 													if(listaAnimales.size()==0)
-  		  											{	
-  		  	   		 									out.print("<option value=''>No hay mascotas cargadas para el propietario seleccionado</option>");
-	  		  	   		 							}
-  		  	   		 							%>   		  									
-  		  									</select>
-  		  								</td>
+	    							  	<td><input name="id_animal" id="id_animal" value="<%= id_animal %>" contenteditable="false"/></td> 											
   		  							</tr>
   		    		  				<tr>
   		    		  				  <td>&nbsp;</td>
@@ -290,7 +255,7 @@
 	  							  </tr>
   		    		  				<tr><td> </td><td> </td><td> </td>  <td> </td>  <td> </td></tr>	  						  							  		    		  				
 		  							<tr>
-  		    							<td><label for="id_intervencion">Intervencion quirúrgica</label></td>
+  		    							<td><label for="id_intervencion">Intervencion quirúrgica:<%=id_intervencion %></label></td>
   		    							<td>
   		    								<select name="id_intervencion" id="id_intervencion">
   		    							  	<%	if(Integer.parseInt(id_intervencion) == 0)
@@ -347,9 +312,9 @@
 	                                            <td class="listado"><%= t.getVacuna().getMarca() %> </td>
 	                                            <td class="listado"><%= t.getComentarios() %> </td>
 	                                            <td class="listado"><%= t.getDias_aviso() %> </td>
-	                                            <td class="listado">
-														<input type="button" value="Quitar" onclick="quitarVacunacion(<%=t.getVacuna().getId_vacuna()%>);" /> 	                                            
-												</td>
+	                                            <td class="listado">	                                            	   
+	                                           	<input type="button" value="Quitar" onclick="quitarVacunacion(<%=t.getVacuna().getId_vacuna()%>);" />                        
+	                                            </td>
 	                                        </tr>
 	                                        	<%}
 												if (listaVacunaciones.size()==0)
@@ -426,7 +391,7 @@
                                    </tr>
   		    		 				<tr>
   		  								<td colspan="5" style="text-align:center;"> <br></br>
-  		  								  <input type="submit" name="button" id="button" value="Agregar consulta" onclick="return validarNuevo();" />
+  		  								  <input type="submit" name="button" id="button" value="Modificar consulta" onclick="return validarNuevo();" />
   		  								  <input type="button" value="Volver" name="volver" onclick="history.back()" />	  								       </td>  		  								
 	  								</tr>
 	  							</table>	

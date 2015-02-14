@@ -40,7 +40,7 @@ public class AnimalServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 		}	
 		
@@ -186,7 +186,7 @@ public class AnimalServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("menu.jsp");
+				response.sendRedirect("index.jsp");
 			}
 
 		}	

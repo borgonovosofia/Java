@@ -82,7 +82,7 @@
 		}
 		function redireccionar() 
 		{
-		location.href="menu.jsp";
+		location.href="index.jsp";
 		} 
 	</script>
 </head>
