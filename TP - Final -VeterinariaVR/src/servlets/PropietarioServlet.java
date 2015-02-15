@@ -26,7 +26,28 @@ public class PropietarioServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		if(accion.equals("actualizar"))
+		//PARA REDIRECCIONAR A LA PAGINA DE RAZAS Y TIPOS DE ANIMALES
+		if(accion.equals("IrPropietario")){
+			request.getSession().setAttribute("busqueda", "false");				
+			try 
+			{
+				//Guarda lista de tipos 
+				List<Propietario> lista = Propietario.damePropietarios();
+				request.getSession().setAttribute("listaPropietarios", lista);
+								
+				request.getSession().setAttribute("recarga", true);
+				response.sendRedirect("listadoPropietarios.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+
+		}	
+		else if(accion.equals("actualizar"))
 		{
 			try 
 			{
@@ -149,30 +170,8 @@ public class PropietarioServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		
-		//PARA REDIRECCIONAR A LA PAGINA DE RAZAS Y TIPOS DE ANIMALES
-		if(accion.equals("IrPropietario")){
-			request.getSession().setAttribute("busqueda", "false");				
-			try 
-			{
-				//Guarda lista de tipos 
-				List<Propietario> lista = Propietario.damePropietarios();
-				request.getSession().setAttribute("listaPropietarios", lista);
-								
-				request.getSession().setAttribute("recarga", true);
-				response.sendRedirect("listadoPropietarios.jsp");
-
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("index.jsp");
-			}
-
-		}	
 	//PARA AGREGAR 
-			else if(accion.equals("nuevo")){
+			if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");		
 				
 				String nombre = (String)request.getParameter("nombre");

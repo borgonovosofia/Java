@@ -22,15 +22,9 @@ a img {
 	width: 100%;
 	background-color: #FFF;
 	text-align:center;
-	height:15em;
+	height:13em;
 	margin-top: 0;
 	padding-top: 0;
-}
-
-.content {
-	padding: 10px 0;
-	width: 100%;
-	
 }
 
 .footer {
@@ -39,7 +33,26 @@ a img {
 	height:11em;
 	width: 100%;
 	font-size:1em;
+	clear: both;
 	
+}
+
+.sidebar1 {
+	float: left;
+	width: 5%;
+	background-color: #FFF;
+	padding-bottom: 10px;
+}
+.content {
+	padding: 10px 0;
+	width: 90%;
+	float: left;
+}
+.sidebar2 {
+	float: left;
+	width: 5%;
+	background-color: #FFF;
+	padding: 10px 0;
 }
 
 <!-- BOTON REDONDEADO !-->
@@ -52,8 +65,8 @@ a img {
     vertical-align: baseline;
     cursor: pointer;
     text-decoration: none;
-    font: Arial;
-    padding: .10em 6em .105em;
+    font: 1em Arial;
+   	padding: .10em 6em .105em;
     text-shadow: 0 1px 2px rgba(0,0,0,.3);
     -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.2);
     -moz-box-shadow: 0 2px 4px rgba(0,0,0,.2);

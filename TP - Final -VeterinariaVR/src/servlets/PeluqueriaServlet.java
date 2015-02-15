@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -25,12 +26,71 @@ public class PeluqueriaServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		if(accion.equals("actualizar"))
+		//PARA REDIRECCIONAR 
+		if(accion.equals("IrPeluquerias")){
+			request.getSession().setAttribute("busqueda", "false");				
+			try 
+			{
+				
+				//Guarda lista  veterinario
+				if(request.getSession().getAttribute("tipousuario").equals("V"))
+				{
+					List<Peluqueria> lista = Peluqueria.damePeluquerias();
+					request.getSession().setAttribute("listaPeluquerias", lista);
+									
+				}
+				else
+				{
+					//Guardar lista usuario
+					Propietario pr = new Propietario();
+					pr.setId_propietario(Integer.parseInt((String)request.getSession().getAttribute("idusr")));
+					List<Animal> listaA = pr.dameAnimales();
+					List<Peluqueria> listaP = new ArrayList<Peluqueria>();
+					for(int i=0;i<listaA.size();i++)
+					{
+						listaP.addAll(listaA.get(i).damePeluquerias());
+					}
+						
+					request.getSession().setAttribute("listaPeluquerias", listaP);
+				}
+				//Guarda lista  
+				
+				request.getSession().setAttribute("recarga", true);
+				response.sendRedirect("listadoPeluquerias.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+
+		}	
+		else if(accion.equals("actualizar"))
 		{
 			try 
 			{						
-				List<Peluqueria> lista = Peluqueria.damePeluquerias();
-				request.getSession().setAttribute("listaPeluquerias", lista);		
+				if(request.getSession().getAttribute("tipousuario").equals("V"))
+				{
+					List<Peluqueria> lista = Peluqueria.damePeluquerias();
+					request.getSession().setAttribute("listaPeluquerias", lista);
+									
+				}
+				else
+				{
+					//Guardar lista usuario
+					Propietario pr = new Propietario();
+					pr.setId_propietario(Integer.parseInt((String)request.getSession().getAttribute("idusr")));
+					List<Animal> listaA = pr.dameAnimales();
+					List<Peluqueria> listaP = new ArrayList<Peluqueria>();
+					for(int i=0;i<listaA.size();i++)
+					{
+						listaP.addAll(listaA.get(i).damePeluquerias());
+					}
+						
+					request.getSession().setAttribute("listaPeluquerias", listaP);
+				}	
 				
 				request.getSession().setAttribute("recarga", true);
 				response.sendRedirect("listadoPeluquerias.jsp");
@@ -147,29 +207,8 @@ public class PeluqueriaServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		//PARA REDIRECCIONAR 
-		if(accion.equals("IrPeluquerias")){
-			request.getSession().setAttribute("busqueda", "false");				
-			try 
-			{
-				//Guarda lista  
-				List<Peluqueria> lista = Peluqueria.damePeluquerias();
-				request.getSession().setAttribute("listaPeluquerias", lista);
-								
-				request.getSession().setAttribute("recarga", true);
-				response.sendRedirect("listadoPeluquerias.jsp");
-
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("index.jsp");
-			}
-
-		}	
-	//PARA AGREGAR 
-			else if(accion.equals("nuevo")){
+		//PARA AGREGAR 
+		if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");	
 
 				String id_propietario = (String)request.getParameter("id_propietario");				

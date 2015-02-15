@@ -49,12 +49,7 @@
 <link href="estilo.css" rel="stylesheet" type="text/css">
 </head>
 <script>
-	function cambiarAccion(accion,action)
-	{
-		document.getElementById("accion").setAttribute("value",accion);
-		document.form1.setAttribute("action",action);
-		document.form1.submit();	
-	}	
+
 </script>
     <script type="text/javascript" language="javascript" src="sliderengine/jquery.js"></script>
     <script type="text/javascript" language="javascript" src="sliderengine/amazingslider.js"></script>
@@ -83,46 +78,38 @@
             </a> 
 		  </div>
           <!-- FINAL ENCABEZADO!-->
-          
+          <!-- INICIO BARRA IZQUIERDA !-->          
+           <div class="sidebar1">
+           <!-- end .sidebar1 -->
+  			</div>
+          <!-- FINAL BARRA IZQUIERDA!-->
           <!-- INICIO CONTENT !-->
+          
 			  <div class="content">
 	          <% if(login==true)
           		{
           	  %>			  
 					<div style="text-align: center;">
-						<form name="form1" method="post" action="">
-							<input type="hidden" name="accion" id="accion" value="" />					
+							
+	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
 							<%if(tipousuario.equals("V"))
 							{ %>
-							<input type="button" class="boton negro redondo"  style="font-size: 1em;"
-                        					value="Razas y tipos de animales" onclick="cambiarAccion('IrRaza','TipoAnimalServlet');"/>	                                       
-							<input type="button" name="vacuna" id="vacuna"   class="boton negro redondo" style="font-size: 1em;"
-                        				value="Vacunas" onclick="cambiarAccion('IrVacuna','VacunaServlet');"/>                                    
-							<input type="button" name="intervencion" id="intervencion"   class="boton negro redondo" style="font-size: 1em;"
-	                        			value="Intervenciones Quirúrgicas" onclick="cambiarAccion('IrIntervenciones','IntervencionServlet');"/>	                                    
-							<input type="button" name="propietario" id="propietario"   class="boton negro redondo" style="font-size: 1em;"
-                        				value="Propietarios" onclick="cambiarAccion('IrPropietario','PropietarioServlet');"/>
-							<%} %>
-	                                    
-							<input type="button" name="animal" id="animal"  class="boton negro redondo" style="font-size: 1em;"
-                        	value="Animales" onclick="cambiarAccion('IrAnimales','AnimalServlet');"/>
-	                        
-							<input type="button" name="peluqueria" id="peluqueria"  class="boton negro redondo" style="font-size: 1em;"
-                        				value="Peluquerias" onclick="cambiarAccion('IrPeluquerias','PeluqueriaServlet');"/>
-	                                    
-							<input type="button" name="consulta" id="consulta"  class="boton negro redondo"  style="font-size: 1em;"
-                        				value="Consultas" onclick="cambiarAccion('IrConsultas','ConsultaServlet');"/>
-	                                    
-							<input type="button" name="consulta" id="consulta"  class="boton negro redondo" style="font-size: 1em;"
-                        				value="Generar Alertas semana" onclick="cambiarAccion('GenerarAlertas','ConsultaServlet');"/>
-                        				
-							<input type="button" name="datos" id="datos"  class="boton negro redondo" style="font-size: 1em;"
-                        				value="Modificar mis datos" onclick="cambiarAccion('ModificarUsuario','UsuarioServlet');"/>                        				
-						</form> 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="TipoAnimalServlet?accion=IrRaza" >&nbsp;Razas y animales&nbsp;</a>							
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="VacunaServlet?accion=IrVacuna" >&nbsp;Vacunas&nbsp;</a>							
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="IntervencionServlet?accion=IrIntervenciones" >&nbsp;Intervenciones Quirurgicas&nbsp;</a>							
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PropietarioServlet?accion=IrPropietario" >&nbsp;Propietarios&nbsp;</a>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=IrConsultas" >&nbsp;Consultas&nbsp;</a>
+							
+							                                                                                                         
+							<%} %>           	                                    	                        	                                    
+						<br></br>
+						
 					</div> 	
 				<%} %>
-				
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
@@ -157,8 +144,10 @@
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  </div>
           <!-- FINAL CONTENT !-->
-          
-          <!-- INICIO PIE !-->
+          <!-- INICIO BARRA DERECHA!-->
+ 		<div class="sidebar2">
+    	</div>          
+          <!-- FINAL BARRA DERECHA !-->          <!-- INICIO PIE !-->
 <div class="footer">
           	<div style="padding-left:3em; text-align:center; width:100%;">
                 <p><b>Direccion:</b> Rivadavia 773</p>

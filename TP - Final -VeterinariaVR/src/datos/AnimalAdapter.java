@@ -155,6 +155,69 @@ public class AnimalAdapter {
 				
 				Connection con = Conexion.getConexion();			
 				PreparedStatement statement = con.prepareStatement("select animal.id_animal, animal.fecha_nac, animal.sexo, animal.nombre,"
+																	+"raza.id_raza, raza.nombre'nombre_raza',"
+																	+"tipo_animal.id_tipo_animal, tipo_animal.nombre'nombre_tipo',"
+																	+"propietario.id_propietario, propietario.nombre'nombreP', propietario.apellido'apellidoP', "
+																	+"propietario.direccion, propietario.email,propietario.telefono_fijo, propietario.celular,"
+																	+"propietario.usuario, propietario.clave from animal"
+																	+" inner join propietario on propietario.id_propietario = animal.id_propietario"
+																	+" inner join raza on raza.id_raza = animal.id_raza "
+																	+"inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal"
+																	+" where animal.id_propietario='"+id_pr+"' group by animal.id_animal "
+																	+" order by animal.id_animal asc");	
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id = Integer.parseInt(result.getString("id_animal"));
+					String nombre = result.getString("nombre");				
+					String fecha_nac = result.getString("fecha_nac");
+					String sexo = result.getString("sexo");			
+					
+					String nombreP = result.getString("nombreP");
+					String apellidoP = result.getString("apellidoP");
+					int id_propietario = Integer.parseInt(result.getString("id_propietario"));
+					String direccion = result.getString("direccion");
+					String email = result.getString("email");
+					String telefono_fijo = result.getString("telefono_fijo");
+					String celular = result.getString("celular");
+					String usuario = result.getString("usuario");
+					String clave = result.getString("clave");
+
+
+					int id_raza = Integer.parseInt(result.getString("id_raza"));
+					String nombre_raza = result.getString("nombre_raza");
+
+					int id_tipo = Integer.parseInt(result.getString("id_tipo_animal"));
+					String nombre_tipo = result.getString("nombre_tipo");
+					
+					TipoAnimal tip = new TipoAnimal(nombre_tipo);
+					tip.setId_tipo_animal(id_tipo);
+					
+					Raza raz = new Raza(nombre_raza,tip);
+					raz.setId_raza(id_raza);
+					
+					Propietario prop  = new Propietario(nombreP,apellidoP,direccion,email,telefono_fijo,celular,usuario,clave);
+					prop.setId_propietario(id_propietario);
+					
+					Animal animal = new Animal(fecha_nac,sexo,nombre,raz, prop);
+					animal.setId_animal(id);
+									
+					lista.add(animal);
+				}
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar los animales, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar los animales, por favor intente mas tarde.", e);
+			}
+			return lista;
+			
+			
+			/*try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select animal.id_animal, animal.fecha_nac, animal.sexo, animal.nombre,"
 																	+" raza.id_raza, raza.nombre'nombre_raza',"
 																	+" tipo_animal.id_tipo_animal, tipo_animal.nombre'nombre_tipo', "
 																	+" count(peluqueria.id_peluqueria)'peluquerias', count(consulta.id_consulta)'consultas'"
@@ -165,11 +228,7 @@ public class AnimalAdapter {
 																	+" left join consulta on consulta.id_animal = animal.id_animal "
 																	+" left join peluqueria on peluqueria.id_animal = animal.id_animal "
 																	+" where animal.id_propietario='"+id_pr+"' group by animal.id_animal "
-																	+" order by animal.id_animal asc");
-				
-				
-				
-				
+																	+" order by animal.id_animal asc");							
 				
 				
 				ResultSet result = statement.executeQuery();
@@ -214,7 +273,7 @@ public class AnimalAdapter {
 			catch (Exception e){
 				throw new ConException("Error al recuperar los animales, por favor intente mas tarde.", e);
 			}
-			return lista;
+			return lista;*/
 		}
 		
 		
@@ -360,7 +419,8 @@ public class AnimalAdapter {
 			try {
 				
 				Connection con = Conexion.getConexion();			
-				PreparedStatement statement = con.prepareStatement("select peso.* from peso inner join animal on peso.id_animal = animal.id_animal where animal.id_animal = '"+id+"' order by peso.fecha");
+				PreparedStatement statement = con.prepareStatement("select peso.* from peso inner join animal on peso.id_animal = animal.id_animal "
+																+" where animal.id_animal = '"+id+"' order by peso.fecha");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
@@ -393,7 +453,14 @@ public class AnimalAdapter {
 			try {
 				
 				Connection con = Conexion.getConexion();			
-				PreparedStatement statement = con.prepareStatement("select peluqueria.* from peluqueria inner join animal on peluqueria.id_animal = animal.id_animal where animal.id_animal = '"+id+"' ");
+				PreparedStatement statement = con.prepareStatement("select peluqueria.*, propietario.*, animal.id_animal, animal.fecha_nac, animal.sexo, animal.nombre'nombreA',"
+																	+ " raza.id_raza, raza.nombre'nombreR', tipo_animal.id_tipo_animal,tipo_animal.nombre'nombreT' "
+																	+ " from peluqueria"
+																	+ " inner join animal on peluqueria.id_animal = animal.id_animal"
+																	+ " inner join propietario on propietario.id_propietario = animal.id_propietario"
+																	+ " inner join raza on raza.id_raza  = animal.id_raza "
+																	+ " inner join tipo_animal on tipo_animal.id_tipo_animal = raza.id_tipo_animal "
+																	+ " where animal.id_animal = '"+id+"' ");
 				ResultSet result = statement.executeQuery();
 				while(result.next())
 				{
@@ -407,7 +474,40 @@ public class AnimalAdapter {
 					p.setFecha(fecha);
 					p.setAccion(accion);
 					p.setComentarios(comentarios);
-								
+					
+					int id_propietario = Integer.parseInt(result.getString("id_propietario"));
+					String nombre = result.getString("nombre");
+					String apellido = result.getString("apellido");
+					String direccion = result.getString("direccion");
+					String email = result.getString("email");
+					String telefono_fijo = result.getString("telefono_fijo");
+					String celular = result.getString("celular");
+					String usuario = result.getString("usuario");
+					
+					Propietario propietario  = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,"");
+					propietario.setId_propietario(id_propietario);
+
+					int id_tipo = result.getInt("id_tipo_animal");
+					String nombreT = result.getString("nombreT");
+					TipoAnimal tipo = new TipoAnimal(nombreT);
+					tipo.setId_tipo_animal(id_tipo);
+					
+					int id_raza = result.getInt("id_raza");
+					String nombreR = result.getString("nombreR");
+					Raza raza = new Raza(nombreR,tipo);
+					raza.setId_raza(id_raza);
+				
+					
+					int id_animal = Integer.parseInt(result.getString("id_animal"));
+					String fecha_nac = result.getString("fecha_nac");
+					String sexo = result.getString("sexo");
+					String nombreA = result.getString("nombreA");
+					
+					Animal an = new Animal(fecha_nac,sexo,nombreA,raza,propietario);
+					an.setId_animal(id_animal);
+					
+					p.setAnimal(an);
+					
 					lista.add(p);
 				}
 				con.close();

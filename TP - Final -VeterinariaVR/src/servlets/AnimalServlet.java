@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -25,13 +26,56 @@ public class AnimalServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		if(accion.equals("actualizar"))
+		//PARA REDIRECCIONAR 
+		if(accion.equals("IrAnimales")){
+			request.getSession().setAttribute("busqueda", "false");				
+			try 
+			{
+				//Guarda lista  veterinario
+				if(request.getSession().getAttribute("tipousuario").equals("V"))
+				{
+					List<Animal> lista = Animal.dameAnimales();
+					request.getSession().setAttribute("listaAnimales", lista);
+				}
+				else
+				{
+					//Guardar lista usuario
+					Propietario pr = new Propietario();
+					pr.setId_propietario(Integer.parseInt((String)request.getSession().getAttribute("idusr")));
+					List<Animal> lista = pr.dameAnimales();
+					request.getSession().setAttribute("listaAnimales", lista);
+				}
+				request.getSession().setAttribute("recarga", true);	
+				response.sendRedirect("listadoAnimales.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+
+		}	
+		else if(accion.equals("actualizar"))
 		{
 			try 
 			{
-				List<Animal> lista = Animal.dameAnimales();
-				request.getSession().setAttribute("listaAnimales", lista);					
 				
+				//Guarda lista  veterinario
+				if(request.getSession().getAttribute("tipousuario").equals("V"))
+				{
+					List<Animal> lista = Animal.dameAnimales();
+					request.getSession().setAttribute("listaAnimales", lista);
+				}
+				else
+				{
+					//Guardar lista usuario
+					Propietario pr = new Propietario();
+					pr.setId_propietario(Integer.parseInt((String)request.getSession().getAttribute("idusr")));
+					List<Animal> lista = pr.dameAnimales();
+					request.getSession().setAttribute("listaAnimales", lista);
+				}
 				request.getSession().setAttribute("recarga", true);
 				response.sendRedirect("listadoAnimales.jsp");
 
@@ -103,16 +147,14 @@ public class AnimalServlet extends HttpServlet {
 			String nombreP = (String)request.getParameter("nombreP");
 			String apellidoP =(String)request.getParameter("apellidoP");
 
-			request.getSession().setAttribute("id_propietario", id_propietario);
-			request.getSession().setAttribute("nombreP", nombreP);
-			request.getSession().setAttribute("apellidoP", apellidoP);			
-			request.getSession().setAttribute("id_raza", null);
-			request.getSession().setAttribute("id_tipo", null);
-			request.getSession().setAttribute("busqueda", "false");		
-			
+			List<Propietario> listaProp = new ArrayList<Propietario>();
 			try {
+				listaProp = Propietario.damePropietarios();
+				request.getSession().setAttribute("listaPropietarios", listaProp);
+				
 				List<TipoAnimal> lista = TipoAnimal.dameListaTipos();
 				request.getSession().setAttribute("listaTipos", lista);
+				
 				List<Raza> listaR = Raza.dameRazasTipo(lista.get(0).getId_tipo_animal());
 				request.getSession().setAttribute("listaRazas",listaR);
 			} catch (Exception e) {
@@ -120,6 +162,21 @@ public class AnimalServlet extends HttpServlet {
 				request.getSession().setAttribute("error", e.getMessage());		
 				}
 			
+			
+			if(id_propietario.equals("0"))
+			{
+				id_propietario = Integer.toString(listaProp.get(0).getId_propietario()); 
+				nombreP = listaProp.get(0).getNombre();
+				apellidoP = listaProp.get(0).getApellido();
+				
+			}
+	
+			request.getSession().setAttribute("id_propietario", id_propietario);
+			request.getSession().setAttribute("nombreP", nombreP);
+			request.getSession().setAttribute("apellidoP", apellidoP);			
+			request.getSession().setAttribute("id_raza", null);
+			request.getSession().setAttribute("id_tipo", null);
+			request.getSession().setAttribute("busqueda", "false");	
 			response.sendRedirect("nuevoAnimal.jsp");
 		}
 		else if(accion.equals("buscar"))
@@ -146,8 +203,11 @@ public class AnimalServlet extends HttpServlet {
 				request.getSession().setAttribute("id_tipo", animal.getRaza().getTipo_animal().getId_tipo_animal());
 				request.getSession().setAttribute("raza", animal.getRaza().getNombre());
 				request.getSession().setAttribute("tipo", animal.getRaza().getTipo_animal().getNombre());
-				request.getSession().setAttribute("id_animal", animal.getId_animal());				
+				request.getSession().setAttribute("id_animal", animal.getId_animal());			
 				
+				List<Vacunacion> listaVac = Consulta.dameVacunaciones(animal.getId_animal());
+
+				request.getSession().setAttribute("listaVacunaciones", listaVac);
 				request.getSession().setAttribute("listaPesos", pesos);
 				request.getSession().setAttribute("listaPeluquerias", peluquerias);
 				request.getSession().setAttribute("listaConsultas", consultas);
@@ -169,29 +229,9 @@ public class AnimalServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		//PARA REDIRECCIONAR 
-		if(accion.equals("IrAnimales")){
-			request.getSession().setAttribute("busqueda", "false");				
-			try 
-			{
-				//Guarda lista  
-				List<Animal> lista = Animal.dameAnimales();
-				request.getSession().setAttribute("listaAnimales", lista);
-								
-				request.getSession().setAttribute("recarga", true);
-				response.sendRedirect("listadoAnimales.jsp");
 
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("index.jsp");
-			}
-
-		}	
 	//PARA AGREGAR 
-			else if(accion.equals("nuevo")){
+			 if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");	
 
 				String peso = (String)request.getParameter("peso");				
@@ -340,8 +380,6 @@ public class AnimalServlet extends HttpServlet {
 					String peso = (String)request.getParameter("peso");
 					String sexo = (String)request.getParameter("sexo");
 					String nombre = (String)request.getParameter("nombre");
-					String nombreP = (String)request.getParameter("nombreP");
-					String apellidoP = (String)request.getParameter("apellidoP");
 					String fecha_nac = (String)request.getParameter("fecha_nac");
 					int id_propietario = Integer.parseInt(request.getParameter("id_propietario"));
 					
@@ -351,8 +389,6 @@ public class AnimalServlet extends HttpServlet {
 					request.getSession().setAttribute("nombre", nombre);
 					request.getSession().setAttribute("id_tipo", id_tipo);
 					request.getSession().setAttribute("id_propietario",id_propietario);
-					request.getSession().setAttribute("nombreP", nombreP);
-					request.getSession().setAttribute("apellidoP", apellidoP);
 					
 					response.sendRedirect("nuevoAnimal.jsp");
 			}
@@ -369,6 +405,9 @@ public class AnimalServlet extends HttpServlet {
 			int id_tipo = Integer.parseInt(request.getParameter("id_tipo"));								
 			List<Raza> listaR = Raza.dameRazasTipo(id_tipo);					
 			request.getSession().setAttribute("listaRazas",listaR);
+			
+			List<Propietario> listaProp = Propietario.damePropietarios();
+			request.getSession().setAttribute("listaPropietarios", listaProp);
 
 
 			

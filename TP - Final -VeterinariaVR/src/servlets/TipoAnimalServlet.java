@@ -34,7 +34,34 @@ public class TipoAnimalServlet extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		if(accion.equals("actualizarTipos"))
+		//PARA REDIRECCIONAR A LA PAGINA DE RAZAS Y TIPOS DE ANIMALES
+		if(accion.equals("IrRaza")){
+			try 
+			{
+				//Guarda lista de tipos 
+				List<TipoAnimal> lista = TipoAnimal.dameListaTipos();
+				request.getSession().setAttribute("listaTipos", lista);
+				
+				//Guarda lista de razas
+				List<Raza> listaR = Raza.dameRazas();
+				request.getSession().setAttribute("listaRazas",listaR);
+				
+				request.getSession().setAttribute("busquedaTipo", "false");				
+				request.getSession().setAttribute("busquedaRaza", "false");				
+
+				request.getSession().setAttribute("recarga", true);
+				response.sendRedirect("tiposRazas.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+
+		}
+		else if(accion.equals("actualizarTipos"))
 		{
 			try 
 			{
@@ -99,35 +126,9 @@ public class TipoAnimalServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
 		request.getSession().setAttribute("busqueda", "false");				
-		//PARA REDIRECCIONAR A LA PAGINA DE RAZAS Y TIPOS DE ANIMALES
-		if(accion.equals("IrRaza")){
-			try 
-			{
-				//Guarda lista de tipos 
-				List<TipoAnimal> lista = TipoAnimal.dameListaTipos();
-				request.getSession().setAttribute("listaTipos", lista);
-				
-				//Guarda lista de razas
-				List<Raza> listaR = Raza.dameRazas();
-				request.getSession().setAttribute("listaRazas",listaR);
-				
-				request.getSession().setAttribute("busquedaTipo", "false");				
-				request.getSession().setAttribute("busquedaRaza", "false");				
 
-				request.getSession().setAttribute("recarga", true);
-				response.sendRedirect("tiposRazas.jsp");
-
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("index.jsp");
-			}
-
-		}
 		//PARA AGREGAR UN NUEVO TIPO
-		else if(accion.equals("nuevo")){
+		if(accion.equals("nuevo")){
 			request.getSession().setAttribute("busquedaTipo", "false");		
 			TipoAnimal tipo = new TipoAnimal((String)request.getParameter("nombreTipo"));
 			if(tipo!=null)

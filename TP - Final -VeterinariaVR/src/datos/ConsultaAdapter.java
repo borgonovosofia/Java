@@ -375,6 +375,56 @@ public class ConsultaAdapter {
 			finally{return c;}
 		}
 
+		public List<Vacunacion> buscarVacunaciones(int idA) throws ConException		{
+			List<Vacunacion> listaVacunaciones = new ArrayList<Vacunacion>();
+
+			try {
+				
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = con.prepareStatement("select vacunacion.id_vacunacion, vacunacion.fecha'fecha_vacunacion',vacunacion.comentarios,"
+																	+ "vacuna.id_vacuna, vacuna.codigo,vacuna.nombre'nombre_vacuna',vacuna.marca,vacuna.duracion,"
+																	+ "vacunacion.dias_aviso"
+																	+" from consulta"
+																	+" inner join vacunacion on vacunacion.id_consulta = consulta.id_consulta"
+																	+"  inner join vacuna on vacuna.id_vacuna =vacunacion.id_vacuna"																	
+																	+ " where consulta.id_animal='"+idA+"'");
+				ResultSet result = statement.executeQuery();
+				while(result.next())
+				{
+					int id = result.getInt("id_vacunacion");
+					String fecha_vacunacion = result.getString("fecha_vacunacion");
+					String comentarios = result.getString("comentarios");
+					int dias_aviso = result.getInt("dias_aviso");
+					
+					int id_vacuna = result.getInt("id_vacuna");				
+					String codigo = result.getString("codigo");
+					String nombre = result.getString("nombre_vacuna");
+					String marca = result.getString("marca");
+					int duracion = result.getInt("duracion");
+					
+					Vacuna vac = new Vacuna(codigo,nombre,marca,duracion);
+					vac.setId_vacuna(id_vacuna);
+					
+					Vacunacion vacunacion = new Vacunacion();
+					vacunacion.setComentarios(comentarios);
+					vacunacion.setId_vacunacion(id);
+					vacunacion.setDias_aviso(dias_aviso);
+					vacunacion.setFecha(fecha_vacunacion);
+					vacunacion.setVacuna(vac);
+					listaVacunaciones.add(vacunacion);
+				}
+				
+				con.close();
+			} catch (ConException e) {
+				throw new ConException("Error de conexion al recuperar las vacunaciones, por favor intente mas tarde.", e);
+			}		
+			catch (Exception e){
+				throw new ConException("Error al recuperar las vacunaciones, por favor intente mas tarde.", e);
+			}
+			return listaVacunaciones;
+		}
+				
+
 		public void modificarConsulta(Consulta p) throws Exception {
 				try {
 					Connection con = Conexion.getConexion();	

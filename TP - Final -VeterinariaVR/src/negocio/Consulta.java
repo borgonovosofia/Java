@@ -148,4 +148,14 @@ public class Consulta {
 			throw e;
 		}
 	}
+	
+	public static List<Vacunacion> dameVacunaciones(int idA) throws Exception {
+		try {
+			ConsultaAdapter adapter = new ConsultaAdapter();
+			List<Vacunacion> lista = adapter.buscarVacunaciones(idA);
+			return lista;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

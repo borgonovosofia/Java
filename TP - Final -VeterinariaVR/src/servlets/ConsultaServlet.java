@@ -26,13 +26,93 @@ public class ConsultaServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
+		// #region IrConsultas
+		if(accion.equals("IrConsultas")){
+			request.getSession().setAttribute("busqueda", "false");				
+			try 
+			{
+				//Guarda lista  
+				List<Consulta> lista = Consulta.dameConsultas();
+				request.getSession().setAttribute("listaConsultas", lista);
+								
+				request.getSession().setAttribute("recarga", true);
+				response.sendRedirect("listadoConsultas.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+
+		}
+		// #endregion 
+		// #region GenerarAlertas
+		else if(accion.equals("GenerarAlertas")){
+			request.getSession().setAttribute("busqueda", "false");				
+			try 
+			{
+				//Guarda lista  
+				List<Aviso> lista = Consulta.dameAlertas();
+				
+				if(request.getSession().getAttribute("tipousuario").equals("V"))
+				{
+					request.getSession().setAttribute("listaAvisos", lista);
+				}
+				else
+				{
+					int idP = Integer.parseInt((String)request.getSession().getAttribute("idusr"));
+					List<Aviso> lista2 = new ArrayList<Aviso>();
+					for(int i = 0;i<lista.size();i++)
+					{
+						if(lista.get(i).getAnimal().getPropietario().getId_propietario()== idP)
+						{
+							lista2.add(lista.get(i));
+						}
+					}
+					request.getSession().setAttribute("listaAvisos", lista2);
+				}
+				
+								
+				request.getSession().setAttribute("recarga", true);
+				response.sendRedirect("listadoAvisos.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+
+		}
+		// #endregion
 		// #region actualizar
-		if(accion.equals("actualizar"))
+		else if(accion.equals("actualizar"))
 		{
 			try 
 			{						
-				List<Consulta> lista = Consulta.dameConsultas();
-				request.getSession().setAttribute("listaConsultas", lista);		
+				List<Aviso> lista = Consulta.dameAlertas();
+				
+				if(request.getSession().getAttribute("tipousuario").equals("V"))
+				{
+					request.getSession().setAttribute("listaAvisos", lista);
+				}
+				else
+				{
+					int idP = Integer.parseInt((String)request.getSession().getAttribute("idusr"));
+					List<Aviso> lista2 = new ArrayList<Aviso>();
+					for(int i = 0;i<lista.size();i++)
+					{
+						if(lista.get(i).getAnimal().getPropietario().getId_propietario()== idP)
+						{
+							lista2.add(lista.get(i));
+						}
+					}
+					request.getSession().setAttribute("listaAvisos", lista2);
+				}
+						
 				
 				request.getSession().setAttribute("recarga", true);
 				response.sendRedirect("listadoConsultas.jsp");
@@ -225,52 +305,9 @@ public class ConsultaServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		// #region IrConsultas
-		if(accion.equals("IrConsultas")){
-			request.getSession().setAttribute("busqueda", "false");				
-			try 
-			{
-				//Guarda lista  
-				List<Consulta> lista = Consulta.dameConsultas();
-				request.getSession().setAttribute("listaConsultas", lista);
-								
-				request.getSession().setAttribute("recarga", true);
-				response.sendRedirect("listadoConsultas.jsp");
 
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("index.jsp");
-			}
-
-		}
-		// #endregion
-		// #region GenerarAlertas
-		else if(accion.equals("GenerarAlertas")){
-			request.getSession().setAttribute("busqueda", "false");				
-			try 
-			{
-				//Guarda lista  
-				List<Aviso> lista = Consulta.dameAlertas();
-				request.getSession().setAttribute("listaAvisos", lista);
-								
-				request.getSession().setAttribute("recarga", true);
-				response.sendRedirect("listadoAvisos.jsp");
-
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				request.getSession().setAttribute("error", e.getMessage());
-				response.sendRedirect("index.jsp");
-			}
-
-		}
-		// #endregion
 		// #region nuevo
-			else if(accion.equals("nuevo")){
+		 if(accion.equals("nuevo")){
 				request.getSession().setAttribute("busqueda", "false");	
 
 				String id_propietario = (String)request.getParameter("id_propietario");				

@@ -4,9 +4,27 @@
 <%@page import="negocio.Raza"%>
 <%@page import="javax.websocket.Session"%>
 
-<%
+<!doctype html>
+<% 
 try{
-//VERIFICA SI HAY alguna busqueda realizada
+	String tipousuario="";
+	String usr="";
+	String idusr="";
+	boolean login = false;
+	try{
+		boolean login2 = (Boolean)request.getSession().getAttribute("login");
+		login=login2;
+		}
+	catch (Exception e3) {login=false;}
+	if(login==true)
+	{
+		tipousuario = (String)request.getSession().getAttribute("tipousuario");
+		usr = (String)request.getSession().getAttribute("usr");
+		idusr = (String)request.getSession().getAttribute("idusr");
+	}	
+	
+	
+		//VERIFICA SI HAY alguna busqueda realizada
 	boolean busquedaT = false;
 	try{
 		busquedaT = Boolean.parseBoolean((String)request.getSession().getAttribute("busquedaTipo"));
@@ -90,18 +108,14 @@ try{
 		listaR = (List<Raza>) request.getSession().getAttribute("listaRazas");
 		valorBZ="";
 	}
-
-	
-%>
-	<%@page import="java.sql.*" %>
-	<!doctype html>
-		<html>
-		<head>
-			<meta charset="utf-8">
-			<link href="estilo.css" rel="stylesheet" type="text/css" />
-			<title>Veterinaria VR</title>
-		</head>
-				
+%>	
+<html>
+<head>
+<meta charset="utf-8">
+<title>Veterinaria VR</title>
+<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
+<link href="estilo.css" rel="stylesheet" type="text/css">
+</head>
 		<script>
 			function validarNuevoTipo()
 			{
@@ -138,16 +152,73 @@ try{
 			location.href="index.jsp";
 			} 
 		</script>
-
-		<body>
-<%
-	if(s==true) //SOLO MUESTRA LA PAGINA SI YA ESTA CARGADO EL COMBO. SINO REDIRECCIONA PARA RECARGAR.
-	{
-		%>			
-					
+<body>
+	<div class="container">
+    
+    	  <!-- INICIO ENCABEZADO !-->
+    	  <% if(login==true)
+    	  	{%>
+    	  		<div style="width: 100; text-align: right; margin-top:0.5em; margin-right: 2em;">
+    	  			<p>Usuario: <%=usr %>
+    	  			<a href="SesionServlet?accion=CerrarSesion">(Cerrar Sesión)</a>
+    	  			</p>
+    	  		</div>				    	  	
+    	  	<%}
+    	  	else
+			{%>
+				<div style="width: 100; text-align: right; margin-top:0.5em; margin-right: 2em;"><a href="SesionServlet?accion=IrLogin">Iniciar Sesión</a></div>				
+			<%
+			}
+			 %>    	  
+		  <div class="header">
+          	<a href="index.jsp">
+           	<img src="imagenes/logo.png" alt="Veterinaria VR" name="logo" height="100%" id="Insert_logo" />
+            </a> 
+		  </div>
+          <!-- FINAL ENCABEZADO!-->
+          <!-- INICIO BARRA IZQUIERDA !-->          
+           <div class="sidebar1">
+           <!-- end .sidebar1 -->
+  			</div>
+          <!-- FINAL BARRA IZQUIERDA!-->
+          <!-- INICIO CONTENT !-->
+          
+			  <div class="content">
+	          <% if(login==true)
+          		{
+          	  %>			  
+					<div style="text-align: center;">
+							
+	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
+							
+							<%if(tipousuario.equals("V"))
+							{ %>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="TipoAnimalServlet?accion=IrRaza" >&nbsp;Razas y animales&nbsp;</a>							
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="VacunaServlet?accion=IrVacuna" >&nbsp;Vacunas&nbsp;</a>							
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="IntervencionServlet?accion=IrIntervenciones" >&nbsp;Intervenciones Quirurgicas&nbsp;</a>							
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PropietarioServlet?accion=IrPropietario" >&nbsp;Propietarios&nbsp;</a>
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=IrConsultas" >&nbsp;Consultas&nbsp;</a>
+							
+							                                                                                                         
+							<%} %>           	                                    	                        	                                    
 						<br></br>
 						
+					</div> 	
+				<%} %>
+   		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
+   		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
+   		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
+		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
 
+<%
+	if(s==true) 
+	{
+		if(tipousuario.equals("V"))
+		{
+		%>		
 						<!-- COMIENZO DIV PARA LOS TIPOS DE ANIMALES ---------------------------------------------------------------- -->
 						<div style="float:left; width: 49%;"> 
 							<form id="frmTipoAnimal" name="frmTipoAnimal" method="post" action="TipoAnimalServlet">
@@ -161,7 +232,7 @@ try{
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
   		  							<tr>
   		    							<td>&nbsp;</td>
-  		    							<td><input type="submit" name="button" id="button" value="Agregar Animal" onclick="return validarNuevoTipo();" /></td>
+  		    							<td><input type="submit" class="boton negro redondo" value="Agregar Animal" onclick="return validarNuevoTipo();" /></td>
 	      							</tr>
 	  							</table>	
 							</form>
@@ -207,7 +278,7 @@ try{
   		  							</tr>  		  
   		  							<tr style="width: 100%">
   		    							<td>&nbsp;</td>
-  		    							<td><input type="submit" name="button" id="button" value="Agregar Raza" onclick="return validarNuevaRaza();" /></td>
+  		    							<td><input type="submit" class="boton negro redondo"  value="Agregar Raza" onclick="return validarNuevaRaza();" /></td>
 	      							</tr>
 	  							</table>
 							</form>
@@ -223,15 +294,16 @@ try{
 								<label>&nbsp;&nbsp;&nbsp;&nbsp;Buscar:</label>
 								<input type="hidden" value="buscar" name="accion" id="accion">
 								<input type="text" value="<%=valorBT%>" name="bt" id="bt">							
-								<input type="submit" value="Buscar" onclick="return validarBuscarT()"/>
+								<input type="submit" class="boton negro redondo"  value="Buscar" onclick="return validarBuscarT()"/>
 								<a href="TipoAnimalServlet?accion=buscar">Cancelar busqueda</a>
 								<br></br>
-							</form>						
-							<table class="listado">
+							</form>	
+							<div class="listado">					
+							<table >
 								<thead>                                
 	                               	<tr>
-                                       	<th class="listado" colspan="1">Animal</th>
-                                       	<th class='listado' width="120px"></th>
+                                       	<th  colspan="1">Animal</th>
+                                       	<th  width="120px"></th>
                                     </tr>
 	                            </thead>				
 		                        <tbody>
@@ -240,10 +312,10 @@ try{
   		  								{
   		  	   		 						TipoAnimal t = listaT.get(i);
   		  	   		 					%>
-  		  	   		 						<tr>
-  		  	   		 							<td class='listado'>
+  		  	   		 						<tr <%if(i%2!=0){%>class='alt'<%} %>>
+  		  	   		 							<td >
   		  	   		 							<%=t.getNombre()%></td>
-  		  	   		 							<td class='listado'>
+  		  	   		 							<td >
   		  	   		 							<a href="TipoAnimalServlet?accion=editar&idTipo=<%=t.getId_tipo_animal()%>&nombre=<%=t.getNombre()%>">Editar</a>
   		  	   		 							<a href="TipoAnimalServlet?accion=borrar&idTipo=<%=t.getId_tipo_animal()%>" onclick="return confirmar('¿Está seguro que desea borrar el animal?')">Borrar</a>		  	   		 								  		  	   		 								  		  	   		 						
   		  	   		 						</tr>  	
@@ -255,12 +327,12 @@ try{
   		  									if(busquedaT==true)
   		  									{
   		  									%>
-  		  	   		 						<tr><td class='listado' colspan="2">No hay tipos para la busqueda realizada</td></tr>
+  		  	   		 						<tr><td  colspan="2">No hay tipos para la busqueda realizada</td></tr>
   		  	   		 						<%
   		  									}
   		  									else
   		  									{%>
-  		  	   		 						<tr><td class='listado' colspan="2">No hay tipos cargados</td></tr> 		  	
+  		  	   		 						<tr><td  colspan="2">No hay tipos cargados</td></tr> 		  	
 										<%	}
   		  								}
   		  							%>		
@@ -268,6 +340,7 @@ try{
 		                        	</tr>
 		                        </tbody>
 							</table>
+							</div>
 						</div>
 						<!-- FIN DIV PARA LISTADO DE TIPOS ------------------------------------------------------------------------------ -->
 						
@@ -279,16 +352,17 @@ try{
 								<label>&nbsp;&nbsp;&nbsp;&nbsp;Buscar:</label>
 								<input type="hidden" value="buscar" name="accion" id="accion">
 								<input type="text" value="<%=valorBZ%>" name="br" id="br">							
-								<input type="submit" value="Buscar" onclick="return validarBuscarR()"/>
+								<input type="submit" class="boton negro redondo"  value="Buscar" onclick="return validarBuscarR()"/>
 								<a href="RazaServlet?accion=buscar">Cancelar busqueda</a>
 								<br></br>
 							</form>	
-							<table class="listado">
+							<div class="listado">
+							<table >
 								<thead>                                
 	                               	<tr>
-                                       	<th class="listado">Raza</th>
-                                       	<th class="listado">Animal</th>
-                                       	<th class='listado' width="120px"></th>
+                                       	<th >Raza</th>
+                                       	<th >Animal</th>
+                                       	<th  width="120px"></th>
                                     </tr>
 	                            </thead>				
 		                        <tbody>
@@ -297,10 +371,10 @@ try{
   		  								{
   		  	   		 						Raza t = listaR.get(i);
   		  	   		 						%>
-  		  	   		 							<tr>
-  		  	   		 								<td class='listado'><%=t.getNombre()%></td>
-  		  	   		 								<td class='listado'><%=t.getTipo_animal().getNombre()%></td>
-  		  	   		 								<td class='listado'>
+  		  	   		 							<tr <%if(i%2!=0){%>class='alt'<%} %>>
+  		  	   		 								<td ><%=t.getNombre()%></td>
+  		  	   		 								<td ><%=t.getTipo_animal().getNombre()%></td>
+  		  	   		 								<td >
 														<a href="RazaServlet?accion=editar&razaNom=<%=t.getNombre()%>&idRaza=<%=t.getId_raza()%>">Editar</a>
 		  	   		 									<a href="RazaServlet?accion=borrar&idRaza=<%=t.getId_raza()%>" 
 		  	   		 																					onclick="return confirmar('¿Está seguro que desea borrar la raza?')">Borrar</a>
@@ -317,12 +391,12 @@ try{
   		  									if(busquedaR==true)
 			  								{
 		  									%>
-		  	   		 							<tr><td class='listado' colspan="3">No hay tipos para la busqueda realizada</td></tr>
+		  	   		 							<tr><td  colspan="3">No hay tipos para la busqueda realizada</td></tr>
 		  	   		 						<%
 		  									}
 		  									else
 		  									{%>
-		  	   		 							<tr><td class='listado' colspan="3">No hay tipos cargados</td></tr> 		  	
+		  	   		 							<tr><td  colspan="3">No hay tipos cargados</td></tr> 		  	
 										<%	}
   		  									
   		  								}
@@ -331,11 +405,14 @@ try{
 		                        	</tr>
 		                        </tbody>
 							</table>
-						
+							</div>
 						</div>
 						<!-- FIN DIV PARA LISTADO DE RAZAS ------------------------------------------------------------------------------ -->
 					
-				<%
+	<%
+		}
+		else
+		{ %> <script>location.href = "index.jsp";</script><%}
 	}
 	else
 	{
@@ -351,18 +428,41 @@ try{
 %>
 
 					<div style="text-align: left; clear: both; margin-left: 10px;">
-						<br></br><input type="button" value="Volver" name="volver" onclick="redireccionar()" />
+						<br></br><input type="button" value="Volver" class="boton negro redondo"  name="volver" onclick="redireccionar()" />
 					</div>						                
           
-				</body>
-			</html>				
 
-		<%
+
+
+		  <!-- TemplateEndEditable -------------------------------------------------------------------------------------------------------------------------------------- --> 				
+   		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
+   		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
+   		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
+   		</div>
+          <!-- FINAL CONTENT !-->
+          <!-- INICIO BARRA DERECHA!-->
+ 		<div class="sidebar2">
+    	</div>          
+          <!-- FINAL BARRA DERECHA !-->          <!-- INICIO PIE !-->
+		<div class="footer">
+          	<div style="padding-left:3em; text-align:center; width:100%;">
+                <p><b>Direccion:</b> Rivadavia 773</p>
+			    <p><b>Tel. Fijo:</b> (336)4423408</p>	
+	            <p><b>Celular:</b> (336)154185286 </p>	
+   		  	</div>
+            <div style="float:right; text-align=right;  width:100%; ">
+		   		<p style="font-size:0.8em; text-align:right;margin-right:1em;">Desarrollo: Borgonovo Sofia </p>	
+   		  	</div>
+		</div>
+	</div>
+</body>
+</html>
+<%
 }
 catch (Exception e3) {
 	e3.printStackTrace();%>
 	<script>
 		alert("Sucedio un imprevisto al cargar la página. Por favor intente mas tarde");
-		location.href="listadoConsultas.jsp";
+		location.href="index.jsp";
 	</script>
 <% }%>

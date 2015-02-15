@@ -38,12 +38,13 @@ try{
 		}
 	}
 	catch (Exception e3) {}
-	List<Propietario> listaPropietarios = (List<Propietario>) request.getSession().getAttribute("listaPropietarios");
+
 	List<TipoAnimal> listaTipos = (List<TipoAnimal>) request.getSession().getAttribute("listaTipos");
 	List<Raza> listaRazas = (List<Raza>) request.getSession().getAttribute("listaRazas");
 
 //trae los valores anteriores
-	
+	String nombreP;
+	String apellidoP;
 	String sexo;
 	String fecha_nac;
 	String nombre;
@@ -61,6 +62,13 @@ try{
 	else {sexo = (String)request.getSession().getAttribute("sexo");}
 
 	
+	if(request.getSession().getAttribute("nombreP")==null)
+	{ nombreP = "";} 
+	else {nombreP = (String)request.getSession().getAttribute("nombreP");}
+
+	if(request.getSession().getAttribute("apellidoP")==null)
+	{  apellidoP = "";}
+	else{apellidoP = (String)request.getSession().getAttribute("apellidoP");}
 	
 	if(request.getSession().getAttribute("fecha_nac")==null)
 	{ fecha_nac = "";} 
@@ -212,11 +220,6 @@ function validarNuevo()
 	if(raza=="" || raza==" ")
 	{ msj += "Debe elegir una raza para el animal\n"}
 	
-	var id_propietario = document.getElementById("id_propietario").value;
-	if(id_propietario=="" || id_propietario==" ")
-	{ msj += "Debe elegir una propietario para el animal\n"}
-	
-	
 	var peso = document.getElementById("peso").value;
 	if(peso!="" && peso!=" " && isNaN(peso))
 	{
@@ -301,30 +304,15 @@ function actualizar()
 						<div style="float:left; width: 80%;"> 
 							<form id="frmAnimal" name="frmAnimal" method="post" action="AnimalServlet">
   								<input type="hidden" value="nuevo" name="accion"/>  	
-  								<input type="hidden" value="" name="nombreP"/>  		  		
-  								<input type="hidden" value="" name="apellidoP"/>  		  		
+  								<input type="hidden" value="<%=nombreP%>" name="nombreP"/>  		  		
+  								<input type="hidden" value="<%=apellidoP%>" name="apellidoP"/>  		  		
+  								<input type="hidden" value="<%=id_propietario%>" name="id_propietario"/>  		  		
   								<h2>Nuevo Animal</h2>
   								<table class="tablaMaqueta">
   		    		  				<tr>
   		    							<td>Propietario</td>
-  		    							<td>
-  		    								<select name="id_propietario" id="id_propietario">
- 													<%	for (int i = 0; i < listaPropietarios.size(); i++) 
-  		  											{
-  		  	   		 									Propietario t = listaPropietarios.get(i);  		  	   		 	
-  		  	   		 									if(t.getId_propietario()==id_propietario)
-  		  	   		 									{out.print("<option selected='selected' value='"+ t.getId_propietario() +"' >"+t.getNombre()+ ", " +t.getApellido()+"</option>");
-  		  	   		 									}
-  		  	   		 									else{				
-	  		  	   		 								out.print("<option value='"+ t.getId_propietario() +"' >"+t.getNombre()+ ", " +t.getApellido()+"</option>");  }		  	   		 						  	
-  		  											}
- 													if(listaPropietarios.size()==0)
-  		  											{	
-  		  	   		 									out.print("<option value=''>No hay propietarios cargados para el animal seleccionado</option>");
-	  		  	   		 							}
-  		  	   		 							%>   		  									
-  		  									</select>
-  		    							</td> 							
+  		    							<% String nombreCompleto = nombreP + ", " + apellidoP; %>
+  		    							<td><input type="text" class="entrada" value="<%=nombreCompleto%>" disabled="disabled" style="color: black"/></td> 							
 	      							</tr>
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
   		    		  				  								
