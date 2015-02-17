@@ -26,8 +26,16 @@
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
+
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
+
+
 </head>
 <script>
 	function cambiarAccion(accion,action)
@@ -75,13 +83,31 @@
 	<div class="container">
     
     	  <!-- INICIO ENCABEZADO !-->
-		  <br></br> 
+    	  <% if(login==true)
+    	  	{%>
+    	  		<div style="width: 100; text-align: right; margin-top:0.5em; margin-right: 2em;">
+    	  			<p>Usuario: <%=usr %>
+    	  			<a href="SesionServlet?accion=CerrarSesion">(Cerrar Sesión)</a>
+    	  			</p>
+    	  		</div>				    	  	
+    	  	<%}
+    	  	else
+			{%>
+				<div style="width: 100; text-align: right; margin-top:0.5em; margin-right: 2em;"><a href="SesionServlet?accion=IrLogin">Iniciar Sesión</a></div>				
+			<%
+			}
+			 %>    	  
 		  <div class="header">
           	<a href="index.jsp">
            	<img src="imagenes/logo.png" alt="Veterinaria VR" name="logo" height="100%" id="Insert_logo" />
             </a> 
 		  </div>
           <!-- FINAL ENCABEZADO!-->
+          <!-- INICIO BARRA IZQUIERDA !-->          
+           <div class="sidebar1">
+           <!-- end .sidebar1 -->
+  			</div>
+          <!-- FINAL BARRA IZQUIERDA!-->
           
           <!-- INICIO CONTENT !-->
 		  <div class="content">
@@ -90,8 +116,8 @@
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
 		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
-			<form method="post" action="SesionServlet" style="text-align: center;">
-				<br></br>				
+			<div style="width:100%; text-align: center;">
+			<form method="post" action="SesionServlet" style="text-align: center; margin: 0 auto; ">
 				<br></br>				
 				<H1>Inicio de sesión</H1>	 				
 				<input type="hidden" name="accion" value="IniciarSesion"/>
@@ -114,7 +140,10 @@
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  </div>
           <!-- FINAL CONTENT !-->
-          
+          <!-- INICIO BARRA DERECHA!-->
+ 		<div class="sidebar2">
+    	</div>          
+          <!-- FINAL BARRA DERECHA !-->         
           <!-- INICIO PIE !-->
 		  <div class="footer">
           	<div style="padding-left:3em; text-align:center; width:100%;">

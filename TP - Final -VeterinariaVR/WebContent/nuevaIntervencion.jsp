@@ -47,8 +47,13 @@ try{
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 function validarNueva()
@@ -102,7 +107,7 @@ function validarNueva()
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -133,10 +138,10 @@ function validarNueva()
   								<input type="hidden" value="nuevo" name="accion"/>  		  		
   								<h2>Nueva intervención quirúrgica</h2>
   		  						<label for="nombre">Nombre</label>
-  		    					<input type="text" class="entrada" name="nombre" id="nombre" size="45" />
+  		    					<input type="text" class="entrada" name="nombre" id="nombre" style="width:200px" />
   		    					<br></br>
-	      						<input type="submit" name="button" id="button" value="Agregar Intervencion" onclick="return validarNueva();" />
-  		    					<input type="button" value="Volver" name="volver" onclick="history.back()" />	
+	      						<input type="submit"  class="negro redondo boton"  name="button" id="button" value="Agregar Intervencion" onclick="return validarNueva();" />
+  		    					<input type="button"  class="negro redondo boton"  value="Volver" name="volver" onclick="history.back()" />	
 							</form>
 						</div>
 						<!-- FIN DIV ------------------------------------------------------------------------- -->	

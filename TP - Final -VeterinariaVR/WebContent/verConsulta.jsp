@@ -87,8 +87,13 @@ try{
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 	
@@ -131,7 +136,7 @@ try{
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -153,11 +158,10 @@ try{
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
 		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
-<%
 
-		if(tipousuario.equals("V"))
-		{
-		%>
+
+		  <% if(login==true && tipousuario.equals("V")){ %>
+
 
 						<br></br>		
 						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
@@ -285,7 +289,7 @@ try{
                                   
   		    		 				<tr>
   		  								<td colspan="5" style="text-align:center;"> <br></br>
-  		  								  <input type="button" value="Volver" name="volver" onclick="history.back()" />	  								       </td>  		  								
+  		  								  <input type="button"  class="negro redondo boton"  value="Volver" name="volver" onclick="history.back()" />	  								       </td>  		  								
 	  								</tr>
 	  							</table>	
 						</div>

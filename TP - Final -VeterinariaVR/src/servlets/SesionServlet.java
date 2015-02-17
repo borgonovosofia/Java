@@ -45,6 +45,34 @@ public class SesionServlet extends HttpServlet {
 			response.sendRedirect("index.jsp");
 		}
 		//#endregion
+		//#region ModificarUsuario
+		if(accion.equals("ModificarUsuario"))
+		{
+
+			try {
+				String id = (String)request.getSession().getAttribute("idusr");
+				Propietario pr = Propietario.buscarPropietario(Integer.parseInt(id));			
+				
+				request.getSession().setAttribute("nombre", pr.getNombre());
+				request.getSession().setAttribute("apellido", pr.getApellido());
+				request.getSession().setAttribute("direccion", pr.getDireccion());
+				request.getSession().setAttribute("email", pr.getEmail());
+				request.getSession().setAttribute("telefono_fijo", pr.getTelefono_fijo());
+				request.getSession().setAttribute("celular", pr.getCelular());
+				request.getSession().setAttribute("usuario", pr.getUsuario());
+				request.getSession().setAttribute("id", id);
+				
+				request.getSession().setAttribute("busqueda", "false");				
+				response.sendRedirect("modificarUsuario.jsp");
+			
+			} catch (ConException e) {
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+			}
+
+			
+		}
+		//#endregion
 	}
 	
 
@@ -69,6 +97,7 @@ public class SesionServlet extends HttpServlet {
 					request.getSession().setAttribute("usr", pr.getUsuario());
 					request.getSession().setAttribute("idusr", Integer.toString(pr.getId_propietario()));
 					request.getSession().setAttribute("tipousuario", pr.getTipo());
+					
 					response.sendRedirect("index.jsp");
 				}	
 				

@@ -85,8 +85,13 @@ try{
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 	<script>
 		function confirmar(msj)
@@ -142,7 +147,7 @@ try{
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -169,10 +174,10 @@ try{
 
 
 <%
-	if(s==true)
-	{
-		%>
-
+	
+		 if(login==true){ 
+		 	if(s==true)
+			{%>
 						
 						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
 						<div style="float: left; clear:left; width: 95%;">					
@@ -183,7 +188,7 @@ try{
 								<label>&nbsp;&nbsp;&nbsp;&nbsp;Buscar:</label>
 								<input type="hidden" value="buscar" name="accion" id="accion">
 								<input type="text" value="<%=valor%>" name="b" id="b">							
-								<input type="submit" value="Buscar" onclick="return validarBuscar()"/>
+								<input type="submit"  class="negro redondo boton"  value="Buscar" onclick="return validarBuscar()"/>
 								<a href="PeluqueriaServlet?accion=buscar">Cancelar busqueda</a>
 								<br></br>
 							</form>	
@@ -276,6 +281,8 @@ try{
 						<br></br><input type="button" value="Volver" name="volver" onclick="redireccionar()" />
 					</div>
 	<%
+	
+
 	}
 	else
 	{
@@ -288,6 +295,9 @@ try{
 					</script>
 		<%		
 	}
+		}
+		else
+		{ %> <script>location.href = "index.jsp";</script><%}
 %>
 			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 

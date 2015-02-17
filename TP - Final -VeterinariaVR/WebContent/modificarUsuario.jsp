@@ -1,10 +1,9 @@
 <%@page import="javax.xml.ws.Response"%>
 <%@page import="java.util.List"%>
-<%@page import="java.sql.Date"%>
-<%@page import="negocio.Animal"%>
+<%@page import="negocio.TipoAnimal"%>
+<%@page import="negocio.Raza"%>
 <%@page import="javax.websocket.Session"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.ParseException"%>
+
 <!doctype html>
 <% 
 try{
@@ -22,55 +21,31 @@ try{
 		tipousuario = (String)request.getSession().getAttribute("tipousuario");
 		usr = (String)request.getSession().getAttribute("usr");
 		idusr = (String)request.getSession().getAttribute("idusr");
-	}	
-	//VERIFICA SI HAY UN MENSAJE DE ERROR PARA MOSTRAR
+	}
+	
+	//VERIFICA SI HAY UN MENSAJE DEL SERVLET
 	try{
-		String msj3 = (String)request.getSession().getAttribute("error");
-		if(msj3!="" && msj3!=null)
-		{
-			request.getSession().setAttribute("error", null);
-			request.getSession().setAttribute("recarga", true);
-			%><script>alert("<%=msj3%>");</script><%
-		}
+	String msj = (String)request.getSession().getAttribute("mensaje");
+	if(msj!="" && msj!=null)
+	{
+		%><script>alert("<%=msj%>");</script><%
+		request.getSession().setAttribute("mensaje", null);		
+	}
 	}
 	catch (Exception e3) {}
 
-	List<Animal> listaAnimales = (List<Animal>) request.getSession().getAttribute("listaAnimales");
+
 
 //trae los valores anteriores
-	String nombre;
-	String apellido;
-	String direccion;
-	String email;
-	String telefono_fijo;
-	String celular;
-	String usuario;
-	Integer id_propietario;
-
-
-	id_propietario = (Integer)request.getSession().getAttribute("id_propietario");
-	nombre = (String)request.getSession().getAttribute("nombre");
-	apellido = (String)request.getSession().getAttribute("apellido");
-	direccion = (String)request.getSession().getAttribute("direccion");
-	email = (String)request.getSession().getAttribute("email");
-	telefono_fijo = (String)request.getSession().getAttribute("telefono_fijo");
-	celular = (String)request.getSession().getAttribute("celular");
-	usuario = (String)request.getSession().getAttribute("usuario");
-	
-	
-//VERIFICA SI HAY UN MENSAJE DEL SERVLET DE VACUNA
-	try{
-		String msj = (String)request.getSession().getAttribute("mensaje");
-		if(msj!="" && msj!=null)
-		{
-			%><script>alert("<%=msj%>");</script><%
-			request.getSession().setAttribute("mensaje", null);		
-		}
-	}
-	catch (Exception e3) {}
-	
+	String nombre =(String)request.getSession().getAttribute("nombre");
+	String apellido = (String)request.getSession().getAttribute("apellido");
+	String direccion = (String)request.getSession().getAttribute("direccion");
+	String email = (String)request.getSession().getAttribute("email");
+	String telefono_fijo = (String)request.getSession().getAttribute("telefono_fijo");
+	String celular = (String)request.getSession().getAttribute("celular");
+	String usuario = (String)request.getSession().getAttribute("usuario");	
+	String id = (String)request.getSession().getAttribute("id");
 %>	
-
 <html>
 <head>
 <meta charset="utf-8">
@@ -84,19 +59,34 @@ try{
 </script>
 </head>
 <script>
-function validarPeso()
-{
-	var msj="";
-	var peso = document.getElementById("pesoI").value;
-	if(peso=="" || peso==" " )
-	{	msj += "Debe completar el peso"	}
-	else if(isNaN(peso))
-	{	msj += "El peso debe ser un numero. Divida los gramos con un punto. Ej: 10.200";	}
-	if(msj!="")
-	{alert(msj);return false;}
-	else{return true;}
+function validarPropietario()
+{	
+	var msj = "";
+		var clave = document.getElementById("clave").value;
+		var claveNueva = document.getElementById("claveNueva").value;				
+		var claveNueva2 = document.getElementById("claveNueva2").value;
+		var nombre = document.getElementById("nombre").value;
 
-}	
+
+		if(nombre=="" || nombre==" ")
+		{ msj = msj + "El nombre no puede estar vacio\n";}
+		if (!(clave!="" && clave!= " "))
+		{msj = msj + "Debe ingresar la clave para poder modificar sus datos \n";}
+		else if((claveNueva!="" && claveNueva!=" ") && (claveNueva2=="" || claveNueva2==" "))
+		{msj =msj + "Si desea cambiar la clave de acceso debe llenar los campos 'Nueva clave' y 'Repetir nueva clave'\n";}
+		else if((claveNueva2!="" && claveNueva2!=" ") && (claveNueva=="" || claveNueva==" "))
+		{msj =msj + "Si desea cambiar la clave de acceso debe llenar los campos 'Nueva clave' y 'Repetir nueva clave'\n";}
+		else if(claveNueva!=claveNueva2)
+		{msj =msj + "Las claves no coinciden\n";}
+		else if(claveNueva.length<6 && claveNueva.length!=0)
+		{msj += "La clave debe contener como minimo 6 caractéres\n";}
+
+		if(msj=="")
+	{ return true;}
+	else { 	alert(msj);
+			return false;}
+	
+}
 </script>
 <body>
 	<div class="container">
@@ -159,101 +149,84 @@ function validarPeso()
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
 		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
 
-		  <% if(login==true && tipousuario.equals("V")){ %>
-		  				<h1 style="text-align: center;">Detalle de propietario</h1>
-						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
-						<div style="float:left; width: 80%;"> 						  
-  								<table class="tablaMaqueta">
+
+
+<%	if(login!=false && id!=null && id.equals(idusr))
+		{
+		%>
+
+
+						<!-- COMIENZO DIV PARA LOS TIPOS DE ANIMALES ---------------------------------------------------------------- -->
+						<div style="float:left; width: 100%; text-align: center;"> 
+							<form id="frmPropietario" name="frmPropietario" method="post" action="PropietarioServlet">
+  								<input type="hidden" value="modificar" name="accion"/>
+  								<input type="hidden" value="<%= request.getSession().getAttribute("id") %>" name="id" id="id" />  		  		
+  								<h2>Modificar propietario</h2>
+  								<table class="tablaMaqueta" style="margin:0 auto;">
   		  							<tr>
   		    							<td><label for="nombre">Nombre</label></td>
-  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" contenteditable="false" value="<%=nombre %>" /></td>
-  		    							<td><label for="apellido">Apellido</label></td>
-  		    							<td><input type="text" class="entrada" name="apellido" id="apellido" contenteditable="false" value="<%=apellido%>" /></td>
+  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" value="<%=nombre %>" /></td>
+  		    							<td><label for="apellido">&nbsp;&nbsp;&nbsp;Apellido</label></td>
+  		    							<td><input type="text" class="entrada" name="apellido" id="apellido" value="<%=apellido%>" /></td>
 	      							</tr>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>  		    		  				
   		  							
 		  							<tr>
   		    							<td><label for="direccion">Direccion</label></td>
-  		    							<td><input type="text" class="entrada" name="direccion" id="direccion" contenteditable="false" value="<%= direccion %>" /></td>
+  		    							<td><input type="text" class="entrada" name="direccion" id="direccion" value="<%= direccion %>" /></td>
 	      							</tr>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
  
   		    		  				<tr>
   		    							<td><label for="email">Email</label></td>
-  		    							<td><input type="text" class="entrada" name="email" id="email" contenteditable="false" value="<%=email%>" size="40"/></td>
+  		    							<td><input type="text" class="entrada" name="email" id="email" value="<%=email%>" size="40"/></td>
 	      							</tr>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
   		    		  					
   		    		  				<tr>
   		    							<td><label for="telefono_fijo">Telefono fijo</label></td>
-  		    							<td><input type="text" class="entrada" name="telefono_fijo" id="telefono_fijo" contenteditable="false" value="<%=telefono_fijo%>"/></td>
-  		    							<td><label for="celular">Celular</label></td>
-  		    							<td><input type="text" class="entrada" name="celular" id="celular" contenteditable="false" value="<%=celular%>"/></td>
+  		    							<td><input type="text" class="entrada" name="telefono_fijo" id="telefono_fijo" value="<%=telefono_fijo%>"/></td>
+  		    							<td><label for="celular">&nbsp;&nbsp;&nbsp;Celular</label></td>
+  		    							<td><input type="text" class="entrada" name="celular" id="celular" value="<%=celular%>"/></td>
 	      							</tr>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
   		    		  				
   		    		  				<tr>
   		    							<td><label for="usuario">Usuario</label></td>
-  		    							<td><input type="text" class="entrada" name="usuario" id="usuario" contenteditable="false" value="<%=usuario%>"/></td>	
+  		    							<td><input type="text" class="entrada" name="usr" id="usr" value="<%=usuario%>" disabled="disabled" />
+  		    								<input type="hidden" name="usuario" id="usuario" value="<%=usuario%>" />
+  		    							</td>	
   		    						</tr>
-  		    		  				  		    		  				  		    		  				  		  						
-	  							</table>
-	  							<br></br>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>   		    		  				
+  		    						
+  		    						<tr>
+  		    							<td><label for="clave">Clave</label></td>
+  		    							<td><input type="password" class="entrada" name="clave" id="clave" value=""/></td>
+  		    						</tr>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>   		    		  				
+  		    		  				<tr>
+  		    							<td><label for="claveNueva">Nueva Clave</label></td>
+  		    							<td><input type="password" class="entrada" name="claveNueva" id="claveNueva" value=""/></td>
+  		    							<td><label for="claveNueva2">&nbsp;&nbsp;&nbsp;Repetir nueva clave</label></td>
+  		    							<td><input type="password" class="entrada" name="claveNueva2" id="claveNueva2" value=""/></td>
+	      							</tr>
+  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
+  		  							<tr>
+  		    							<td colspan="5" style="text-align: center"><input type="submit"  class="negro redondo boton"  name="button" id="button" value="Modificar" onclick="return validarPropietario()" />
+  		    								<input type="button"  class="negro redondo boton"  value="Volver" name="volver" onclick="history.back()" />
+  		    							</td>
+	      							</tr>
+	  							</table>	
+							</form>
 						</div>
-						<!-- FIN DIV ------------------------------------------------------------------------- -->		
-						
-						
-						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
-						<div style="float: left; width: 100%;">					
-							<h3>Listado de Animales</h3>	
-							<a href="AnimalServlet?accion=nuevo&id_propietario=<%=id_propietario%>&nombreP=<%=nombre%>&apellidoP=<%=apellido%>" style="padding-left: 12px;">Agregar animal</a>
-							<br></br>
-							<div class="listado">
-							<table >
-								<thead  >                                
-	                               	<tr>
-                                       	<th  colspan="1" width="20%">Nombre</th>
-                                       	<th  colspan="1" width="20%">Sexo</th>
-                                       	<th  colspan="1" width="20%">Nacimiento</th>
-                                       	<th  colspan="1" width="10%">Consultas</th>
-                                       	<th  colspan="1" width="10%">Peluqueria</th>
-                                       	<th  colspan="1" width="20%"></th>    
-                                    </tr>
-	                            </thead>				
-		                        <tbody>
-		                          	<%  		  								
-  		  								for (int i = 0; i < listaAnimales.size(); i++) 
-  		  								{
-  		  	   		 						Animal t = listaAnimales.get(i);
-  		  	   		 					%>
-  		  	   		 						<tr <%if(i%2!=0){ %>class='alt'<%} %>>
-  		  	   		 							<td ><%=t.getNombre()%></td>
-  		  	   		 							<td ><%if(t.getSexo()=="M"){out.print("Macho");}else{out.print("Hembra");}%></td>
-  		  	   		 							<td ><%=t.getFecha_nac()%></td>
-  		  	   		 							<td ><%=t.getCant_consultas()%></td>
-  		  	   		 							<td ><%=t.getCant_peluquerias()%></td>
-  		  	   		 							<td >
-  		  	   		 								<a href="AnimalServlet?accion=ver&id=<%=t.getId_animal()%>">Ver</a>
-  		  	   		 								<a href="AnimalServlet?accion=editar&id=<%=t.getId_animal()%>&id_tipo=<%=t.getRaza().getTipo_animal().getId_tipo_animal()%>">Editar</a>
-  		  	   		 							</td>  		  	   		 							
-  		  	   		 						</tr>  	
-  		  	   		 						
-  		  	   		 					<%	  	
-  		  								}
-  		  								if(listaAnimales.size()==0)
-  		  								{
-  		  									%>
-  		  	   		 						<tr><td  colspan="7">&nbsp;&nbsp;No hay animales cargados para el propietario</td></tr> 		  	
-										<%	
-  		  								}
-  		  							%>		
-		                        	<tr>
-		                        	</tr>
-		                        </tbody>
-							</table>
-							</div><br></br>
-						</div>											
-						<!-- FIN DIV ------------------------------------------------------------------------------ -->
-							<div style="text-align: center; width:100%; clear:both; padding-left: 10px;">
-							<input type="button" value="Volver" name="volver" class="negro redondo boton" onclick="history.back()" />
-						</div>
-		<%}	else{ %> <script>location.href = "index.jsp";</script><%} %>
+						<!-- FIN DIV PARA TIPOS DE ANIMALES ------------------------------------------------------------------------- -->				
+<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+					<%
+		
+		}
+		else
+		{ %> <script>location.href = "index.jsp";</script><%}%>			
+
 		  <!-- TemplateEndEditable -------------------------------------------------------------------------------------------------------------------------------------- --> 				
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->

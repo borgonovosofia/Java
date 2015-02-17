@@ -23,7 +23,6 @@
 		if(msj3!="" && msj3!=null)
 		{
 			request.getSession().setAttribute("error", null);
-			//request.getSession().setAttribute("recarga", true); -----------------------------------------------------------
 			%><script>alert("<%=msj3%>");</script><%
 		}
 	}
@@ -45,8 +44,13 @@
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 
@@ -92,7 +96,7 @@
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							

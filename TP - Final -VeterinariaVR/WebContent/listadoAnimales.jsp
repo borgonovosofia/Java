@@ -85,8 +85,13 @@
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 
@@ -144,7 +149,7 @@
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -167,11 +172,12 @@
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
 		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
-<%
-	if(s==true)
+
+<%	if(login==true)
 	{
-		if(login==true)
+		if(s==true)
 		{
+		
 		%>
 		
 
@@ -262,24 +268,23 @@
 					<div style="text-align: left; clear: both; margin-left: 10px;">
 						<br></br><input type="button" class="boton negro redondo"  value="Volver" name="volver" onclick="redireccionar()" />
 					</div>
-	<%
-		}
-		else
-		{ %> <script>location.href = "index.jsp";</script><%}
-		
-	}
-	else
-	{
-		%>
+	<%				
+			}
+			else
+			{
+				%>
 					<form action="AnimalServlet" method="get" name="frmActualizar" id="frmActualizar">
 						<input type="hidden" value="actualizar" name="accion" id="accion" />
 					</form>
 					<script>
 						document.frmActualizar.submit();
 					</script>
-		<%		
-	}
-%>
+				<%		
+			}
+		}
+		else
+		{ %> <script>location.href = "index.jsp";</script><%}			
+			%>
 
 		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 

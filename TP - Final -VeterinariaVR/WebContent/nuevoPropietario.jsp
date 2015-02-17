@@ -85,8 +85,13 @@ try{
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 function validarNuevo()
@@ -158,7 +163,7 @@ function validarNuevo()
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -230,8 +235,8 @@ function validarNuevo()
   		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
   		    		  				  		    		  				
   		  							<tr style="text-align: center;">
-  		    							<td colspan="4"><input type="submit" name="button" id="button" value="Agregar Propietario" onclick="return validarNuevo();" />
-											<input type="button" value="Volver" name="volver" onclick="history.back()" />
+  		    							<td colspan="4"><input type="submit"  class="negro redondo boton"  name="button" id="button" value="Agregar Propietario" onclick="return validarNuevo();" />
+											<input type="button"  class="negro redondo boton"  value="Volver" name="volver" onclick="history.back()" />
   		    							</td>
 	      							</tr>
 	  							</table>	

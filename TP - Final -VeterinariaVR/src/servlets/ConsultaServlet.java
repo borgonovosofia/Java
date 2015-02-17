@@ -382,6 +382,7 @@ public class ConsultaServlet extends HttpServlet {
 					{
 						try{
 							Consulta.modificarConsulta(consulta);
+							request.getSession().setAttribute("recarga", false);
 							request.getSession().setAttribute("mensaje", "Modificacion correcto");
 							response.sendRedirect("listadoConsultas.jsp");
 						}

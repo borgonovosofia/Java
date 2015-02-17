@@ -9,7 +9,7 @@
 
 
 h1, h2, h3, h4, h5, h6, p {
-	margin-top: 0;	 /* la eliminación del margen superior resuelve un problema que origina que los márgenes escapen de la etiqueta div contenedora. El margen inferior restante lo mantendrá separado de los elementos de que le sigan. */
+	margin-top: 1em;	 /* la eliminación del margen superior resuelve un problema que origina que los márgenes escapen de la etiqueta div contenedora. El margen inferior restante lo mantendrá separado de los elementos de que le sigan. */
 	padding-right: 15px;
 	padding-left: 15px; /* la adición de relleno a los lados del elemento dentro de las divs, en lugar de en las divs propiamente dichas, elimina todas las matemáticas de modelo de cuadro. Una div anidada con relleno lateral también puede usarse como método alternativo. */
 }
@@ -25,8 +25,8 @@ h3,h4,h5,h6{ 		margin-bottom: 5px;	}
 }
 input:disabled
 {
-	background-color: gray;
-	color: black;
+	background-color: black;
+	color: white;
 }
 .tablaMaqueta
 {
@@ -100,12 +100,11 @@ h4 a
 
 .listado table tbody .alt td
  { background: #F1C8F4; color: #00496B; }
- 
- .listado table tbody td:first-child
-  { border-left: none; }
+  .listado table tbody td:first-child
+ { border-left: none; }
   
-  .listado table tbody tr:last-child td 
-  { border-bottom: none; }
+ .listado table tbody tr:last-child td 
+ { border-bottom: none; }
 
 
 

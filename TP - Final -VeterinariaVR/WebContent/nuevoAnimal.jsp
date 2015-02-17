@@ -104,8 +104,13 @@ try{
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 
@@ -270,7 +275,7 @@ function actualizar()
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -295,21 +300,20 @@ function actualizar()
 
 
 		  <% if(login==true && tipousuario.equals("V")){ %>
-		
-						<br></br>		
 						<!-- COMIENZO DIV ---------------------------------------------------------------- -->
-						<div style="float:left; width: 80%;"> 
-							<form id="frmAnimal" name="frmAnimal" method="post" action="AnimalServlet">
+						<div style="width: 100%;"> 
+						  <form id="frmAnimal" name="frmAnimal" method="post" action="AnimalServlet">
   								<input type="hidden" value="nuevo" name="accion"/>  	
   								<input type="hidden" value="" name="nombreP"/>  		  		
   								<input type="hidden" value="" name="apellidoP"/>  		  		
-  								<h2>Nuevo Animal</h2>
-  								<table class="tablaMaqueta">
-  		    		  				<tr>
-  		    							<td>Propietario</td>
-  		    							<td>
-  		    								<select name="id_propietario" id="id_propietario">
- 													<%	for (int i = 0; i < listaPropietarios.size(); i++) 
+							
+							  <table class="tablaMaqueta" style="margin:0 auto;">
+                                  <caption><h2>Nuevo Animal</h2></caption>
+	    		  				  <tr>
+	    							  <td>Propietario</td>
+	    							  <td>
+	    								  <select name="id_propietario" id="id_propietario">
+												  <%	for (int i = 0; i < listaPropietarios.size(); i++) 
   		  											{
   		  	   		 									Propietario t = listaPropietarios.get(i);  		  	   		 	
   		  	   		 									if(t.getId_propietario()==id_propietario)
@@ -323,41 +327,53 @@ function actualizar()
   		  	   		 									out.print("<option value=''>No hay propietarios cargados para el animal seleccionado</option>");
 	  		  	   		 							}
   		  	   		 							%>   		  									
-  		  									</select>
-  		    							</td> 							
-	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
+	  									  </select>
+	    							  </td>
+  		    							<td>&nbsp;</td>
+  		    							<td>&nbsp;</td>
+  		    							<td>&nbsp;</td> 							
+      							  </tr>
+	    		  				  <tr><td>&nbsp;</td><td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>  
   		    		  				  								
-  		  							<tr>
-  		    							<td><label for="nombre">Nombre</label></td>
-  		    							<td><input type="text" class="entrada" name="nombre" id="nombre" value="<%=nombre %>" /></td>  		    							
-	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>  		    		  				
-  		  							
-		  							<tr>
+	  							  <tr>
+	    							  <td><label for="nombre">Nombre</label></td>
+	    							  <td><input type="text" class="entrada" name="nombre" id="nombre" value="<%=nombre %>" /></td>
+  		    							<td>&nbsp;</td>
   		    							<td><label for="fecha_nac">Fecha nacimiento</label></td>
-  		    							<td><input type="text" class="entrada" name="fecha_nac" id="fecha_nac" value="<%=fecha_nac  %>" /></td>
-	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>
- 
-  		    		  				<tr>
-  		    							<td><label for="sexo">Sexo</label></td>
-  		    							<td><p>
-  		    							  <label>
-  		    							    <input type="radio" name="sexo" value="M" id="sexo_0" <% if (sexo!=null && sexo.equals("M")){%><%="checked='checked'"%><%} %>>Macho</label>
-  		    							  <br>
-  		    							  <label>
-  		    							    <input type="radio" name="sexo" value="H" id="sexo_1" <% if (sexo!=null && sexo.equals("H")){%><%="checked='checked'"%><%} %>>Hembra</label>
-  		    							  <br>
-	    							    </p></td>
-	      							</tr>
-  		    		  				<tr><td>&nbsp;</td><td>&nbsp;</td>  
+  		    							<td><input type="text" class="entrada" name="fecha_nac" id="fecha_nac" value="<%=fecha_nac  %>" /></td>  		    							
+      							  </tr>
+	    		  				  <tr><td>&nbsp;</td><td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+	    		  				  </tr>
+	    		  				  <tr>
+	    							  <td><label for="sexo">Sexo</label></td>
+	    							  <td><p>
+	    							    <label>
+	    							      <input type="radio" name="sexo" value="M" id="sexo_0" <% if (sexo!=null && sexo.equals("M")){%><%="checked='checked'"%><%} %>>Macho</label>
+	    							    <br>
+	    							    <label>
+	    							      <input type="radio" name="sexo" value="H" id="sexo_1" <% if (sexo!=null && sexo.equals("H")){%><%="checked='checked'"%><%} %>>Hembra</label>
+	    							    <br>
+    							      </p></td>
+  		    							<td>&nbsp;</td>
+  		    							<td>&nbsp;</td>
+  		    							<td>&nbsp;</td>
+      							  </tr>
+	    		  				  <tr><td>&nbsp;</td><td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>
+  		    		  				  <td>&nbsp;</td>  
   		    		  				                                    
-                                    <tr>
-  		    							<td><label for="id_tipo">Animal</label></td>
-  		    							<td>
-  		    							  	<select name="id_tipo" id="id_tipo" onchange="actualizar()">
-  		    							  		 <%	for (int i = 0; i < listaTipos.size(); i++) 
+                                  <tr>
+	    							  <td><label for="id_tipo">Animal</label></td>
+	    							  <td>
+	    							  	  <select name="id_tipo" id="id_tipo" onchange="actualizar()">
+	    							  		   <%	for (int i = 0; i < listaTipos.size(); i++) 
   		  											{
   		  	   		 									TipoAnimal t = listaTipos.get(i);
   		  	   		 									if(id_tipo == t.getId_tipo_animal())
@@ -370,15 +386,12 @@ function actualizar()
   		  	   		 									out.print("<option value=''>No hay tipos cargados</option>");
 	  		  	   		 							}
   		  	   		 							%> 
-  		  									</select>
-  		  								</td>
-  		  							</tr>
-  		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
-  		  							<tr>
-  		  								<td><label for="raza">Raza</label></td>
-  		  								<td>
-  		  									<select name="id_raza" id="id_raza">
- 													<%	for (int i = 0; i < listaRazas.size(); i++) 
+	  									  </select>
+	  								  </td>
+  		    							<td>&nbsp;</td>
+  		    							<td><label for="raza3">Raza</label></td>
+  		    							<td><select name="id_raza" id="id_raza">
+  		    							  <%	for (int i = 0; i < listaRazas.size(); i++) 
   		  											{
   		  	   		 									Raza t = listaRazas.get(i);  		  	   		 					
 	  		  	   		 								out.print("<option value='"+t.getId_raza()+"' >"+t.getNombre()+"</option>");  		  	   		 						  	
@@ -387,26 +400,38 @@ function actualizar()
   		  											{	
   		  	   		 									out.print("<option value=''>No hay razas cargados para el animal seleccionado</option>");
 	  		  	   		 							}
-  		  	   		 							%>   		  									
-  		  									</select>
-  		  								</td>
-  		  							</tr>
-									<tr> 
-  		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
-  		  							<tr>
-										<td><label for="peso">Peso</label></td>
-  		    							<td><input type="text" class="entrada" name="peso" id="peso" value="<%=peso  %>" /></td>
-  		    						</tr>  		  							
-  		  							<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
-  		  							<tr>
-  		  								<td>&nbsp;</td>  		  								
-  		  								<td><input type="submit" name="button" id="button" value="Agregar Animal" onclick="return validarNuevo();" />
-											<input type="button" value="Volver" name="volver" onclick="history.back()" />
-  		    							</td>
-  	      							</tr>
-	  							</table>	
+  		  	   		 							%>
+	    							    </select></td>
+	  							  </tr>
+	  							  <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td>
+  		  							  <td>&nbsp;</td>
+  		  							  <td>&nbsp;</td>
+  		  							  <td>&nbsp;</td>
+	  							  </tr>
+	  							  <tr>
+									  <td><label for="peso">Peso</label></td>
+	    							  <td><input type="text" class="entrada" name="peso" id="peso" value="<%=peso  %>" /></td>
+  		    							<td>&nbsp;</td>
+  		    							<td>&nbsp;</td>
+  		    							<td>&nbsp;</td>
+	    						  </tr>  		  							
+	  							  <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td>
+  		  							  <td>&nbsp;</td>
+  		  							  <td>&nbsp;</td>
+  		  							  <td>&nbsp;</td>
+	  							  </tr>
+	  							  <tr>
+	  								  <td>&nbsp;</td>  		  								
+	  								  <td><input type="submit" name="button"  class="negro redondo boton"  id="button" value="Agregar Animal" onclick="return validarNuevo();" />
+										  <input type="button"   class="negro redondo boton"  value="Volver" name="volver" onclick="history.back()" />
+	    							  </td>
+  		  								<td>&nbsp;</td>
+  		  								<td>&nbsp;</td>
+  		  								<td>&nbsp;</td>
+      							  </tr>
+  							  </table>	
 							</form>
-						</div>
+						</div><br></br><br></br><br></br><br></br>
 						<!-- FIN DIV ------------------------------------------------------------------------- -->		
 		<%}	else{ %> <script>location.href = "index.jsp";</script><%} %>
 						

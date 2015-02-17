@@ -104,8 +104,13 @@ try{
 <head>
 <meta charset="utf-8">
 <title>Veterinaria VR</title>
-<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">
 <link href="estilo.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	if ((navigator.appName).indexOf("Microsoft")!=-1)
+	{	document.write('<link href="estiloPlantilla2.css" rel="stylesheet" type="text/css">'); }
+	else 
+	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
+</script>
 </head>
 <script>
 function actualizar()
@@ -271,7 +276,7 @@ function validarNuevo()
 					<div style="text-align: center;">
 							
 	                        <a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="ConsultaServlet?accion=GenerarAlertas" >&nbsp;Alertas semana&nbsp;</a>
-							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="UsuarioServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
+							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="SesionServlet?accion=ModificarUsuario" >&nbsp;Mis datos&nbsp;</a>	                                 
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="AnimalServlet?accion=IrAnimales" >&nbsp;Animales&nbsp;</a>
 							<a class="boton negro redondo"  style="font-size: 1em; text-decoration: none;" href="PeluqueriaServlet?accion=IrPeluquerias" >&nbsp;Peluquerias&nbsp;</a>
 							
@@ -436,7 +441,7 @@ function validarNuevo()
                                              	for (int i = 0; i < listaVacunaciones.size(); i++) 
   		  										{
   		    						  				Vacunacion t = listaVacunaciones.get(i);%>
-                                          	<tr>
+                                          	<tr <%if(i%2!=0){ %> class='alt'<%} %>>
 	                                            <td ><%= t.getVacuna().getId_vacuna() %> </td>
 	                                            <td ><%= t.getVacuna().getCodigo() %> </td>
 	                                            <td ><%= t.getVacuna().getNombre() %> </td>
@@ -444,7 +449,7 @@ function validarNuevo()
 	                                            <td ><%= t.getComentarios() %> </td>
 	                                            <td ><%= t.getDias_aviso() %> </td>
 	                                            <td >
-														<input type="button" value="Quitar" onclick="quitarVacunacion(<%=t.getVacuna().getId_vacuna()%>);" /> 	                                            
+														<input type="button"  class="negro redondo boton"  value="Quitar" onclick="quitarVacunacion(<%=t.getVacuna().getId_vacuna()%>);" /> 	                                            
 												</td>
 	                                        </tr>
 	                                        	<%}
@@ -495,15 +500,15 @@ function validarNuevo()
                                            <tr><td> </td><td> </td> <td> </td> <td> </td><td> </td></tr>
                                            <tr><td> </td><td> </td> <td> </td> <td> </td>
                                            	<td>
-                                              	<input type="button" value="Agregar vacuna" onclick="agregar()" />
+                                              	<input type="button"  class="negro redondo boton"  value="Agregar vacuna" onclick="agregar()" />
                                               </td>
                                            </tr>
                                           </table>
                                       	</fieldset>
                                  
   		  							<br></br>
-  		  							<input type="submit" name="button" id="button" value="Agregar consulta" onclick="return validarNuevo();" />
-  		  							<input type="button" value="Volver" name="volver" onclick="history.back()" />	  								      
+  		  							<input type="submit" name="button"  class="negro redondo boton"  id="button" value="Agregar consulta" onclick="return validarNuevo();" />
+  		  							<input type="button"  class="negro redondo boton"  value="Volver" name="volver" onclick="history.back()" />	  								      
 							</form>
 							<br></br><br></br>
 						</div>
