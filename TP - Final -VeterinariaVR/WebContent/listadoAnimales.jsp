@@ -4,7 +4,7 @@
 <%@page import="negocio.TipoAnimal"%>
 <%@page import="negocio.Raza"%>
 <%@page import="negocio.Animal"%>
-<%@page import="javax.websocket.Session"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <!doctype html>
@@ -236,7 +236,7 @@
   		  	   		 							<%if (tipousuario.equals("V"))
   		  	   		 							 {%>  		  	   		 							
   		  	   		 								<a href="AnimalServlet?accion=editar&id=<%=t.getId_animal()%>&id_tipo=<%=t.getRaza().getTipo_animal().getId_tipo_animal()%>">Editar</a>
-  		  	   		 								<a href="AnimalServlet?accion=borrar&id=<%=t.getId_animal()%>" onclick="return confirmar('¿Está seguro que desea borrar el propietario?')">Borrar</a>		  	   		 								  		  	   		 								  		  	   		 						
+  		  	   		 								<a href="AnimalServlet?accion=borrar&id=<%=t.getId_animal()%>" onclick="return confirmar('¿Está seguro que desea borrar el animal?')">Borrar</a>		  	   		 								  		  	   		 								  		  	   		 						
   		  	   		 							<%} %>
   		  	   		 							<a href="AnimalServlet?accion=ver&id=<%=t.getId_animal()%>">Ver</a>	
   		  	   		 							</td>		 								  		  	   		 						  		  	   		 						

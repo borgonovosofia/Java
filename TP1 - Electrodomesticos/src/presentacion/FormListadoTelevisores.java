@@ -63,7 +63,7 @@ public class FormListadoTelevisores extends FormListadoBase {
 				i = tblListado.getSelectedRow();
 				TelevisorAdapter adapter = new TelevisorAdapter();
 				try {
-					adapter.borrarTelevision((int)tblListado.getValueAt(i, 0));
+					adapter.borrarTelevision((Integer)tblListado.getValueAt(i, 0));
 				} catch (conException e) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, e.getMessage());
@@ -93,7 +93,7 @@ public class FormListadoTelevisores extends FormListadoBase {
 			{	sint = false;	}
 				
 			FormAMTelevision form = new FormAMTelevision();
-			form.modoModificar((int)tblListado.getValueAt(i, 0), tblListado.getValueAt(i, 1).toString(), tblListado.getValueAt(i, 2).toString(), 
+			form.modoModificar((Integer)tblListado.getValueAt(i, 0), tblListado.getValueAt(i, 1).toString(), tblListado.getValueAt(i, 2).toString(), 
 					tblListado.getValueAt(i, 6).toString(), tblListado.getValueAt(i, 4).toString(), tblListado.getValueAt(i, 3).toString(), sint);
 
 			form.setVisible(true);

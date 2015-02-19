@@ -484,12 +484,16 @@ public class ConsultaAdapter {
 				}
 				
 				statement.execute();
+				/*
 				ResultSet rs = statement.getGeneratedKeys();
 				while(rs.next())
-				{	   key = rs.getInt(1);		}		
-				
-				
-				if(consulta.getVacunaciones().size()!=0)
+				{	   key = rs.getInt(1);		}	
+				*/	
+				statement = con.prepareStatement("select max(id_consulta)'id' from consulta");
+				ResultSet res = statement.executeQuery();
+				res.next();
+				key = res.getInt("id"); 
+				if(consulta.getVacunaciones()!= null && consulta.getVacunaciones().size()!=0)
 				{
 					List<Vacunacion> vacunaciones = consulta.getVacunaciones();
 					for (int i=0; i<consulta.getVacunaciones().size() ; i++)

@@ -1,7 +1,6 @@
 <%@page import="javax.xml.ws.Response"%>
 <%@page import="java.util.List"%>
 <%@page import="negocio.IntervencionQuirurgica"%>
-<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!doctype html>

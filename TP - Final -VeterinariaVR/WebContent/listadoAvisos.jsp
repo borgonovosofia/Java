@@ -5,7 +5,6 @@
 <%@page import="negocio.Animal"%>
 <%@page import="negocio.Vacuna"%>
 <%@page import="negocio.Aviso"%>
-<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     

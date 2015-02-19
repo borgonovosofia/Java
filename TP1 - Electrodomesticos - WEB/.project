@@ -3,6 +3,7 @@
 	<name>TP1 - Electrodomesticos - WEB</name>
 	<comment></comment>
 	<projects>
+		<project>TP1 - Electrodomesticos</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

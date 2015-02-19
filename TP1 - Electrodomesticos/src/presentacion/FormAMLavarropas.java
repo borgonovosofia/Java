@@ -375,9 +375,11 @@ public class FormAMLavarropas extends JFrame {
 						lav = new Lavarropas();						
 					}
 				}
-			} catch (NumberFormatException | conException e) {
+			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
+			}catch ( conException e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		}
 		}
 		return lav;
 	}

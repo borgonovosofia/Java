@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+
 import negocio.*;
 import utilidades.*;
 
@@ -351,11 +352,10 @@ public class AnimalAdapter {
 														+t.getSexo()+"','"+t.getNombre()+"','"+idPropietario+"','"
 														+idRaza+"')");
 				statement.execute();
-				ResultSet rs = statement.getGeneratedKeys();
-				while(rs.next())
-				{
-					   key = rs.getInt(1);
-				}
+				statement = con.prepareStatement("select max(id_animal)'id' from animal");
+				ResultSet res = statement.executeQuery();
+				res.next();
+				key = res.getInt("id"); 
 				con.close();
 			} catch (Exception e) {
 				throw new ConException("Error al agregar nueva animal, por favor intente mas tarde.", e);

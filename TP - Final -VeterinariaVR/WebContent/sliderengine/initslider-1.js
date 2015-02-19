@@ -8,7 +8,7 @@ jQuery(document).ready(function(){
     }
     jQuery("#amazingslider-1").amazingslider({
         jsfolder:jsFolder,
-        width:600,
+        width:600,       
         height:450,
         skinsfoldername:"",
         loadimageondemand:false,

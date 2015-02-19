@@ -4,7 +4,6 @@
 <%@page import="negocio.Peluqueria"%>
 <%@page import="negocio.Animal"%>
 <%@page import="negocio.Raza"%>
-<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     

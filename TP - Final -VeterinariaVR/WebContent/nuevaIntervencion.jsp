@@ -2,7 +2,6 @@
 <%@page import="java.util.List"%>
 <%@page import="negocio.TipoAnimal"%>
 <%@page import="negocio.Raza"%>
-<%@page import="javax.websocket.Session"%>
 <!doctype html>
 <% 
 try{

@@ -1,7 +1,6 @@
 <%@page import="javax.xml.ws.Response"%>
 <%@page import="java.util.List"%>
 <%@page import="negocio.Propietario"%>
-<%@page import="javax.websocket.Session"%>
 <!doctype html>
 <% 
 try{

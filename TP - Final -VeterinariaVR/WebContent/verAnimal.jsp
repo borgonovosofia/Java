@@ -4,7 +4,6 @@
 <%@page import="negocio.Peso"%>
 <%@page import="negocio.Peluqueria"%>
 <%@page import="negocio.Consulta"%>
-<%@page import="javax.websocket.Session"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.ParseException"%>
 <!doctype html>

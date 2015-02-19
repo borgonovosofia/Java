@@ -12,8 +12,8 @@ public class Conexion
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/veterinaria","root","");
-
+			//con = DriverManager.getConnection("jdbc:mysql://localhost/veterinaria","root","");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3307/vetevr?autoReconnect=true","vetevr","veterinaria2015");
 		}
 		catch (Exception e) 
 		{

@@ -3,7 +3,6 @@
 <%@page import="negocio.Propietario"%>
 <%@page import="negocio.Animal"%>
 <%@page import="negocio.Peluqueria"%>
-<%@page import="javax.websocket.Session"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.ParseException"%>
 

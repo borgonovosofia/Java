@@ -76,7 +76,7 @@ public class FormListadoLavarropas extends FormListadoBase
 				i = tblListado.getSelectedRow();
 				LavarropasAdapter adapter = new LavarropasAdapter();
 				try {
-					adapter.borrarLavarropas((int)tblListado.getValueAt(i, 0));
+					adapter.borrarLavarropas((Integer)tblListado.getValueAt(i, 0));
 					JOptionPane.showMessageDialog(null, "El lavarropas ha sido borrado");
 					cargar_grilla();
 				}
@@ -102,7 +102,7 @@ public class FormListadoLavarropas extends FormListadoBase
 		{
 			i = tblListado.getSelectedRow();
 			FormAMLavarropas form = new FormAMLavarropas();
-			form.modoModificar((int)tblListado.getValueAt(i, 0),tblListado.getValueAt(i, 1).toString(),tblListado.getValueAt(i, 2).toString(),
+			form.modoModificar((Integer)tblListado.getValueAt(i, 0),tblListado.getValueAt(i, 1).toString(),tblListado.getValueAt(i, 2).toString(),
 								tblListado.getValueAt(i, 5).toString(), tblListado.getValueAt(i, 4).toString(), tblListado.getValueAt(i, 3).toString());
 			form.setVisible(true);
 			cargar_grilla();

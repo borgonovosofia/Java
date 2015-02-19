@@ -350,7 +350,7 @@ public class ConsultaServlet extends HttpServlet {
 					}					
 				}
 			}
-			// #endregion
+		// #endregion
 		// #region modificar
 			else if(accion.equals("modificar"))
 			{

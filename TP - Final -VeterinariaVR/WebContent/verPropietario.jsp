@@ -2,7 +2,6 @@
 <%@page import="java.util.List"%>
 <%@page import="java.sql.Date"%>
 <%@page import="negocio.Animal"%>
-<%@page import="javax.websocket.Session"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.ParseException"%>
 <!doctype html>

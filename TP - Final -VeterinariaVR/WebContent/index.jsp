@@ -82,14 +82,9 @@
             </a> 
 		  </div>
           <!-- FINAL ENCABEZADO!-->
-          <!-- INICIO BARRA IZQUIERDA !-->          
-           <div class="sidebar1">
-           <!-- end .sidebar1 -->
-  			</div>
-          <!-- FINAL BARRA IZQUIERDA!-->
           <!-- INICIO CONTENT !-->
           
-			  <div class="content">
+			  <div class="content" style="width: 95%; text-align: center; margin: 0 auto;;">
 	          <% if(login==true)
           		{
           	  %>			  
@@ -118,6 +113,14 @@
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
 		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
+ 			  	   		<div style="width: 100%; clear: both; text-align: center; height: 20ex;">
+  			  	<img src="imagenes/perros.jpg" style="height: 100%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/alimento2.png" style="height: 100%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/alimento3.png" style="height: 100%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/alimento4.png" style="height: 100%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/alimento1.jpg" style="height: 100%;" /> 	&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/gato1.png" style="height: 100%;" /> 	
+  		   </div>
   			  <div id="amazingslider-1" style="display:block;position:relative;margin:16px auto 56px; ">
         			<ul class="amazingslider-slides" style="display:none;">
             			<li><img src="images/10537430_296061223898828_8035619743284949628_n.jpg" /></li>
@@ -137,21 +140,26 @@
             			<li><img src="images/10865974_370546219783661_5647232034562019812_o-tn.jpg" /></li>
             			<li><img src="images/1425279_324249531079997_3384110346838246750_o-tn.jpg" /></li>
         			</ul>
-        			<div class="amazingslider-engine" style="display:none;"><a href="http://amazingslider.com" title="Responsive jQuery Slider">Responsive jQuery Slider</a></div>
-    			</div>
-			
-		  
+        		<div class="amazingslider-engine" style="display:none;"><a href="http://amazingslider.com" title="Responsive jQuery Slider">Responsive jQuery Slider</a></div>
+    		</div>
+ 
+    	   <div style="width: 100%; clear: both; text-align: center;height: 20ex; ">
+    		    <img src="imagenes/Pipeta1.png" style="height: 80%" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/Pipeta2.jpg" style="height: 80%" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/Pipeta3.jpg" style="height: 80%" />&nbsp;&nbsp;&nbsp;&nbsp;
+  			  	<img src="imagenes/Pipeta4.jpg" style="height: 80%" />		&nbsp;&nbsp;&nbsp;&nbsp;
+    			<img src="imagenes/Pipeta5.jpg" style="height: 80%" />&nbsp;&nbsp;&nbsp;&nbsp;
+		  </div>
+		  <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
 		  
 		  <!-- TemplateEndEditable -------------------------------------------------------------------------------------------------------------------------------------- --> 				
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  </div>
+   		  
           <!-- FINAL CONTENT !-->
-          <!-- INICIO BARRA DERECHA!-->
- 		<div class="sidebar2">
-    	</div>          
-          <!-- FINAL BARRA DERECHA !-->          <!-- INICIO PIE !-->
+        <!-- INICIO PIE !-->
 <div class="footer">
           	<div style="padding-left:3em; text-align:center; width:100%;">
                 <p><b>Direccion:</b> Rivadavia 773</p>

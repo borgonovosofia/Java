@@ -7,7 +7,6 @@
 <%@page import="negocio.Vacuna"%>
 <%@page import="negocio.IntervencionQuirurgica"%>
 <%@page import="negocio.Vacunacion"%>
-<%@page import="javax.websocket.Session"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.ParseException"%>
 
