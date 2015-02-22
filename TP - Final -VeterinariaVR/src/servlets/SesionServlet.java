@@ -109,5 +109,46 @@ public class SesionServlet extends HttpServlet {
 			
 		}
 		//#endregion	
+		else if(accion.equals("modificar"))
+		{
+			try {
+
+				String nombre = (String)request.getParameter("nombre");
+				String apellido = (String)request.getParameter("apellido");
+				String direccion = (String)request.getParameter("direccion");
+				String email = (String)request.getParameter("email");
+				String telefono_fijo = (String)request.getParameter("telefono_fijo");
+				String celular = (String)request.getParameter("celular");
+				String usuario = (String)request.getParameter("usuario");
+				String clave = (String)request.getParameter("clave");
+				String claveNueva = (String)request.getParameter("claveNueva");
+				int id = Integer.parseInt(request.getParameter("id"));
+				
+				if(claveNueva.equals(""))
+				{claveNueva=clave;}	
+				Propietario vac = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,claveNueva);					
+				vac.setId_propietario(id);
+				
+				boolean rta = Propietario.modificarPropietario(vac,clave);
+				if(rta==true)
+				{
+					request.getSession().setAttribute("mensaje", "Modificacion correcta");
+					response.sendRedirect("index.jsp");						
+				}
+				else
+				{
+					request.getSession().setAttribute("mensaje", "La clave de acceso es incorrecta. No se pueden guardar los cambios");
+					response.sendRedirect("modificarUsuario.jsp");
+				}		
+
+			} catch (Exception e) {	
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("modificarUsuario.jsp");
+			}
+
+			
+		}
+	
 	}
 }

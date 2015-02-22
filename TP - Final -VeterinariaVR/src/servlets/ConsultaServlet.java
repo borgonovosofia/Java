@@ -126,6 +126,28 @@ public class ConsultaServlet extends HttpServlet {
 			}
 		}	
 		// #endregion
+		// #region actualizarC
+		else if(accion.equals("actualizarC"))
+		{
+			request.getSession().setAttribute("busqueda", "false");				
+			try 
+			{
+				//Guarda lista  
+				List<Consulta> lista = Consulta.dameConsultas();
+				request.getSession().setAttribute("listaConsultas", lista);
+								
+				request.getSession().setAttribute("recarga", true);
+				response.sendRedirect("listadoConsultas.jsp");
+
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				request.getSession().setAttribute("error", e.getMessage());
+				response.sendRedirect("index.jsp");
+			}
+		}	
+		// #endregion
 		// #region borrar
 		else if(accion.equals("borrar"))
 		{
@@ -382,7 +404,6 @@ public class ConsultaServlet extends HttpServlet {
 					{
 						try{
 							Consulta.modificarConsulta(consulta);
-							request.getSession().setAttribute("recarga", false);
 							request.getSession().setAttribute("mensaje", "Modificacion correcto");
 							response.sendRedirect("listadoConsultas.jsp");
 						}

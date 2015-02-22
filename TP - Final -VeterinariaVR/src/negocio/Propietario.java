@@ -156,6 +156,18 @@ public class Propietario {
 		}		
 	}
 
+	public static boolean modificarPropietario(Propietario v) throws Exception
+	{
+		try {
+				PropietarioAdapter adapter = new PropietarioAdapter();		
+				adapter.modificarPropietario(v);
+				return true;
+		
+		} catch (ConException e) {
+			throw e;
+		}	
+	}
+	
 	public static boolean modificarPropietario(Propietario v,String pass) throws Exception
 	{
 		try {
@@ -166,7 +178,7 @@ public class Propietario {
 				if(vac.getClave().equals(TestEncriptarMD5.md5(pass)))
 				{
 					PropietarioAdapter adapter = new PropietarioAdapter();		
-					adapter.modificarPropietario(v);
+					adapter.modificarUsuario(v);
 					return true;
 				}
 				else
@@ -180,6 +192,7 @@ public class Propietario {
 			throw e;
 		}	
 	}
+	
 	public List<Animal> dameAnimales() throws ConException {
 		AnimalAdapter adapter = new AnimalAdapter();
 		return adapter.getAnimales(this.getId_propietario());

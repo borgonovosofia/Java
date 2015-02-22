@@ -32,6 +32,18 @@ try{
 	}
 	}
 	catch (Exception e3) {}
+	
+	//VERIFICA SI HAY UN MENSAJE DE ERROR PARA MOSTRAR
+	try{
+		String msj3 = (String)request.getSession().getAttribute("error");
+		if(msj3!="" && msj3!=null)
+		{
+			request.getSession().setAttribute("error", null);
+			//request.getSession().setAttribute("recarga", true); -----------------------------------------------------------
+			%><script>alert("<%=msj3%>");</script><%
+		}
+	}
+	catch (Exception e3) {}
 
 
 

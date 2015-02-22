@@ -227,16 +227,12 @@ public class PropietarioServlet extends HttpServlet {
 					String telefono_fijo = (String)request.getParameter("telefono_fijo");
 					String celular = (String)request.getParameter("celular");
 					String usuario = (String)request.getParameter("usuario");
-					String clave = (String)request.getParameter("clave");
-					String claveNueva = (String)request.getParameter("claveNueva");
 					int id = Integer.parseInt(request.getParameter("id"));
-					
-					if(claveNueva.equals(""))
-					{claveNueva=clave;}	
-					Propietario vac = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,claveNueva);					
+										
+					Propietario vac = new Propietario(nombre,apellido,direccion,email,telefono_fijo,celular,usuario,"");					
 					vac.setId_propietario(id);
 					
-					boolean rta = Propietario.modificarPropietario(vac,clave);
+					boolean rta = Propietario.modificarPropietario(vac);
 					if(rta==true)
 					{
 						request.getSession().setAttribute("mensaje", "Modificacion correcta");

@@ -199,10 +199,8 @@ public class PropietarioAdapter {
 				PreparedStatement statement = 
 						con.prepareStatement("update propietario set nombre = '"+v.getNombre()+"',apellido = '"+v.getApellido()+"',direccion = '"+v.getDireccion()+"'"
 																+",email = '"+v.getEmail()+"'"+",telefono_fijo = '"+v.getTelefono_fijo()+"'"
-																+",celular = '"+v.getCelular()+"'"+",usuario = '"+v.getUsuario()+"'"+",clave = '"+TestEncriptarMD5.md5(v.getClave())+"'"
+																+",celular = '"+v.getCelular()+"'"+",usuario = '"+v.getUsuario()+"'"
 																+" where id_propietario ='"+v.getId_propietario()+"'");
-				System.out.println(statement);
-				statement.execute();
 				con.close();
 			} catch (ConException es) {
 				es.printStackTrace();
@@ -215,7 +213,26 @@ public class PropietarioAdapter {
 			}			
 		}
 		
-		
+		public void modificarUsuario(Propietario v) throws Exception {
+			try {
+				Connection con = Conexion.getConexion();			
+				PreparedStatement statement = 
+						con.prepareStatement("update propietario set nombre = '"+v.getNombre()+"',apellido = '"+v.getApellido()+"',direccion = '"+v.getDireccion()+"'"
+																+",email = '"+v.getEmail()+"'"+",telefono_fijo = '"+v.getTelefono_fijo()+"'"
+																+",celular = '"+v.getCelular()+"'"+",usuario = '"+v.getUsuario()+"'"+",clave = '"+TestEncriptarMD5.md5(v.getClave())+"'"
+																+" where id_propietario ='"+v.getId_propietario()+"'");
+				statement.execute();
+				con.close();
+			} catch (ConException es) {
+				es.printStackTrace();
+				throw new ConException("Error al modificar propietario, por favor intente mas tarde. Error de conección.", es);			
+			}			
+			catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("Error al modificar propietario, por favor intente mas tarde.", e);
+				
+			}			
+		}
 		
 		public Propietario login(String usr,String pass) throws ConException
 		{

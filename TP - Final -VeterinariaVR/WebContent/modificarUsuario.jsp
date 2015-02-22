@@ -157,7 +157,7 @@ function validarPropietario()
 
 						<!-- COMIENZO DIV PARA LOS TIPOS DE ANIMALES ---------------------------------------------------------------- -->
 						<div style="float:left; width: 100%; text-align: center;"> 
-							<form id="frmPropietario" name="frmPropietario" method="post" action="PropietarioServlet">
+							<form id="frmPropietario" name="frmPropietario" method="post" action="SesionServlet">
   								<input type="hidden" value="modificar" name="accion"/>
   								<input type="hidden" value="<%= request.getSession().getAttribute("id") %>" name="id" id="id" />  		  		
   								<h2>Modificar propietario</h2>

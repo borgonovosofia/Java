@@ -6,10 +6,9 @@
 <%@page import="negocio.Raza"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
 <!doctype html>
 <% 
-try{
+ try{
 	String tipousuario="";
 	String usr="";
 	String idusr="";
@@ -25,7 +24,10 @@ try{
 		usr = (String)request.getSession().getAttribute("usr");
 		idusr = (String)request.getSession().getAttribute("idusr");
 	}	
-	 //VERIFICA SI HAY alguna busqueda realizada
+	
+
+
+ //VERIFICA SI HAY alguna busqueda realizada
 	boolean busqueda = false;
 	try{
 		busqueda = Boolean.parseBoolean((String)request.getSession().getAttribute("busqueda"));
@@ -68,7 +70,6 @@ try{
 	List<Consulta>  listaConsultas;
 	String valor;  
 	
-	
 	if(busqueda==true)
 	{	
 		listaConsultas = (List<Consulta>)request.getSession().getAttribute("listaBusqueda");
@@ -92,22 +93,23 @@ try{
 	{	document.write('<link href="estiloPlantilla.css" rel="stylesheet" type="text/css">'); }
 </script>
 </head>
-	<script>
-		function confirmar(msj)
-		{
-			return confirm(msj);
-		}
-		function validarBuscar()
-		{
-			var busqueda = document.getElementById("busqueda").value;
-			if(busqueda!="" && busqueda!=null){return true;}
-			else{return false;}
-		}
-		function redireccionar() 
-		{
-		location.href="index.jsp";
-		} 
-	</script>
+<script>
+
+	function confirmar(msj)
+	{
+		return confirm(msj);
+	}
+	function validarBuscar()
+	{
+		var busqueda = document.getElementById("busqueda").value;
+		if(busqueda!="" && busqueda!=null){return true;}
+		else{return false;}
+	}
+	function redireccionar() 
+	{
+	location.href="index.jsp";
+	} 
+</script>
 <body>
 	<div class="container">
     
@@ -132,6 +134,7 @@ try{
             </a> 
 		  </div>
           <!-- FINAL ENCABEZADO!-->
+          
           <!-- INICIO BARRA IZQUIERDA !-->          
            <div class="sidebar1">
            <!-- end .sidebar1 -->
@@ -164,19 +167,21 @@ try{
 						
 					</div> 	
 				<%} %>
+   		  <!-- -------------
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
    		  <!-- -----------------------------------------------------------------PARTE EDITABLE----------------------------------------------------------------------------------------- -->
 		  <!-- TemplateBeginEditable name="cuerpo"--------------------------------------------------------------------------------------------------------------------- -->
 
-<%
-	
-	if(tipousuario.equals("V"))
+<%	if(tipousuario.equals("V"))
 	{
 		if(s==true)
 		{
+		
 		%>
-						
+		
+
+
 						<!-- COMIENZO DIV --------------------------------------------------------------------- -->
 						<div style="float: left; clear:left; width: 95%;">					
 							<h1>Listado de Consultas</h1>
@@ -188,7 +193,7 @@ try{
 								<input type="submit" class="boton negro redondo"  value="Buscar" onclick="return validarBuscar()"/>
 								<a href="ConsultaServlet?accion=buscar">Cancelar busqueda</a>
 								<br></br>
-							</form>		
+							</form>				
 							<div class="listado">				
 							<table >
 								<thead  >                                
@@ -203,7 +208,7 @@ try{
                                        	<th  colspan="1" width="7%">Vacunas</th>
                                        	<th  colspan="1" width="15%"></th>
                                     </tr>
-	                            </thead>				
+	                            </thead>			
 		                        <tbody>
 		                          	<%  		  								
   		  								for (int i = 0; i < listaConsultas.size(); i++) 
@@ -244,40 +249,47 @@ try{
 		                        	</tr>
 		                        </tbody>
 							</table>
+	
 							</div>
 						</div>
 						<!-- FIN DIV ------------------------------------------------------------------------------ -->
 					<div style="text-align: left; clear: both; margin-left: 10px;">
 						<br></br><input type="button" class="boton negro redondo"  value="Volver" name="volver" onclick="redireccionar()" />
 					</div>
-	<%
+	<%				
 			}
 			else
 			{
 				%>
-							<form action="ConsultaServlet" method="get" name="frmActualizar" id="frmActualizar">
-							<input type="hidden" value="actualizar" name="accion" id="accion" />
-						</form>
-						<script>
-							document.frmActualizar.submit();
-						</script>
+					<form action="ConsultaServlet" method="get" name="frmActualizar" id="frmActualizar">
+						<input type="hidden" value="actualizarC" name="accion" id="accion" />
+					</form>
+					<script>
+						document.frmActualizar.submit();
+					</script>
 				<%		
 			}
 		}
 		else
-		{ %> <script>location.href = "index.jsp";</script><%}
-	
-%>
+		{ %> <script>location.href = "index.jsp";</script><%}			
+			%>
+
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
 		  <!-- TemplateEndEditable -------------------------------------------------------------------------------------------------------------------------------------- --> 				
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		  <!-- ------------------------------------------------------------------FINAL EDITABLE---------------------------------------------------------------------------------------- -->
    		</div>
           <!-- FINAL CONTENT !-->
+
           <!-- INICIO BARRA DERECHA!-->
  		<div class="sidebar2">
     	</div>          
-          <!-- FINAL BARRA DERECHA !-->          <!-- INICIO PIE !-->
+          <!-- FINAL BARRA DERECHA !-->
+          
+        <!-- FINAL BARRA DERECHA !-->
 		<div class="footer">
           	<div style="padding-left:3em; text-align:center; width:100%;">
                 <p><b>Direccion:</b> Rivadavia 773</p>
@@ -289,6 +301,7 @@ try{
    		  	</div>
 		</div>
 	</div>
+	
 </body>
 </html>
 <%
