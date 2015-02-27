@@ -1,0 +1,112 @@
+@charset "utf-8";
+/* body {
+	font: 100%/1.4 Arial, Helvetica, sans-serif
+	background-color: #FFF;
+	margin: 0;
+	padding: 0;
+	color: #000;
+}*/
+
+
+h1, h2, h3, h4, h5, h6, p {
+	margin-top: 1em;	 /* la eliminación del margen superior resuelve un problema que origina que los márgenes escapen de la etiqueta div contenedora. El margen inferior restante lo mantendrá separado de los elementos de que le sigan. */
+	padding-right: 15px;
+	padding-left: 15px; /* la adición de relleno a los lados del elemento dentro de las divs, en lugar de en las divs propiamente dichas, elimina todas las matemáticas de modelo de cuadro. Una div anidada con relleno lateral también puede usarse como método alternativo. */
+}
+
+h1, h2, h3, h4, h5, h6{		color:#501E51;	}
+	
+h3,h4,h5,h6{ 		margin-bottom: 5px;	}
+
+.entrada
+{
+	background-color: #DEAADF;
+	width: 140px;
+}
+input:disabled
+{
+	background-color: black;
+	color: white;
+}
+.tablaMaqueta
+{
+	border:0;
+	text-align: left;
+	padding-left: 14px;
+}
+/*
+.listado
+{
+	margin-left:10px;
+	padding-left: 10px;
+	border: 1;
+	border-style:ridge;
+	border-collapse:collapse;
+	border-color: #DEAADF;
+	text-align: center;
+}
+
+table.listado
+{		width: 95%; 	}
+
+th.listado
+{
+	background-color:#90C;
+	color:#FFF;
+}*/
+h4 a 
+{	color:red;	}
+
+
+.listado table 
+{ 
+	border-collapse: collapse; 
+	text-align: left; 
+	width: 100%; 
+}
+ .listado 
+ {
+ 	font: normal 12px/150% Arial, Helvetica, sans-serif; 
+ 	background: #fff; overflow: hidden; 
+ 	border: 3px solid #7E1F91; 
+ 	-webkit-border-radius: 3px;
+ 	-moz-border-radius: 3px; 
+ 	border-radius: 3px; 
+ }
+ .listado table td, .datagrid table th 
+ { padding: 4px 3px; }
+ 
+ .listado table thead th 
+ {
+ 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #470275), color-stop(1, #6D189E) );
+ 	background:-moz-linear-gradient( center top, #470275 5%, #6D189E 100% );
+ 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#470275', endColorstr='#6D189E');
+ 	background-color:#470275; color:#FFFFFF; 
+ 	font-size: 1.2em;
+	font-weight: bold; 
+	border-left: 1px solid #6623A1; 
+}
+
+ .listado table thead th:first-child 
+ { border: none; }
+ 
+ .listado table tbody td
+{ 	
+	color: #563761; 
+	border-left: 1px solid #E1EEF4;
+	font-size: 1em;
+	font-weight: normal; 
+}
+
+.listado table tbody .alt td
+ { background: #F1C8F4; color: #00496B; }
+  .listado table tbody td:first-child
+ { border-left: none; }
+  
+ .listado table tbody tr:last-child td 
+ { border-bottom: none; }
+
+
+
+
+
